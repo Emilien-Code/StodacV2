@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dc78abed-71cf-4b2b-8e42-4cf597d1bdf9" name="Changes" comment="first commit">
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/Category.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/LogedIn.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/Pannier.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/ProduitLite.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/manufacturer.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/components/search.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/views/Commande.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/views/Produit.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/views/addItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/views/admin.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/stodac/src/views/ptnrelais.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-end/controller/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/Back-end/controller/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back-end/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/Back-end/routes/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/views/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stodac/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/stodac/src/views/Home.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/stodac" />
+  </component>
+  <component name="ProjectId" id="22FCtBeWUR9bg2M6UAat6GmzBsH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/stodac/src/views" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/stodac/src/views" />
+    </key>
+  </component>
+  <component name="RunManager" selected="HTTP Request.req#16">
+    <configuration name="req#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/Back-end/req.http" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="req#10" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/Back-end/req.http" index="10" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="req#16" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/Back-end/req.http" index="16" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="req#17" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/Back-end/req.http" index="17" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.req#16" />
+        <item itemvalue="HTTP Request.req#17" />
+        <item itemvalue="HTTP Request.req#10" />
+        <item itemvalue="HTTP Request.req#1" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc78abed-71cf-4b2b-8e42-4cf597d1bdf9" name="Changes" comment="" />
+      <created>1639424162350</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639424162350</updated>
+      <workItem from="1639424166280" duration="32000" />
+      <workItem from="1639424245589" duration="203000" />
+      <workItem from="1639663358205" duration="4783000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/Back-end/controller/user.js</url>
+          <line>4</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

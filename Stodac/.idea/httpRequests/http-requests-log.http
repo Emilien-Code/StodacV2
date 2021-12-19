@@ -1,0 +1,30 @@
+POST http://localhost:3000/api/user/login/name/
+Content-Type: application/json
+
+{
+    "userName": "michel",
+    "password": "hash"
+}
+
+<> 2021-12-16T154258.404.html
+
+###
+
+GET http://localhost:3000/api/user/getinfos/6131fe6e4de3947f3901e47e
+
+<> 2021-12-16T154249.401.json
+
+###
+
+GET http://localhost:3000/api/user/
+
+<> 2021-12-16T154227.401.json
+
+###
+
+GET http://localhost:3000/api/stuff/
+
+<> 2021-12-16T154202.404.html
+
+###
+
