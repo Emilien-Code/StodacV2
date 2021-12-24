@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user');
 
 
 mongoose.connect(
-    'mongodb://localhost:27017/Stodac',
+    "mongodb+srv://stodacuser:h5zHJuAt4Tf1pWUl@cluster0.loqnp.mongodb.net/stodac?retryWrites=true&w=majority",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,

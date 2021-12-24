@@ -1,0 +1,13 @@
+bdd
+adresse physique
+adresse mail
+gestion de compte
+mdp oublier
+2 bdd
+nom
+prenom
+
+
+
+npm serve pour lancer le front
+node server pour le back

@@ -3,7 +3,7 @@ const router = express.Router();
 const stuffCtrl = require('../controller/stuff');
 
 const multer = require('../middleware/multer-config');
-const authAdmin = require('../middleware/auth-admin')
+//const authAdmin = require('../middleware/auth-admin')
 
 // Get routes
 
@@ -24,15 +24,18 @@ router.get('/count/', stuffCtrl.getNb)
 
 // Create
 
-router.post('/', authAdmin, multer, stuffCtrl.createNewStuff);
+//router.post('/', authAdmin, multer, stuffCtrl.createNewStuff);
+router.post('/', multer, stuffCtrl.createNewStuff);
 
 
 // PATCH 
 
-router.put('/:id', authAdmin, multer, stuffCtrl.updateStuff);
+//router.put('/:id', authAdmin, multer, stuffCtrl.updateStuff);
+router.put('/:id', multer, stuffCtrl.updateStuff);
 
 // DELETE
 
-router.delete('/:id', authAdmin, stuffCtrl.deleteStuff);
+//router.delete('/:id', authAdmin, stuffCtrl.deleteStuff);
+router.delete('/:id', stuffCtrl.deleteStuff);
 
 module.exports = router;
