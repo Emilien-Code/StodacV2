@@ -22,11 +22,11 @@ const routes = [
     name: 'add',
     component: () => import('../views/addItem.vue')
   },
-  {
-    path: '/admin/',
-    name: 'admin',
-    component: () => import('../views/admin.vue')
-  }
+  //{
+  //  path: '/admin/',
+  //  name: 'admin',
+  //  component: () => import('../views/admin.vue')
+  //}
 ]
 
 const router = createRouter({

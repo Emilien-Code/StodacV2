@@ -146,21 +146,6 @@ export default createStore({
         });
       });
     },
-    loginAdmin : ({commit}, adminInfos) => {
-      commit('setStatus', 'loading');
-      return new Promise((resolve, reject) =>{
-        instance.post('/user/login/admin', adminInfos)
-            .then(function (response) {
-              commit('setStatus', 'Connecté');
-              commit('logUser', response.data);
-              resolve(response);
-            })
-            .catch(function (error) {
-              commit('setStatus', 'error_login');
-              reject(error);
-            });
-      });
-    },
     createAccount : ({commit}, userInfos) => {
       return new Promise((resolve, reject) =>{
         commit('setStatus', 'loading');

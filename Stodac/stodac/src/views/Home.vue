@@ -178,7 +178,7 @@ svg{
  cursor: pointer;
   border-radius: 15px;
  overflow:hidden;
- box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+ box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 #buttons_wrapper{
   width: 100vw;
@@ -192,7 +192,7 @@ button{
   margin-left: 10px;
   border-radius: 10px;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   background-color:#ffffff ;
   cursor: pointer;
   transition: .5s;
