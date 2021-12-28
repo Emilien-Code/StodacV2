@@ -98,17 +98,16 @@ export default {
     padding: 10px;
 }
 .Produit{
-    display: flex;
-    flex-direction:row;
-    margin: 15px 0 ;
-    margin-left: 10px;
+  display: flex;
+  flex-direction:row;
+  margin: 15px 0 15px 10px;
 }
 img{
     width: 100px;
     margin-right: 10px;
 }
 #search {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
     background-color: #ffffff;
     border-radius: 10px;
     width: 400px;

@@ -55,7 +55,7 @@ export default {
       this.clicked = !this.clicked;
     },
     getByManufacture: function(manufacture){
-      if(manufacture != 'Marques'){
+      if(manufacture !== 'Marques'){
       this.$store.dispatch('getStufsManufacture', manufacture)
       .then(this.noItems = 1)
       .catch(this.noItems = 0)
@@ -86,7 +86,7 @@ button{
   right : 280px;
   position: absolute;
   width: 200px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   cursor: pointer;
   border-radius: 10px;
   transition: height 0.5s ease-out;

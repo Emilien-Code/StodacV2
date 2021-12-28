@@ -46,7 +46,7 @@ export default {
       this.clicked = !this.clicked;
     },
     getByCategory: function(category){
-      if(category != 'Catégories'){
+      if(category !== 'Catégories'){
         console.log('catégory selected', category)
         this.$store.dispatch('getStufsCategory', category)
         .then(this.noItems = 1)
@@ -78,7 +78,7 @@ button{
   top: 170px;
   right: 50px;
   width: 200px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   cursor: pointer;
   border-radius: 10px;
   transition: height 0.5s ease-out;

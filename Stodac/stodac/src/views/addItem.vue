@@ -18,7 +18,7 @@
 export default {
   name: "addItem",
   mounted: function(){
-    this.$store.dispatch('getUserInfos').then(console.log(this.$store.state.userInfos))
+    this.$store.dispatch('getUserInfos').then(console.log(this.$store.state.userInfos));
   },
 }
 </script>
