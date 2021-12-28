@@ -43,7 +43,7 @@ export default createStore({
       lastName:'',
       firstName:'',
       email:'',
-      isAdmin:false
+      admin:false
     },
     nbStuff:0,
     user : user,
@@ -67,13 +67,7 @@ export default createStore({
       localStorage.removeItem('user');
     },
     userInfos : function(state, userInfos){
-      state.userInfos = userInfos
-      state.userInfos.isAdmin = false;
-    },
-    adminInfos : function(state, userInfos){
-      console.log('AdminInfos Tu coco EKIP MESSAGE LONg pour BIen LEF voire ');
-      state.userInfos = userInfos
-      state.userInfos.isAdmin = true;
+      state.userInfos = userInfos;
     },
     stuffs: function(state, stuffs){
       state.stuffs = stuffs
