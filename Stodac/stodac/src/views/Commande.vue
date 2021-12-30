@@ -1,10 +1,10 @@
 <template>
   <div id="Commande">    
-          <h1 style="text-align:center ; margin:40px 0;" >Commande</h1>
+          <!-- <h1 style="text-align:center ; margin:40px 0;" >Commande</h1> -->
 
 
 
-        <div class="container">
+        <!-- <div class="container">
           <p class="title">Commanditaire</p>
           <div class="inputsContainer">
             <input class="small" type="text" placeholder="Nom">
@@ -14,7 +14,19 @@
             <input class="big" type="email" placeholder="Email">
             <input class="small" type="tel" placeholder="Numérot de téléphone">
           </div>
+        </div> -->
+        <div v-if="userInfos.firstName" class="container">
+          <p class="title">Commanditaire</p>
+          <div class="inputsContainer">
+            <p class="petit">{{userInfos.lastName}}</p>
+            <p class="grand">{{userInfos.firstName}}</p>
+          </div>
+          <div class="inputsContainer">
+            <p class="grand">{{userInfos.email}}</p>
+            <p class="petit">{{userInfos.mobile}}</p>
+          </div>
         </div>
+        <div></div>
 
 
         <div class="container">
@@ -81,6 +93,8 @@
 
 <script>
 
+import { mapState } from 'vuex'
+
 export default {
   name: 'Commande',
   data: function () {
@@ -99,6 +113,12 @@ export default {
       "https://www.paypal.com/sdk/js?client-id=test";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
+    // if(this.$store.state.user.userID == -1){
+    //   this.$router.push('/');
+    //   return;
+    // }
+    this.$store.dispatch('getUserInfos')//.then(console.log(this.$store.state.userInfos));
+    console.log(window.paypal)
   },
   methods:{
     setLoaded: function() {
@@ -157,7 +177,8 @@ export default {
             total += this.$store.state.pannier[i].article.price * this.$store.state.pannier[i].qty;
         }
         return total
-      }
+      },
+      ...mapState(['userInfos'])
 }
   }
 
@@ -182,7 +203,7 @@ export default {
 .container{
   margin-bottom: 100px;
 }
-.small{
+.small,.petit{
   width: 350px;
   margin: 12.5px;
 }
@@ -192,6 +213,16 @@ export default {
   border: solid #007057 2px;
   border-radius: 8px;
   background:#fafafa;
+  font-weight: 500;
+  font-size: 16px;
+  color: black;
+}
+.petit,.grand{
+  border-radius: 2px;
+  padding:8px;
+  border: solid #007057 2px;
+  border-radius: 8px;
+  background:#dddddd;
   font-weight: 500;
   font-size: 16px;
   color: black;
@@ -210,7 +241,7 @@ export default {
   color:#007057;
   margin-left: 21.4%;
 }
-.big  {
+.big,.grand{
   margin: 12.5px;
   width : 450px
 }
