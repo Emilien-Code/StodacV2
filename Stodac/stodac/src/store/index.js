@@ -43,7 +43,7 @@ export default createStore({
       lastName:'',
       firstName:'',
       email:'',
-      isAdmin:false
+      admin:false
     },
     nbStuff:0,
     user : user,
@@ -67,13 +67,7 @@ export default createStore({
       localStorage.removeItem('user');
     },
     userInfos : function(state, userInfos){
-      state.userInfos = userInfos
-      state.userInfos.isAdmin = false;
-    },
-    adminInfos : function(state, userInfos){
-      console.log('AdminInfos Tu coco EKIP MESSAGE LONg pour BIen LEF voire ');
-      state.userInfos = userInfos
-      state.userInfos.isAdmin = true;
+      state.userInfos = userInfos;
     },
     stuffs: function(state, stuffs){
       state.stuffs = stuffs
@@ -150,21 +144,6 @@ export default createStore({
           commit('setStatus', 'error_login');
           reject(error);
         });
-      });
-    },
-    loginAdmin : ({commit}, adminInfos) => {
-      commit('setStatus', 'loading');
-      return new Promise((resolve, reject) =>{
-        instance.post('/user/login/admin', adminInfos)
-            .then(function (response) {
-              commit('setStatus', 'Connecté');
-              commit('logUser', response.data);
-              resolve(response);
-            })
-            .catch(function (error) {
-              commit('setStatus', 'error_login');
-              reject(error);
-            });
       });
     },
     createAccount : ({commit}, userInfos) => {

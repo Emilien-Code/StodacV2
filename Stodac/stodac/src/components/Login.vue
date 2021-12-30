@@ -5,42 +5,42 @@
       <div></div>
     </button>
 
-    <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
+    <h1 class="card__title" v-if="mode === 'login'">Connexion</h1>
     <h1 class="card__title" v-else>Inscription</h1>
 
-    <p class="card__subtitle" v-if="mode == 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
+    <p class="card__subtitle" v-if="mode === 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
     <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
 
     <div class="form-row">
       <input v-model="email" class="form-row__input" type="text" placeholder="Adresse mail"/>
     </div>
 
-    <div class="form-row" v-if="mode == 'create'">
+    <div class="form-row" v-if="mode === 'create'">
       <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
       <input v-model="lastName" class="form-row__input" type="text" placeholder="Nom"/>
     </div>
-    <div class="form-row" v-if="mode == 'create'">
+    <div class="form-row" v-if="mode === 'create'">
       <input v-model="mobile" class="form-row__input" type="tel" placeholder="Numéro de téléphone"/>
     </div>
     <div class="form-row">
       <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe"/>
     </div>
-    <div class="form-row" v-if="mode == 'create'">
+    <div class="form-row" v-if="mode === 'create'">
       <input v-model="passwordVerif" class="form-row__input" type="password" placeholder="Vérification du mot de passe"/>
     </div>
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+    <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
       Adresse mail et/ou mot de passe invalide
     </div>
-    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
+    <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
       Adresse mail déjà utilisée
     </div>
     <div class="form-row">
-      <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
-        <span v-if="status == 'loading'">Connexion en cours...</span>
+      <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
+        <span v-if="status === 'loading'">Connexion en cours...</span>
         <span v-else>Connexion</span>
       </button>
       <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
-        <span v-if="status == 'loading'">Création en cours...</span>
+        <span v-if="status === 'loading'">Création en cours...</span>
         <span v-else>Créer mon compte</span>
       </button>
     </div>
@@ -67,18 +67,10 @@ export default {
   },
   computed: {
     validatedFields: function () {
-      if (this.mode == 'create') {
-        if (this.email != "" && this.firstName != "" && this.lastName != "" && this.password != "") {
-          return true;
-        } else {
-          return false;
-        }
+      if (this.mode === 'create') {
+        return this.email !== "" && this.firstName !== "" && this.lastName !== "" && this.password !== "";
       } else {
-        if (this.email != "" && this.password != "") {
-          return true;
-        } else {
-          return false;
-        }
+        return this.email !== "" && this.password !== "";
       }
     },
     ...mapState(['status'])
@@ -119,9 +111,11 @@ export default {
 </script>
 
 <style scoped>
-  .form-row {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+
+.form-row {
     display: flex;
-    margin: 16px 0px;
+    margin: 16px 0;
     gap:16px;
     flex-wrap: wrap;
   }
@@ -141,7 +135,6 @@ export default {
   .form-row__input::placeholder {
     color:#aaaaaa;
   }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -189,7 +182,7 @@ export default {
   background:white;
   border-radius: 16px;
   padding:32px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .card__title {

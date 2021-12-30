@@ -30,11 +30,11 @@
           </div>
       </li>
     </transition-group>
-    <div id="actions" v-if="$store.state.pannier.length != 0">
+    <div id="actions" v-if="$store.state.pannier.length !== 0">
           <a href="/">Continuer mes achats</a>
           <button class="button" @click="push()">Commander</button>
     </div>
-    <p style="text-align:center;" v-if="$store.state.pannier.length == 0">Votre pannier est vide</p>
+    <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
 
   </div>
 </template>
@@ -79,6 +79,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+
 #actions .button{
   width: 40%;
 }
@@ -126,7 +128,6 @@ export default {
   width: 25px;
   height: 25px;
   background-color: #fff;
-  border: none;
   border-radius: 5px;
   transition: .4s background-color;
   border: solid 2px #A1A1A1;
@@ -178,7 +179,7 @@ li:hover{
 }
   .form-row {
     display: flex;
-    margin: 16px 0px;
+    margin: 16px 0;
     gap:16px;
     flex-wrap: wrap;
   }
@@ -198,7 +199,6 @@ li:hover{
   .form-row__input::placeholder {
     color:#aaaaaa;
   }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -259,7 +259,7 @@ li:hover{
   background:white;
   border-radius: 16px;
   padding:32px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .card__title {
@@ -311,13 +311,13 @@ li:hover{
   .list-enter-from, .list-leave-to { 
     opacity: 0;
     transform: translateY(-10px);
-    transition: transform 1 cubic-bezier(.83, 0, .17, 1) opacity .8 ease-in-out .2;
+    transition: transform 1s cubic-bezier(.83, 0, .17, 1) opacity .8s ease-in-out .2s;
 
   }
   .list-enter-to .list-leave-from { 
     opacity: 1;
     transform: translateY(0px);
-    transition: transform 1 cubic-bezier(.83, 0, .17, 1) opacity .8 ease-in-out .2;
+    transition: transform 1s cubic-bezier(.83, 0, .17, 1) opacity .8s ease-in-out .2s;
   }
 
 

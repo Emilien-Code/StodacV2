@@ -43,7 +43,7 @@ export default {
     ...mapState(['userInfos'])
   },
   mounted: function(){
-    if(this.$store.state.user.userID == -1){
+    if(this.$store.state.user.userID === -1){
       this.$router.push('/');
       return;
     }
@@ -61,6 +61,8 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+
 a{
   color: #419D79;
   text-align: center;
@@ -78,11 +80,10 @@ a{
   .form-row {
     display: flex;
     justify-content: center;
-    margin: 16px 0px;
+    margin: 16px 0;
     gap:16px;
     flex-wrap: wrap;
   }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 
 * {
   font-family: 'Poppins', sans-serif;
@@ -103,7 +104,7 @@ a{
   background:white;
   border-radius: 16px;
   padding:32px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .card__title {
