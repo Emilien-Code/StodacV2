@@ -67,6 +67,7 @@ export default createStore({
       localStorage.removeItem('user');
     },
     userInfos : function(state, userInfos){
+      console.log('je passe la mtn')
       state.userInfos = userInfos;
     },
     stuffs: function(state, stuffs){
@@ -129,6 +130,13 @@ export default createStore({
       });
       localStorage.setItem('pannier', JSON.stringify(state.pannier));
     },
+    changeUserID : function(state){
+      console.log('eh oh')
+      state.user.token = "dfuahgu"
+      state.user.userID = "heehhehez"
+      console.log(state)
+      localStorage.setItem('user', JSON.stringify(state.user))
+    },
   },
   actions: {
     login : ({commit}, userInfos) => {
@@ -161,12 +169,17 @@ export default createStore({
       });
     },
     getUserInfos: ({commit, state})=>{
+      return new Promise((resolve, reject) => {
       instance.get(`/user/getinfos/${state.user.userID}`)
       .then(function(response) {
         commit('userInfos', response.data[0]);
+        console.log('la aussi')
+        resolve()
       })
       .catch( function (error) {
         console.log(error);
+        reject()
+      })
       })
     },
     getStufs: ({commit}, nbloaded )=>{
@@ -213,6 +226,22 @@ export default createStore({
       .catch(function(error){
         console.log(error)
       })
+    },
+    changeAddress : (state, address) =>{
+      console.log(state, address)
+      console.log(state.state.user)
+      //instance.post('http://localhost:3000/api/user/MA/' + state.user.userID,address)
+      instance.post(`/user/MA/${state.state.user.userID}`,address)
+      .then(function(){
+        console.log('c passer')
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+    },
+    timeout : ({commit, state}) =>{
+      console.log('au moins ça marche')
+      commit('changeUserID', state)
     },
     addPannier : ({commit}, a) =>{
       commit('addPannierMutation', a)

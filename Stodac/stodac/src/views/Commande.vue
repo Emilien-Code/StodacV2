@@ -1,21 +1,8 @@
 <template>
-  <div id="Commande">    
+  <div id="Commande" v-if="userInfos.firstName">    
           <!-- <h1 style="text-align:center ; margin:40px 0;" >Commande</h1> -->
 
-
-
-        <!-- <div class="container">
-          <p class="title">Commanditaire</p>
-          <div class="inputsContainer">
-            <input class="small" type="text" placeholder="Nom">
-            <input class="big" type="text" placeholder="Prénom">
-          </div>
-          <div class="inputsContainer">
-            <input class="big" type="email" placeholder="Email">
-            <input class="small" type="tel" placeholder="Numérot de téléphone">
-          </div>
-        </div> -->
-        <div v-if="userInfos.firstName" class="container">
+        <div class="container">
           <p class="title">Commanditaire</p>
           <div class="inputsContainer">
             <p class="petit">{{userInfos.lastName}}</p>
@@ -32,12 +19,15 @@
         <div class="container">
           <p class="title">Adresse</p>
           <div class="inputsContainer">
-            <input class="small" type="number" placeholder="Numérot">
-            <input class="big" type="text" placeholder="Rue">
+            <input class="numerot" type="number" placeholder="Numérot" v-model="adresse.streetNumber">
+            <input class="rue" type="text" placeholder="Rue" v-model="adresse.street">
           </div>
           <div class="inputsContainer">
-            <input class="big" type="test" placeholder="Ville">
-            <input class="small" type="number" placeholder="Code postale">
+            <input class="ville" type="test" placeholder="Ville" v-model="adresse.city">
+            <input class="postal" type="number" placeholder="Code postale" v-model="adresse.postCode">
+          </div>
+          <div class="inputsContainer">
+          <button @click="saveAddress()" class="button">Enregistrer l'adresse</button>
           </div>
         </div>
 
@@ -81,11 +71,18 @@
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
 
 
-<div class="Payment">
+  <div class="Payment">
         <div ref="paypal"></div>
-</div>
- 
   </div>
+ 
+
+</div>
+<div v-else>
+  <p style="text-align: center">Votre connexion à éxpirée. Reconnectez vous afin d'acceder a ces informations</p>
+  <div class="inputsContainer">
+  <button @click="reco()" class="button">Reconnection</button>
+  </div>
+</div>
 </template>
 
 
@@ -94,11 +91,18 @@
 <script>
 
 import { mapState } from 'vuex'
-
+//const axios = require('axios');
 export default {
   name: 'Commande',
   data: function () {
     return {
+      adresse: {
+        id: '',
+        street: '',
+        streetNumber: '',
+        city: '',
+        postCode: '',
+      },
       email: '',
       password: '',
       firstName: '',
@@ -113,12 +117,18 @@ export default {
       "https://www.paypal.com/sdk/js?client-id=test";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
-    // if(this.$store.state.user.userID == -1){
-    //   this.$router.push('/');
-    //   return;
-    // }
-    this.$store.dispatch('getUserInfos')//.then(console.log(this.$store.state.userInfos));
-    console.log(window.paypal)
+    if(this.$store.state.user.userID === -1){
+      this.$router.push('/login/');
+      return;
+    }
+    this.$store.dispatch('getUserInfos').then(() => { 
+      this.adresse.id = this.$store.state.userInfos.id;
+      this.adresse.street = this.$store.state.userInfos.street;
+      this.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+      this.adresse.city = this.$store.state.userInfos.city;
+      this.adresse.postCode = this.$store.state.userInfos.postCode;
+      console.log(this.$store.state)
+    })
   },
   methods:{
     setLoaded: function() {
@@ -126,6 +136,7 @@ export default {
       window.paypal
         .Buttons({
           createOrder: (data, actions) => {
+            //ici faut tester qu'on est bien co ça race mais a faire une fois qu'on aura le token eheh
             return actions.order.create({
               purchase_units: [
                 {
@@ -168,7 +179,16 @@ export default {
     },
     majLS : function(){
       localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));
+    },
+    saveAddress : function(){
+      this.$store.dispatch('changeAddress', this.adresse)
+      //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
       },
+    reco : function(){
+      console.log('je suis la')
+      this.$store.commit('logOut');
+      this.$router.push('/login/');
+    },
     },
     computed: {
       total: function () {
@@ -178,7 +198,7 @@ export default {
         }
         return total
       },
-      ...mapState(['userInfos'])
+      ...mapState(['userInfos']),
 }
   }
 
@@ -203,11 +223,11 @@ export default {
 .container{
   margin-bottom: 100px;
 }
-.small,.petit{
+.numerot,.postal,.petit{
   width: 350px;
   margin: 12.5px;
 }
-.small,.big{
+.numerot,.postal,.rue,.ville{
   border-radius: 2px;
   padding:8px;
   border: solid #007057 2px;
@@ -241,7 +261,7 @@ export default {
   color:#007057;
   margin-left: 21.4%;
 }
-.big,.grand{
+.rue,.ville,.grand{
   margin: 12.5px;
   width : 450px
 }
@@ -351,5 +371,22 @@ ul,li{
   position:relative;
   left: 50%;
   transform: translateX(-25%)
+}
+.button {
+  background: #419D79;
+  color:white;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 15px;
+  border: none;
+  width: 400px;
+  padding: 12px;
+  transition: .4s background-color;
+}
+
+
+.button:hover {
+  cursor:pointer;
+  background: #078A6C;
 }
  </style>

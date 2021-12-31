@@ -52,6 +52,7 @@ export default {
   methods: {
     logOut: function(){
       this.$store.commit('logOut');
+      this.$router.push('/')
     },
     croix: function(){
       this.$parent.logCloseLogin();

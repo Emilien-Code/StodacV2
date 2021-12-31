@@ -118,6 +118,14 @@ exports.updateUser = (req, res) => {
         res.send(req.body);
     });
 };
+exports.changeAddress = (req, res) => {
+    console.log(req.params.id,req.body.street)
+    User.updateOne({_id:req.params.id}, {$set: {street:req.body.street,streetNumber:req.body.streetNumber,city:req.body.city,postCode:req.body.postCode}}, (err, docs) =>{
+        if(err) console.log(err);
+
+        res.send(req.body);
+    });
+}
 
 /**DELETE Controller */
 

@@ -9,6 +9,7 @@ router.post('/login/admin/', usrCtrl.loginAdmin);
 const auth = require('../middleware/auth')
 const authAdmin = require('../middleware/auth-admin')
 
+router.post('/MA/:id', auth, usrCtrl.changeAddress)
 
 // Get routes
 
