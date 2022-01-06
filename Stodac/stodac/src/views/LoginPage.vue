@@ -72,7 +72,7 @@ export default {
   },
   mounted: function(){
     if(this.$store.state.user.userID !== -1){
-      this.$router.push('/');
+      this.$router.push('/commande');
       return;
     }
   },
@@ -88,7 +88,7 @@ export default {
       this.$store.dispatch('login',{
         email: this.email,
         password:this.password
-      }).then(function(){console.log("user loggedIn");a.$router.push('/')})
+      }).then(function(){console.log("user loggedIn");a.$router.push('/commande')})
         .catch(function(error){console.log("cannot log", error)})
     },
     createAccount: function(){

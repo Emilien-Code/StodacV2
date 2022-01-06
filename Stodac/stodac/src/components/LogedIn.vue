@@ -44,7 +44,7 @@ export default {
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
-      this.$router.push('/');
+      this.$router.push('/'); // Pq ?
       return;
     }
     this.$store.dispatch('getUserInfos').then(console.log(this.$store.state.userInfos))
@@ -52,7 +52,6 @@ export default {
   methods: {
     logOut: function(){
       this.$store.commit('logOut');
-      this.$router.push('/')
     },
     croix: function(){
       this.$parent.logCloseLogin();

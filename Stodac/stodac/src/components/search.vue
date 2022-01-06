@@ -14,15 +14,11 @@
                     </div>
                 </li>
             </ul>
-            
-            <button v-if="resultArray[0]" @click="search()">
-                <span v-if="word">Afficher tous les résultats</span>
-                <span v-else>Annuler la recherche</span>
-            </button>
-            <div id="noResult" v-if="word && !resultArray[0]"> Aucuns résultats </div>
-
-        </div> 
-
+        </div>
+      <button v-if="resultArray[0] && isSearch" @click="search()">
+        <span>Afficher tous les résultats</span>
+      </button>
+      <div id="noResult" v-if="word && !resultArray[0]"> Aucuns résultats </div>
     </div>
 
   
@@ -125,6 +121,10 @@ input {
     border: none;
     border-bottom: solid  1px #C3C3C3;
  }
+#print{
+  overflow-y: scroll;
+  max-height: 250px;
+}
 button{
     position: relative;
     left: 50%;
