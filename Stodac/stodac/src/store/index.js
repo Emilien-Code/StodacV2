@@ -113,18 +113,17 @@ export default createStore({
       let index = 0;
       state.pannier.forEach(i => {
         if(i.article._id === id){
-          state.pannier[index] = {'article' : state.pannier[index].article, 'qty' : state.pannier[index].qty +=1 }
+          state.pannier[index].qty +=1;
         }
         index++
       });
-      console.log(state.pannier)
       localStorage.setItem('pannier', JSON.stringify(state.pannier));
     },
     lessOneQty : function(state, id){
       let index = 0;
       state.pannier.forEach(i => {
         if(i.article._id === id){
-          state.pannier[index] = {'article' : state.pannier[index].article, 'qty' : state.pannier[index].qty -=1 }
+          state.pannier[index].qty -=1
         }
         index++
       });

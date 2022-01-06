@@ -27,7 +27,7 @@
             <input class="postal" type="number" placeholder="Code postale" v-model="adresse.postCode">
           </div>
           <div class="inputsContainer">
-          <button @click="saveAddress()" class="button">Enregistrer l'adresse</button>
+          <buttonn id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</buttonn>
           </div>
         </div>
 
@@ -48,11 +48,11 @@
                 <div class="qty">
                   <button class="qty_button" id=plus @click="more(i, article.article._id)">
                     <div id="plus_vertical"></div>
-                    <div id="plus_horizontal"></div>
+                    <div class="plus_horizontal"></div>
                   </button>
                   <input type="number" v-model="$store.state.pannier[i].qty" id="qty" min="1" :max="article.article.qty" @keyup="majLS()"/>
                   <button class="qty_button" @click="less(i, article.article._id)">
-                    <div id="plus_horizontal"></div>
+                    <div class="plus_horizontal"></div>
                   </button>
                 </div>
                   <span class="product-price" style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}</span>
@@ -89,7 +89,6 @@
 
 
 <script>
-
 import { mapState } from 'vuex'
 //const axios = require('axios');
 export default {
@@ -114,14 +113,14 @@ export default {
   mounted: function(){
     const script = document.createElement("script");
     script.src =
-      "https://www.paypal.com/sdk/js?client-id=test";
+        "https://www.paypal.com/sdk/js?client-id=test";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/');
       return;
     }
-    this.$store.dispatch('getUserInfos').then(() => { 
+    this.$store.dispatch('getUserInfos').then(() => {
       this.adresse.id = this.$store.state.userInfos.id;
       this.adresse.street = this.$store.state.userInfos.street;
       this.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
@@ -134,34 +133,34 @@ export default {
     setLoaded: function() {
       this.loaded = true;
       window.paypal
-        .Buttons({
-          createOrder: (data, actions) => {
-            //ici faut tester qu'on est bien co ça race mais a faire une fois qu'on aura le token eheh
-            return actions.order.create({
-              purchase_units: [
-                {
-                  description: this.product.description,
-                  amount: {
-                    currency_code: "EUR",
-                    value: this.total
+          .Buttons({
+            createOrder: (data, actions) => {
+              //ici faut tester qu'on est bien co ça race mais a faire une fois qu'on aura le token eheh
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    description: this.product.description,
+                    amount: {
+                      currency_code: "EUR",
+                      value: this.total
+                    }
                   }
-                }
-              ]
-            });
-          },
-          onApprove: async (data, actions) => {
-            const order = await actions.order.capture();
-            this.data;
-            this.paidFor = true;
-            console.log(order); // + Créer un nouvel élément dans la collection commande
-          },
-          onError: err => {
-            console.log(err);
-          }
-        })
-        .render(this.$refs.paypal);
+                ]
+              });
+            },
+            onApprove: async (data, actions) => {
+              const order = await actions.order.capture();
+              this.data;
+              this.paidFor = true;
+              console.log(order); // + Créer un nouvel élément dans la collection commande
+            },
+            onError: err => {
+              console.log(err);
+            }
+          })
+          .render(this.$refs.paypal);
     },
-     more : function(i, a){
+    more : function(i, a){
       console.log(i, a)
       if(this.$store.state.pannier[i].qty<this.$store.state.pannier[i].article.qty){
         this.$store.dispatch("addOne",a);
@@ -183,27 +182,26 @@ export default {
     saveAddress : function(){
       this.$store.dispatch('changeAddress', this.adresse)
       //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
-      },
+    },
     reco : function(){
       console.log('je suis la')
       this.$store.commit('logOut');
       this.$router.push('/login/');
     },
+  },
+  computed: {
+    total: function () {
+      let total = 0;
+      for(let i = 0; i<this.$store.state.pannier.length; i++){
+        total += this.$store.state.pannier[i].article.price * this.$store.state.pannier[i].qty;
+      }
+      return total
     },
-    computed: {
-      total: function () {
-        let total = 0;
-        for(let i = 0; i<this.$store.state.pannier.length; i++){
-            total += this.$store.state.pannier[i].article.price * this.$store.state.pannier[i].qty;
-        }
-        return total
-      },
-      ...mapState(['userInfos']),
-}
+    ...mapState(['userInfos']),
   }
+}
 
 </script>
-
 
 
 
@@ -300,7 +298,7 @@ export default {
   border-radius: 5px;
   position: absolute;
 }
-#plus_horizontal{
+.plus_horizontal{
   height: 2.5px;
   width: 17px;
   background-color: #FFFFFF;
@@ -388,5 +386,13 @@ ul,li{
 .button:hover {
   cursor:pointer;
   background: #078A6C;
+}
+#remember_adresse{
+  position: absolute;
+  width: 300px;
+  text-align: center;
+  top : 600px;
+  right: 19%;
+
 }
  </style>

@@ -5,7 +5,7 @@
       <div></div>
     </button>
     <h1 style="text-align:center">Panier</h1>
-      <transition-group name="list" tag="ul" appear>
+      <!--<transition-group name="list" tag="ul" appear>-->
       <li  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
           <div class="Produit">
               <img :src="article.article.img" alt="">
@@ -29,7 +29,7 @@
                 </button>
           </div>
       </li>
-    </transition-group>
+    <!--</transition-group>-->
     <div id="actions" v-if="$store.state.pannier.length !== 0">
           <a href="/">Continuer mes achats</a>
           <button class="button" @click="push()">Commander</button>
@@ -159,6 +159,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     margin: 15px 0 ;
     margin-left: 10px;
+    animation: apear .4s ease-out 0s 1 forwards;
 }
 img{
     object-fit: cover;
@@ -172,6 +173,7 @@ ul{
 li{
      border-radius: 10px;
     transition: .5s;
+  list-style: none;
 }
 li:hover{
     background-color: #e3e3e3;
@@ -308,17 +310,15 @@ li:hover{
     background:#cecece;
   }
 
-  .list-enter-from, .list-leave-to { 
+@keyframes apear {
+  from{
     opacity: 0;
     transform: translateY(-10px);
-    transition: transform 1s cubic-bezier(.83, 0, .17, 1) opacity .8s ease-in-out .2s;
-
   }
-  .list-enter-to .list-leave-from { 
+  to  {
     opacity: 1;
     transform: translateY(0px);
-    transition: transform 1s cubic-bezier(.83, 0, .17, 1) opacity .8s ease-in-out .2s;
   }
 
-
+}
 </style>

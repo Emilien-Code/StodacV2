@@ -12,10 +12,10 @@
           <div class="more_less">
             <button class="qty_button" id=plus @click="more()">
               <div id="plus_vertical"></div>
-              <div id="plus_horizontal"></div>
+              <div class="plus_horizontal"></div>
               </button>
             <button class="qty_button" @click="less()">
-              <div id="plus_horizontal"></div>
+              <div class="plus_horizontal"></div>
             </button>
           </div>
           <button class="button" @click="addToPannier()">Ajouter au pannier</button>
@@ -151,7 +151,7 @@ input[type=number] {
   border-radius: 10px;
   position: absolute;
 }
-#plus_horizontal{
+.plus_horizontal{
   height: 2.5px;
   width: 17px;
   background-color: #FFFFFF;

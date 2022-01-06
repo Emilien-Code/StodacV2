@@ -103,8 +103,10 @@ export default {
   margin: 15px 0 15px 10px;
 }
 img{
-    width: 100px;
-    margin-right: 10px;
+  object-fit: cover;
+  width: 100px;
+  margin-right: 10px;
+  height: 100px;
 }
 #search {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
