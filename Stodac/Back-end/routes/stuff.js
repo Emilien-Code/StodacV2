@@ -11,6 +11,10 @@ router.get('/all/:nb/:sk', stuffCtrl.getAllStuff);
 
 router.get('/manufacturer/:manufacturer/', stuffCtrl.getByManufacturer);
 
+router.get('/manufacturer/', stuffCtrl.getManufacturer);
+
+router.get('/categories/', stuffCtrl.getCategories);
+
 router.get('/category/:category', stuffCtrl.getByCategories);
 
 router.get('/reference/:ref', stuffCtrl.getByReference)

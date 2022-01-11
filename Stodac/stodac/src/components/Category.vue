@@ -3,32 +3,21 @@
     <button @click="isCategoryClicked()">{{nameCategory}}</button>
     <div v-if="clicked">
       <ul>
-        <li @click="isSelected(0)" :class="{'selected' : selection[0]}">Toute les categories</li>
-        <li @click="isSelected(1)" :class="{'selected' : selection[1]}">Divers</li>
-        <li @click="isSelected(2)" :class="{'selected' : selection[2]}">Ventilateurs</li>
-        <li @click="isSelected(3)" :class="{'selected' : selection[3]}">Résistances et Bougies</li>
-        <li @click="isSelected(4)" :class="{'selected' : selection[4]}">Motoréducteurs</li>
-        <li @click="isSelected(5)" :class="{'selected' : selection[5]}">Creusets et Brasiers</li>
-        <li @click="isSelected(6)" :class="{'selected' : selection[6]}">Cartes éléctronique</li>
-        <li @click="isSelected(7)" :class="{'selected' : selection[7]}">Extracteurs de fumées</li>
-        <li @click="isSelected(8)" :class="{'selected' : selection[8]}">Sondes ambiante</li>
-        <li @click="isSelected(9)" :class="{'selected' : selection[9]}">Sondes fumée</li>
-        <li @click="isSelected(10)" :class="{'selected' : selection[10]}">Pressostats</li>
-        <li @click="isSelected(11)" :class="{'selected' : selection[11]}">Ecrans et Afficheurs</li>
-        <li @click="isSelected(12)" :class="{'selected' : selection[12]}">Vitres</li>
+        <li v-for="(cat,index) in category" :key="index" @click="isSelected(index)" :class="{'selected' : selection[index]}">{{cat}}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+const axios = require('axios');
 export default {
   name:"category",
   data : function(){
     return{
       clicked : false,
-      selection: [false ,false, false, false, false, false, false, false, false, false, false],
-      category: ['Catégories', 'Divers', 'Ventilateurs', 'Résistances et Bougies', 'Motoréducteur', 'Creuset et Brasier', "Carte éléctronique", "Extracteur de fumées", "Sonde ambiante", "Sonde fumée", "Pressostats", "Ecran et Afficheur", "Vitres"],
+      selection: [],
+      category: [],
       nameCategory : 'Catégories'
     }
   },
@@ -55,12 +44,19 @@ export default {
         this.$store.dispatch('getStufs')
       }
     }
+  },
+  mounted() {
+    axios.get('http://localhost:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
   }
 }
 </script>
 
 <style scoped>
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+div{
+  max-height: 500px;
+  overflow-y: scroll;
+}
 button{
   text-align: start;
   padding: 10px;

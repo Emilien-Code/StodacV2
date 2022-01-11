@@ -23,11 +23,11 @@
             <input class="rue" type="text" placeholder="Rue" v-model="adresse.street">
           </div>
           <div class="inputsContainer">
-            <input class="ville" type="test" placeholder="Ville" v-model="adresse.city">
+            <input class="ville" type="text" placeholder="Ville" v-model="adresse.city">
             <input class="postal" type="number" placeholder="Code postale" v-model="adresse.postCode">
           </div>
           <div class="inputsContainer">
-          <buttonn id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</buttonn>
+          <div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>
           </div>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="container">
           <p class="title">Récapitulatif de la commande</p>
           <div class="PContainer">
-            <li  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
+            <div  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
               <div class="Produit">
                 <img :src="article.article.img" alt="">
                 <div class="txts">
@@ -46,24 +46,24 @@
                 </div>
 
                 <div class="qty">
-                  <button class="qty_button" id=plus @click="more(i, article.article._id)">
+                  <div class="qty_button" id=plus @click="more(i, article.article._id)">
                     <div id="plus_vertical"></div>
                     <div class="plus_horizontal"></div>
-                  </button>
+                  </div>
                   <input type="number" v-model="$store.state.pannier[i].qty" id="qty" min="1" :max="article.article.qty" @keyup="majLS()"/>
-                  <button class="qty_button" @click="less(i, article.article._id)">
+                  <div class="qty_button" @click="less(i, article.article._id)">
                     <div class="plus_horizontal"></div>
-                  </button>
+                  </div>
                 </div>
                   <span class="product-price" style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}</span>
-                <button class="supr" @click="supr(article.article)">
+                <div class="supr" @click="supr(article.article)">
                   <div></div>
                   <div></div>
-                </button>
+                </div>
           </div>
-      </li>
+      </div>
             <p class="title" style="margin-left: 40%">TOTAL : {{ Math.round(total * 100)/100 }}</p>
-            <p style="text-align:center;" v-if="$store.state.pannier.length == 0">Votre pannier est vide</p>
+            <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
 
           </div>
         </div>
@@ -215,9 +215,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-#login{
-  width: 500px;
-}
 .container{
   margin-bottom: 100px;
 }
@@ -229,7 +226,6 @@ export default {
   border-radius: 2px;
   padding:8px;
   border: solid #007057 2px;
-  border-radius: 8px;
   background:#fafafa;
   font-weight: 500;
   font-size: 16px;
@@ -239,7 +235,6 @@ export default {
   border-radius: 2px;
   padding:8px;
   border: solid #007057 2px;
-  border-radius: 8px;
   background:#dddddd;
   font-weight: 500;
   font-size: 16px;
@@ -311,7 +306,6 @@ export default {
   width: 25px;
   height: 25px;
   background-color: #fff;
-  border: none;
   border-radius: 5px;
   transition: .4s background-color;
   border: solid 2px #A1A1A1;
@@ -350,7 +344,6 @@ img{
     width: 200px;
     margin-right: 10px;
     height: 150px;
-    margin: 0 15px;
 }
 ul,li{
     list-style: none;

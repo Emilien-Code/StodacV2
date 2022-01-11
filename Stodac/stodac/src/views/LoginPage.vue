@@ -73,7 +73,6 @@ export default {
   mounted: function(){
     if(this.$store.state.user.userID !== -1){
       this.$router.push('/commande');
-      return;
     }
   },
   methods: {

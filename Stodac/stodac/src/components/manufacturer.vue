@@ -3,41 +3,21 @@
     <button @click="isClicked()">{{nameMarque}}</button>
     <div v-if="clicked">
       <ul>
-        <li @click="isSelected(0)" :class="{'selected' : selection[0]}">Toute les marques</li>
-        <li @click="isSelected(1)" :class="{'selected' : selection[1]}">CADEL</li>
-        <li @click="isSelected(2)" :class="{'selected' : selection[2]}">CHAZELLES</li>
-        <li @click="isSelected(3)" :class="{'selected' : selection[3]}">CMG</li>
-        <li @click="isSelected(4)" :class="{'selected' : selection[4]}">COLA</li>
-        <li @click="isSelected(5)" :class="{'selected' : selection[5]}">CSTHERMOS</li>
-        <li @click="isSelected(6)" :class="{'selected' : selection[6]}">DOMUSA</li>
-        <li @click="isSelected(7)" :class="{'selected' : selection[7]}">ECOFOREST</li>
-        <li @click="isSelected(8)" :class="{'selected' : selection[8]}">EDILKAMIN</li>
-        <li @click="isSelected(9)" :class="{'selected' : selection[9]}">EXTRAFLAME</li>
-        <li @click="isSelected(10)" :class="{'selected' : selection[10]}">FREEPOINT</li>
-        <li @click="isSelected(11)" :class="{'selected' : selection[11]}">JOLLYMEC</li>
-        <li @click="isSelected(12)" :class="{'selected' : selection[12]}">JOTUL</li>
-        <li @click="isSelected(13)" :class="{'selected' : selection[13]}">MCZ</li>
-        <li @click="isSelected(14)" :class="{'selected' : selection[14]}">PALAZZETTI</li>
-        <li @click="isSelected(15)" :class="{'selected' : selection[15]}">PIAZZETTA</li>
-        <li @click="isSelected(16)" :class="{'selected' : selection[16]}">RAVELLI</li>
-        <li @click="isSelected(17)" :class="{'selected' : selection[17]}">RED</li>
-        <li @click="isSelected(18)" :class="{'selected' : selection[18]}">RIKA</li>
-        <li @click="isSelected(19)" :class="{'selected' : selection[19]}">SUPERIOR</li>
-        <li @click="isSelected(20)" :class="{'selected' : selection[20]}">THERMOROSSI</li>
-        <li @click="isSelected(21)" :class="{'selected' : selection[21]}">ZIBRO</li>
+        <li v-for="(man, index) in manufacture" @click="isSelected(index)" :key="index" :class="{'selected' : selection[index]}">{{man}}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+const axios = require('axios');
 export default {
   name:"manufacturer",
   data : function(){
     return{
       clicked : false,
-      selection: [false ,false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-      manufacture: ['Marques', 'CADEL', 'CHAZELLES', 'CMG', 'COLA', 'CSTHERMOS', "DOMUSA", "ECOFOREST", "EDILKAMIN", "EXTRAFLAME", "FREEPOINT", "JOLLYMEC", "JOTUL", "MCZ", "PALAZZETTI", "PIAZZETTA", "RAVELLI", "RED", "RIKA", "SUPERIOR", "THERMOROSSI", "ZIBRO" ],
+      selection: [],
+      manufacture: [],
       nameMarque : 'Marques'
     }
   },
@@ -63,12 +43,22 @@ export default {
         this.$store.dispatch('getStufs')
       }
     }
+  },
+  mounted() {
+    axios.get('http://localhost:3000/api/stuff/manufacturer')
+    .then((response)=>{
+      this.manufacture = response.data;
+    })
   }
 }
 </script>
 
 <style scoped>
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+div{
+  max-height: 500px;
+  overflow-y: scroll;
+}
 button{
   text-align: start;
   padding: 10px;

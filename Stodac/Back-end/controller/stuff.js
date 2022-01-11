@@ -7,7 +7,6 @@ exports.getAllStuff = (req, res) =>{
     Thing.find({}, (err, docs)=>{
        if(err) console.log(err);
        res.send(docs);
-       console.log('all api :')
    }).limit(parseInt(req.params.nb)).skip(parseInt(req.params.sk))
 };
 
@@ -16,16 +15,28 @@ exports.getByManufacturer = (req, res) =>{
     Thing.find({manufacturer:req.params.manufacturer}, (err, docs)=>{
        if(err) console.log(err);
        res.send(docs);
-       console.log('manufacturer api :', req.params.manufacturer)
    });
 };
+
+exports.getManufacturer = (req, res) =>{
+    Thing.distinct("manufacturer", {},(err,docs)=>{
+        if(err) console.log(err);
+        res.send(docs)
+    })
+}
 
 exports.getByCategories = (req, res) =>{
     Thing.find({category:req.params.category}, (err, docs)=>{
        if(err) console.log(err);
        res.send(docs);
-       console.log('category api :', req.params.category)
    });
+};
+
+exports.getCategories = (req, res) =>{
+    Thing.distinct("category", {},(err, docs)=>{
+        if(err) console.log(err);
+        res.send(docs);
+    });
 };
 
 exports.getByReference = (req, res) =>{
@@ -53,7 +64,6 @@ exports.getByName = (req, res) => {
     Thing.find({name:{ $regex: req.params.id, $options: 'i' }}, (err, docs) => {
         if(err) console.log(err);
         res.send(docs);
-        console.log(req.params)
     }).limit(parseInt(req.params.nb));
 };
 

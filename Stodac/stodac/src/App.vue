@@ -11,14 +11,14 @@
         Boutique
         <span></span>
       </router-link> 
-      <router-link to="/">
+      <!--<router-link to="/">
         Aide
         <span></span>
       </router-link>
       <router-link to="/">
         Contact
         <span></span>
-      </router-link>
+      </router-link>-->
     </div>
     <div class="nav_right">
       <button :class="{login, icon}" @click="connection()">
@@ -40,9 +40,10 @@
       <h1 class="titre">Stodac.</h1>
       <p class="slogan">Vente de poêles à granulés et assistance technique.</p>
     </div>
+
   <router-view/>
 
-  <Login v-if="tryToLog && this.$store.state.user.userID == -1"/>
+  <Login v-if="tryToLog && this.$store.state.user.userID === -1"/>
   <LogedIn v-if="tryToLog &&  this.$store.state.user.userID !== -1"/>
   <Pannier v-if="pannier"/>
   <footer>
@@ -98,6 +99,8 @@
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+
 footer{
   margin-top: 50px;
   height: 100px;
@@ -114,7 +117,7 @@ a{
 }
 #logo_stodac{
   position: absolute;
-  top: 0px;
+  top: 0;
   height: 70px;
   width: 70px;
 }
@@ -191,5 +194,4 @@ button.login {
   margin-right: 5vw
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 </style>
