@@ -1,6 +1,6 @@
 <template>
   <div class="Produit">
-        <h1>{{ article.name }}</h1>
+    <h1>{{ article.name }}</h1>
     <section id="Un">
       <img :src="article.img" alt="Image d'illustration">
       <div class="PriceAndInfos">
@@ -11,11 +11,11 @@
           <input type="number" v-model="qty" id="qty" min="1" :max="article.qty"/>
           <div class="more_less">
             <button class="qty_button" id=plus @click="more()">
-              <div id="plus_vertical"></div>
-              <div class="plus_horizontal"></div>
+              <span id="plus_vertical"></span>
+              <span class="plus_horizontal"></span>
               </button>
             <button class="qty_button" @click="less()">
-              <div class="plus_horizontal"></div>
+              <span class="plus_horizontal"></span>
             </button>
           </div>
           <button class="button" @click="addToPannier()">Ajouter au pannier</button>
@@ -25,12 +25,12 @@
     </section>
     <section id="deux">
       <p><span class="title">Modèles compatibles</span></p>
-      <table>
-        <tr v-for="test in article.compatibility" :key="test" ><p>{{test}}</p></tr>
-      </table>
+      <ul>
+        <li v-for="compatibility in article.compatibility" :key="compatibility" ><p>{{compatibility}}</p></li>
+      </ul>
     </section>
     <section id="trois">
-      <p><span class="title">Fiche technique</span></p>
+      <p class="title">Fiche technique</p>
       <table style="font-size:1.4em">
         <tr>
           <td>Article</td>
@@ -48,14 +48,6 @@
           <td>État du Produit</td>
           <td>{{article.state}}</td>
         </tr>
-      </table>
-    </section>
-    <section id="quatre">
-
-      <p><span class="title">Commentaires</span></p>
-
-      <table v-if="article.commentaires">
-        <tr v-for="test in article.commentaires" :key="test" ><p>{{test}}</p></tr>
       </table>
     </section>
   </div>
@@ -87,7 +79,6 @@ export default {
     },
     addToPannier : function(){
       const a = {'article' : this.article,'qty' : this.qty};
-
       this.$store.dispatch('addPannier', a)
     }
   },
@@ -106,8 +97,9 @@ export default {
 <style scoped>
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
-#quatre{
-  padding-left: 10vw;
+li{
+  list-style: none;
+  margin-left: 50px;
 }
 #trois{
   padding: 10vw;
@@ -196,8 +188,8 @@ h1{
 }
 img{
   width: 40vw;
-  max-height: 385px;
-  object-fit: cover;
+  max-height: 450px;
+  object-fit: contain;
 }
 .PriceAndInfos{
   padding-left: 50px;

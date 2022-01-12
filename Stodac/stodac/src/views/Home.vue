@@ -171,7 +171,7 @@ svg{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 50px;
+  margin: 73px;
 }
 .product{
   margin: 25px 25px ;

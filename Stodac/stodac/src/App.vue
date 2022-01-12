@@ -27,6 +27,8 @@
           <path id="Tracé_3" data-name="Tracé 3" d="M38.2,42.746H13a9.26,9.26,0,0,1-9-9.5v-7.6a1.923,1.923,0,0,1,.882-1.634l9-5.7a1.753,1.753,0,0,1,2.3.776,1.968,1.968,0,0,1-.5,2.492L7.6,26.729v6.517a5.556,5.556,0,0,0,5.4,5.7H38.2a5.556,5.556,0,0,0,5.4-5.7V26.729L35.482,21.58a1.948,1.948,0,0,1-.1-3.411,1.721,1.721,0,0,1,1.9.143l9,5.7a1.919,1.919,0,0,1,.918,1.634v7.6a9.26,9.26,0,0,1-9,9.5Z" transform="translate(-4 11.254)" fill="#fff"/>
         </svg>
       </button>
+
+      <div id="nbPannier" v-if="$store.state.pannier.length!==0"><span>{{$store.state.pannier.length}}</span></div>
       <button class="pannier icon" @click="openPannier()">
         <svg xmlns="http://www.w3.org/2000/svg" width="66.044" height="54.375" viewBox="0 0 66.044 54.375">
           <g id="basket_icon-icons.com_67985" transform="translate(0 0)">
@@ -100,7 +102,22 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
-
+#nbPannier{
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  width: 25px;
+  height: 25px;
+  background-color:#F18F01;
+  border-radius: 50%;
+}
+#nbPannier span{
+  display : block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-15%, -50%);
+}
 footer{
   margin-top: 50px;
   height: 100px;
@@ -113,7 +130,7 @@ a{
   color: white;
 }
 .nav_left{
-  margin: 100px;
+  margin-left: 100px;
 }
 #logo_stodac{
   position: absolute;
@@ -175,6 +192,9 @@ button.login {
 #app {
   font-family: sans-serif;
   color: #2c3e50;
+  width: 100vw;
+  overflow: hidden;
+
 }
 
 #nav {
