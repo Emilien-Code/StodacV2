@@ -19,12 +19,12 @@
         <div class="container">
           <p class="title">Adresse</p>
           <div class="inputsContainer">
-            <input class="numerot" type="number" placeholder="Numérot" v-model="adresse.streetNumber">
-            <input class="rue" type="text" placeholder="Rue" v-model="adresse.street">
+            <input class="numerot" type="number" placeholder="Numérot" v-model="facture.adressestreetNumber">
+            <input class="rue" type="text" placeholder="Rue" v-model="facture.adressestreet">
           </div>
           <div class="inputsContainer">
-            <input class="ville" type="text" placeholder="Ville" v-model="adresse.city">
-            <input class="postal" type="number" placeholder="Code postale" v-model="adresse.postCode">
+            <input class="ville" type="text" placeholder="Ville" v-model="facture.adressecity">
+            <input class="postal" type="number" placeholder="Code postale" v-model="facture.adressepostCode">
           </div>
           <div class="inputsContainer">
           <div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>
@@ -95,12 +95,15 @@ export default {
   name: 'Commande',
   data: function () {
     return {
-      adresse: {
-        id: '',
-        street: '',
-        streetNumber: '',
-        city: '',
-        postCode: '',
+      facture:{
+        adresse: {
+          //id: '',
+          street: '',
+          streetNumber: '',
+          city: '',
+          postCode: '',
+        },
+        panier: '',
       },
       email: '',
       password: '',
@@ -121,11 +124,11 @@ export default {
       return;
     }
     this.$store.dispatch('getUserInfos').then(() => {
-      this.adresse.id = this.$store.state.userInfos.id;
-      this.adresse.street = this.$store.state.userInfos.street;
-      this.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
-      this.adresse.city = this.$store.state.userInfos.city;
-      this.adresse.postCode = this.$store.state.userInfos.postCode;
+      this.facture.adresse.id = this.$store.state.userInfos.id;
+      this.facture.adresse.street = this.$store.state.userInfos.street;
+      this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+      this.facture.adresse.city = this.$store.state.userInfos.city;
+      this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
       console.log(this.$store.state)
     })
   },
@@ -180,8 +183,8 @@ export default {
       localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));
     },
     saveAddress : function(){
-      this.$store.dispatch('changeAddress', this.adresse)
-      //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
+      this.$store.dispatch('changeAddress', this.facture.adresse)
+      //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.facture.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
     },
     reco : function(){
       console.log('je suis la')

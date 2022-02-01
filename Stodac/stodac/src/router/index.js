@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/commande/',
     name: 'Commande',
-    component: () => import('../views/Commande.vue')
+    component: () => import('../views/RecapCommande.vue')
   },
   {
     path: '/add/',
@@ -26,6 +26,11 @@ const routes = [
     path:'/login/',
     name: 'login',
     component: () => import('../views/LoginPage.vue')
+  },
+  {
+    path:'/achat/',
+    name: 'achat',
+    component: () => import('../views/PayementCommande.vue')
   },
   //{
   //  path: '/admin/',

@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Thing = require('../models/Thing');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -57,6 +58,7 @@ exports.getByCity = (req, res) =>{
 };
 
 exports.loginByMail = (req, res, next) => {
+    console.log("jarrivela")
     User.findOne({ email : req.body.email })
         .then(user => {
             if(!user) {
@@ -127,10 +129,71 @@ exports.changeAddress = (req, res) => {
     });
 }
 
+exports.addpanier = (req, res) => {
+    console.log(req.body.length)
+    var pasbon = []
+    User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
+        if(err) console.log(err);
+    });
+    prix_ttl = 0
+    req.body.forEach(function(obj){
+        console.log(obj)
+        console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
+        Thing.find({_id:obj.article._id}, (err, docs) => {
+            console.log(docs[0])
+            console.log(docs[0].qty)
+            console.log(obj)
+            console.log(obj.qty)
+            if(err){
+                console.log(err)
+                pasbon.push(obj.article.name)
+            } else if ((docs[0].qty - obj.qty) >= 0){
+                console.log(req.params.id)
+                prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
+                prix_ttl = prix_ttl + prix_obj_ttl
+                console.log(prix_ttl)
+                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl}}}, (err, docs) =>{
+                    if(err) console.log(err);
+                });
+            } else {
+                console.log("ifjeifehfoiehiofh")
+                pasbon.push(obj.article._id)
+            }
+            if (pasbon.length > 0){
+                console.log("azazazeezzeezzeezezee")
+                User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
+                    if(err) console.log(err);
+                });
+                // envoyer un petit message pour dire que la liste la des composant n'est pu disponible dans c quantité.
+            } else {
+                console.log("opp")
+                // dire que tout est ok !
+            }
+            console.log("ici par contre...")
+        })
+        .then(() => {console.log("mais pas ici par contre...")
+        prix_ttl = Math.round(prix_ttl * 100)/100
+        console.log(prix_ttl)
+        User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
+            if(err) console.log(err);
+        })})
+    });
+    res.send();
+}
+
+exports.resetpanier = (req, res) => {
+    console.log("ça passe")
+    //console.log(req.body.length)
+    User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
+        if(err) console.log(err);
+    });
+    res.send();
+}
+
 /**DELETE Controller */
 
 exports.deleteUser = (req, res) => {
     User.deleteOne({_id:req.params.id})
         .then(() => res.status(200).json({ message : "l'article à bien été suprimé."}))
         .catch(error => res.status(400).json({ error }));
-    };
+};

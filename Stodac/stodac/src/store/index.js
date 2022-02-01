@@ -238,6 +238,41 @@ export default createStore({
         console.log(error)
       })
     },
+    savepanier: (state, panier) => {
+      return new Promise((resolve, reject) => {
+        console.log(state, panier)
+        console.log(panier)
+        console.log("lakazdjifozejfiz")
+        instance.post(`/user/addpanier/${state.state.user.userID}`,panier)
+        .then(function(){
+          console.log('c passer pour le panier')
+          resolve()
+        })
+        .catch(function(error){
+          console.log(error)
+          reject()
+        })
+      })
+    },
+    resetpanier: (state) => {
+      console.log("je suis passer !")
+      instance.get(`/user/resetpanier/${state.state.user.userID}`)
+      .then(function(){
+        console.log('c passer pour le reset')
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+    },
+    saveFacture:(state) => {
+      instance.get(`/facture/create/${state.state.user.userID}`)
+      .then(function(){
+        console.log('c passer pour le la facture')
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+    },
     timeout : ({commit, state}) =>{
       console.log('au moins ça marche')
       commit('changeUserID', state)
