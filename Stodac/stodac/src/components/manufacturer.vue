@@ -36,9 +36,9 @@ export default {
     },
     getByManufacture: function(manufacture){
       if(manufacture !== 'Marques'){
-      this.$store.dispatch('getStufsManufacture', manufacture)
-      .then(this.noItems = 1)
-      .catch(this.noItems = 0)
+        this.$store.dispatch('getStufsManufacture', manufacture)
+            .then(this.noItems = 1)
+            .catch(this.noItems = 0)
       }else{
         this.$store.dispatch('getStufs')
       }
@@ -46,9 +46,9 @@ export default {
   },
   mounted() {
     axios.get('http://localhost:3000/api/stuff/manufacturer')
-    .then((response)=>{
-      this.manufacture = response.data;
-    })
+        .then((response)=>{
+          this.manufacture = response.data;
+        })
   }
 }
 </script>
@@ -58,6 +58,8 @@ export default {
 div{
   max-height: 500px;
   overflow-y: scroll;
+  overflow-x: hidden;
+
 }
 button{
   text-align: start;

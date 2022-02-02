@@ -1,16 +1,16 @@
 <template>
   <div id="nav">
-      <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
-        <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
-        <circle id="Ellipse_4" data-name="Ellipse 4" cx="42" cy="42" r="42" transform="translate(120.424 53.994) rotate(130)" fill="#078a6c"/>
-        <text id="S" transform="translate(36.253 82.171)" fill="#fff" font-size="63" font-family="Poppins" font-weight="700"><tspan x="0" y="0">S</tspan></text>
-        <circle id="Ellipse_6" data-name="Ellipse 6" cx="6" cy="6" r="6" transform="translate(79.253 71.171)" fill="#fff"/>
-      </svg>
+    <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
+      <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
+      <circle id="Ellipse_4" data-name="Ellipse 4" cx="42" cy="42" r="42" transform="translate(120.424 53.994) rotate(130)" fill="#078a6c"/>
+      <text id="S" transform="translate(36.253 82.171)" fill="#fff" font-size="63" font-family="Poppins" font-weight="700"><tspan x="0" y="0">S</tspan></text>
+      <circle id="Ellipse_6" data-name="Ellipse 6" cx="6" cy="6" r="6" transform="translate(79.253 71.171)" fill="#fff"/>
+    </svg>
     <div class="nav_left">
       <router-link to="/">
         Boutique
         <span></span>
-      </router-link> 
+      </router-link>
       <!--<router-link to="/">
         Aide
         <span></span>
@@ -27,8 +27,10 @@
           <path id="Tracé_3" data-name="Tracé 3" d="M38.2,42.746H13a9.26,9.26,0,0,1-9-9.5v-7.6a1.923,1.923,0,0,1,.882-1.634l9-5.7a1.753,1.753,0,0,1,2.3.776,1.968,1.968,0,0,1-.5,2.492L7.6,26.729v6.517a5.556,5.556,0,0,0,5.4,5.7H38.2a5.556,5.556,0,0,0,5.4-5.7V26.729L35.482,21.58a1.948,1.948,0,0,1-.1-3.411,1.721,1.721,0,0,1,1.9.143l9,5.7a1.919,1.919,0,0,1,.918,1.634v7.6a9.26,9.26,0,0,1-9,9.5Z" transform="translate(-4 11.254)" fill="#fff"/>
         </svg>
       </button>
+      <transition name="nbPannier">
+        <div id="nbPannier" v-if="$store.state.pannier.length!==0"><span>{{$store.state.pannier.length}}</span></div>
+      </transition>
 
-      <div id="nbPannier" v-if="$store.state.pannier.length!==0"><span>{{$store.state.pannier.length}}</span></div>
       <button class="pannier icon" @click="openPannier()">
         <svg xmlns="http://www.w3.org/2000/svg" width="66.044" height="54.375" viewBox="0 0 66.044 54.375">
           <g id="basket_icon-icons.com_67985" transform="translate(0 0)">
@@ -38,10 +40,10 @@
       </button>
     </div>
   </div>
-    <div class="banner">
-      <h1 class="titre">Stodac.</h1>
-      <p class="slogan">Vente de poêles à granulés et assistance technique.</p>
-    </div>
+  <div class="banner">
+    <h1 class="titre">Stodac.</h1>
+    <p class="slogan">Vente de poêles à granulés et assistance technique.</p>
+  </div>
 
   <router-view/>
 
@@ -55,49 +57,49 @@
   </footer>
 </template>
 <script>
-  import Login from '@/components/Login.vue'
-  import LogedIn from '@/components/LogedIn.vue'
-  import Pannier from './components/Pannier.vue'
+import Login from '@/components/Login.vue'
+import LogedIn from '@/components/LogedIn.vue'
+import Pannier from './components/Pannier.vue'
 
-  export default {
-    name: 'nav',
-    data: function (){
-      return{
-        tryToLog: false,
-        icon: 'icon',
-        login:'',
-        loginData : Login.data,
-        pannier: false
-      }
-    },
-    methods:{
-      connection(){
-        this.pannier = false;
-        this.tryToLog = !this.tryToLog;
-        if(this.tryToLog){
-          this.login = 'login';
-        }else{
-          this.login = '';
-        }
-      },
-      logCloseLogin(){
-        this.tryToLog = false;
-        this.login = '';
-      },
-      openPannier(){
-        this.pannier = !this.pannier;
-        this.tryToLog = false;
-      },
-      closePannier(){
-        this.pannier = false;
-      }
-    },
-    components: {
-      Login,
-      LogedIn,
-      Pannier
+export default {
+  name: 'nav',
+  data: function (){
+    return{
+      tryToLog: false,
+      icon: 'icon',
+      login:'',
+      loginData : Login.data,
+      pannier: false
     }
+  },
+  methods:{
+    connection(){
+      this.pannier = false;
+      this.tryToLog = !this.tryToLog;
+      if(this.tryToLog){
+        this.login = 'login';
+      }else{
+        this.login = '';
+      }
+    },
+    logCloseLogin(){
+      this.tryToLog = false;
+      this.login = '';
+    },
+    openPannier(){
+      this.pannier = !this.pannier;
+      this.tryToLog = false;
+    },
+    closePannier(){
+      this.pannier = false;
+    }
+  },
+  components: {
+    Login,
+    LogedIn,
+    Pannier
   }
+}
 </script>
 
 <style>
@@ -213,5 +215,23 @@ button.login {
   color: White;
   margin-right: 5vw
 }
+.nbPannier-enter-active {
+  animation: bounce-in .5s;
+}
+.nbPannier-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 </style>

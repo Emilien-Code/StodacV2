@@ -38,8 +38,8 @@ export default {
       if(category !== 'Catégories'){
         console.log('catégory selected', category)
         this.$store.dispatch('getStufsCategory', category)
-        .then(this.noItems = 1)
-        .catch(this.noItems = 0)
+            .then(this.noItems = 1)
+            .catch(this.noItems = 0)
       }else{
         this.$store.dispatch('getStufs')
       }
@@ -56,6 +56,8 @@ export default {
 div{
   max-height: 500px;
   overflow-y: scroll;
+  overflow-x: hidden;
+
 }
 button{
   text-align: start;
