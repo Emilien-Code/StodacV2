@@ -2,29 +2,29 @@
   <div id="Commande" v-if="userInfos.firstName">    
           <!-- <h1 style="text-align:center ; margin:40px 0;" >Commande</h1> -->
 
-        <div class="container">
-          <p class="title">Commanditaire</p>
-          <div class="inputsContainer">
-            <p class="petit">{{userInfos.lastName}}</p>
-            <p class="grand">{{userInfos.firstName}}</p>
-          </div>
-          <div class="inputsContainer">
-            <p class="grand">{{userInfos.email}}</p>
-            <p class="petit">{{userInfos.mobile}}</p>
-          </div>
+      <div class="container">
+        <p class="title">Commanditaire</p>
+        <div class="inputsContainer">
+          <input class="small" type="text" placeholder="Nom" v-model="userInfos.lastName">
+          <input class="big" type="text" placeholder="Prénom" v-model="userInfos.firstName">
         </div>
-        <div></div>
+        <div class="inputsContainer">
+          <input class="big" type="email" placeholder="Email" v-model="userInfos.email">
+          <input class="small" type="tel" placeholder="Numérot de téléphone" v-model="userInfos.mobile">
+        </div>
+
+      </div>
 
 
         <div class="container">
           <p class="title">Adresse</p>
           <div class="inputsContainer">
-            <input class="numerot" type="number" placeholder="Numérot" v-model="facture.adressestreetNumber">
-            <input class="rue" type="text" placeholder="Rue" v-model="facture.adressestreet">
+            <input class="small" type="number" placeholder="Numérot" v-model="userInfos.streetNumber">
+            <input class="big" type="text" placeholder="Rue" v-model="userInfos.street">
           </div>
           <div class="inputsContainer">
-            <input class="ville" type="text" placeholder="Ville" v-model="facture.adressecity">
-            <input class="postal" type="number" placeholder="Code postale" v-model="facture.adressepostCode">
+            <input class="big" type="text" placeholder="Ville" v-model="userInfos.city">
+            <input class="small" type="number" placeholder="Code postale" v-model="userInfos.postCode">
           </div>
           <div class="inputsContainer">
           <div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>
@@ -49,7 +49,7 @@
 
                 <div class="qty">
                   </div>
-                  <span type="number">{{article.qty}}</span>
+                  <span type="number"> qté: {{article.qty}}</span>
                     <div class="plus_horizontal"></div>
                   </div>
                   <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span>
@@ -108,14 +108,14 @@ export default {
   },
   mounted: function(){
     const script = document.createElement("script");
-    script.src =
-        "https://www.paypal.com/sdk/js?client-id=test";
+    script.src = "https://www.paypal.com/sdk/js?client-id=ASOWp-_1zxWf4EXEzuc47swzhquPSB2XchEHOTMB8Ymv_KwnbQvBXRK9M6BFKqhSMTl90dMSp_qxVQxJ&currency=EUR";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
+
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/');
-      return;
     }
+
     console.log("jzeofzeofeuehzufhyuizfuizfizifgzyygfzuyigfuyz")
     this.$store.dispatch('getUserInfos').then(() => {
       this.facture.adresse.id = this.$store.state.userInfos.id;
@@ -137,13 +137,11 @@ export default {
       window.paypal
           .Buttons({
             createOrder: (data, actions) => {
-              //ici faut tester qu'on est bien co ça race mais a faire une fois qu'on aura le token eheh
               return actions.order.create({
                 purchase_units: [
                   {
-                    description: this.product.description,
+                    description: this.description,
                     amount: {
-                      currency_code: "EUR",
                       value: this.total
                     }
                   }
@@ -223,24 +221,19 @@ export default {
 .container{
   margin-bottom: 100px;
 }
-.numerot,.postal,.petit{
+.small{
   width: 350px;
   margin: 12.5px;
 }
-.numerot,.postal,.rue,.ville{
-  border-radius: 2px;
+.big{
+  margin: 12.5px;
+  width : 450px;
+}
+.small,.big{
+  border-radius: 10px;
   padding:8px;
   border: solid #007057 2px;
   background:#fafafa;
-  font-weight: 500;
-  font-size: 16px;
-  color: black;
-}
-.petit,.grand{
-  border-radius: 2px;
-  padding:8px;
-  border: solid #007057 2px;
-  background:#dddddd;
   font-weight: 500;
   font-size: 16px;
   color: black;
@@ -259,10 +252,7 @@ export default {
   color:#007057;
   margin-left: 21.4%;
 }
-.rue,.ville,.grand{
-  margin: 12.5px;
-  width : 450px
-}
+
 
 .Produit{
     display: flex;

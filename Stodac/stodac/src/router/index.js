@@ -28,8 +28,8 @@ const routes = [
     component: () => import('../views/LoginPage.vue')
   },
   {
-    path:'/achat/',
-    name: 'achat',
+    path:'/payement/',
+    name: 'payement',
     component: () => import('../views/PayementCommande.vue')
   },
   //{
