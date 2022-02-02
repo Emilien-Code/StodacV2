@@ -11,11 +11,22 @@
       </div>
       <div>
         <span>Marque :</span>
-        <input type="text" v-model="item.manufacturer">
+
+        <select id="marque" v-model="item.manufacturer">
+          <option v-for="man in manufactureList" :value="man" :key="man">{{ man }}</option>
+        </select>
+
+        OU
+
+        nouvelle marque :<input type="text" v-model="item.manufacturer">
+
       </div>
       <div>
         <span>État : (neuf ou occasion) :</span>
-        <input type="text" v-model="item.state">
+        <select id="state" v-model="item.state">
+          <option value="Neuf">neuf</option>
+          <option value="Occasion">Occasion</option>
+        </select>
       </div>
       <div>
         <span>Quantitée :</span>
@@ -31,7 +42,8 @@
       </div>
       <div>
         <span>Compatibilités :</span>
-        <input type="text" v-model="item.compatibility[0]">
+        <input v-for="(comp, index) in compatibilities" :key="comp" type="text" v-model="item.compatibility[index]"/>
+        <button @click="addComp()">+</button>
       </div><!-- VMODEL compatibility[0] -->
       <div>
         <span>Description : </span>
@@ -39,7 +51,7 @@
       </div>
       <div>
         <span>Image : </span>
-        <input type="file">
+        <input type="file" id="file" ref="file" name="first" @change="handleFileUploaded()"/>
       </div>
 
 
@@ -70,15 +82,46 @@ export default {
         img: "",
         state: "",
         description: "",
-      }
+
+      },
+      file : '',
+      manufactureList : [],
+      compatibilities: 1
     }
   },
   mounted: function(){
     this.$store.dispatch('getUserInfos');
+    axios.get('http://localhost:3000/api/stuff/manufacturer')
+        .then((response)=>{
+          this.manufactureList = response.data;
+        })
   },
   methods : {
+    handleFileUploaded(){
+      this.file = this.$refs.file.files[0]
+    },
     create : function(){
-      axios.post('http://localhost:3000/api/stuff/',this.item);
+      const fd = new FormData()
+      fd.append('image', this.file)
+      fd.append('name', this.item.name)
+      fd.append('manufacturer', this.item.manufacturer)
+      fd.append('qty', this.item.qty)
+      fd.append('price', this.item.price)
+      fd.append('poids', this.item.poids)
+      fd.append('reference', this.item.reference)
+      fd.append('category', this.item.category)
+      fd.append('state', this.item.state)
+      fd.append('description', this.item.description)
+      fd.append('compatibility', this.item.compatibility)
+      axios.post('http://localhost:3000/api/stuff/',fd)
+          .then(res=>{
+            console.log(res)
+          });
+    },
+    addComp : function (){
+      this.compatibilities++
+      console.log(this.compatibilities)
+      console.log(this.item.compatibility)
     }
   }
 }

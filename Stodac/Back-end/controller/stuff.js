@@ -74,8 +74,18 @@ exports.createNewStuff = (req, res)=>{
     console.log(req.body);
 
     const thing = new Thing({
-        ...req.body, 
-        //img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        name: req.body.name,
+        manufacturer: req.body.manufacturer,
+        qty: req.body.qty,
+        price: req.body.price,
+        poids: req.body.poids,
+        reference: req.body.reference,
+        category: req.body.category,
+        state: req.body.state,
+        description: req.body.description,
+        compatibility: req.body.compatibility,
+
+        img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
     thing.save()
         .then(() => res.status(201).json({ message: "Article enregistré" }))
