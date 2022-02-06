@@ -35,16 +35,16 @@
         <div class="container">
           <p class="title">Récapitulatif de la commande</p>
           <div class="PContainer">
-            <div  v-for="article in userInfos.pannier" :key="article">
+            <!-- <div  v-for="article in userInfos.pannier" :key="article">
               <div class="Produit">
                 <img :src="article.articleImg" alt="">
                 <div class="txts">
 
                   <span class="product-name"  style="color:#419D79;font-weight:bold">{{article.articleName}}</span><br>
-                  <!-- <span class="product-name"  style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span><br> -->
+                  <span class="product-name"  style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span><br>
 
                   <p class="desc">{{article.articleDescription}}</p>
-                  <!-- <p class="desc">{{article}}</p> -->
+                  <p class="desc">{{article}}</p>
                 </div>
 
                 <div class="qty">
@@ -54,15 +54,40 @@
                   </div>
                   <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span>
                 </div>
-                  <!-- <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span> -->
+                  <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span>
                   <div></div>
                   <div></div>
                 </div>
           </div>
             <p class="title" style="margin-left: 40%">TOTAL : {{ userInfos.prix_ttl_panier }}</p>
-            <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
-
-
+            <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p> -->
+            <table>
+              <thead>
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>Nom</th>
+                  <th>Prix unité</th>
+                  <th>Quantité</th>
+                  <th>Prix</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th colspan="5">TOTAL : {{userInfos.prix_ttl_panier}}</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr v-for="(article) in userInfos.pannier" :key="article">
+                  <td><img :src="article.articleImg" alt=""></td>
+                  <td>{{article.articleName}}</td>
+                  <td>{{article.articlePrice}}</td>
+                  <td>{{article.qty}}</td>
+                  <td>{{article.prix_ttl}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
         <button @click="saveFacture()" class="button">test</button>
 
@@ -118,17 +143,19 @@ export default {
 
     console.log("jzeofzeofeuehzufhyuizfuizfizifgzyygfzuyigfuyz")
     this.$store.dispatch('getUserInfos').then(() => {
-      this.facture.adresse.id = this.$store.state.userInfos.id;
-      this.facture.adresse.street = this.$store.state.userInfos.street;
-      this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
-      this.facture.adresse.city = this.$store.state.userInfos.city;
-      this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
-      console.log("eaueueuaheuazueh")
-      console.log(this.$store.state.userInfos.pannier)
-      this.panier = this.$store.state.userInfos.pannier
-      console.log(this.panier.length)
-      console.log(this.panier[0].articleDescription)
-      console.log(this.$store.state)
+      // console.log("la je test")
+      // console.log(this.$store.state.userInfos)
+      // this.facture.adresse.id = this.$store.state.userInfos.id;
+      // this.facture.adresse.street = this.$store.state.userInfos.street;
+      // this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+      // this.facture.adresse.city = this.$store.state.userInfos.city;
+      // this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+      // console.log("eaueueuaheuazueh")
+      // console.log(this.$store.state.userInfos.pannier)
+      // this.panier = this.$store.state.userInfos.pannier
+      // console.log(this.panier.length)
+      // console.log(this.panier[0].articleDescription)
+      // console.log(this.$store.state)
     })
   },
   methods:{
@@ -189,7 +216,23 @@ export default {
       this.$router.push('/login/');
     },
     saveFacture: function(){
-      this.$store.dispatch('saveFacture')
+      var option = {
+        lastname:this.userInfos.lastName,
+        firstname:this.userInfos.firstName,
+        mobile:this.userInfos.mobile,
+        email:this.userInfos.email,
+        street:this.userInfos.street,
+        city:this.userInfos.city,
+        streetNumber:this.userInfos.streetNumber,
+        postCode:this.userInfos.postCode
+      }
+      console.log(option)
+      this.$store.dispatch('saveFacture', option)
+      .then(()=>{
+        console.log("jarrivepasla")
+        this.$store.dispatch('resetpanier', this.$store.state.pannier)
+        this.$router.push('/finiCommande/');
+      })
     }
   },
   computed: {
@@ -382,5 +425,37 @@ ul,li{
   top : 600px;
   right: 19%;
 
+}
+table{
+  table-layout: fixed;
+  width: 60%;
+  border-collapse: collapse;
+  /* border-bottom: ; */
+}
+thead th:nth-child(1), tbody td:nth-child(1){
+  width: 220px;
+  text-align: center;
+}
+thead th:nth-child(2), tbody td:nth-child(2){
+  width: 290px;
+  text-align: left;
+}
+thead th:nth-child(3), tbody td:nth-child(3){
+  width: 125px;
+  text-align: right;
+}
+thead th:nth-child(4), tbody td:nth-child(4){
+  width: 125px;
+  text-align: right;
+}
+thead th:nth-child(5), tbody td:nth-child(5){
+  width: 125px;
+  text-align: right;
+}
+td, thead th{
+  border-bottom: 2px solid black;
+}
+tfoot th{
+  text-align: right
 }
  </style>

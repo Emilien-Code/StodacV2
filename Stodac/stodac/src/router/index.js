@@ -32,6 +32,17 @@ const routes = [
     name: 'payement',
     component: () => import('../views/PayementCommande.vue')
   },
+  {
+    path:'/finiCommande/',
+    name: 'finiCommande',
+    component: () => import('../views/Merci.vue')
+  },
+  {
+    path:'/facture/:numfacture',
+    name: 'facture',
+    params: true,
+    component: () => import('../views/Facture.vue')
+  },
   //{
   //  path: '/admin/',
   //  name: 'admin',
