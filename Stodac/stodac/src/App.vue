@@ -11,14 +11,14 @@
         Boutique
         <span></span>
       </router-link>
-      <!--<router-link to="/">
-        Aide
+      <router-link to="/mesCommandes/">
+        Mes commandes
         <span></span>
       </router-link>
-      <router-link to="/">
-        Contact
+      <router-link v-if="userInfos.admin" to="/allCommandes/">
+        Commandes Admin
         <span></span>
-      </router-link>-->
+      </router-link>
     </div>
     <div class="nav_right">
       <button :class="{login, icon}" @click="connection()">
@@ -60,6 +60,7 @@
 import Login from '@/components/Login.vue'
 import LogedIn from '@/components/LogedIn.vue'
 import Pannier from './components/Pannier.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'nav',
@@ -69,7 +70,15 @@ export default {
       icon: 'icon',
       login:'',
       loginData : Login.data,
-      pannier: false
+      pannier: false,
+    }
+  },
+  mounted: function(){
+    if(this.$store.state.user.userID !== -1){
+      this.$store.dispatch('getUserInfos').then(()=>{
+        console.log("la il y a le userInfo")
+        console.log(this.userInfos)
+      })
     }
   },
   methods:{
@@ -98,6 +107,9 @@ export default {
     Login,
     LogedIn,
     Pannier
+  },
+  computed: {
+    ...mapState(['userInfos']),
   }
 }
 </script>

@@ -62,9 +62,16 @@ export default createStore({
     logOut: function(state){
       state.user = {
           userID: -1,
-          token: ''
+          token: '',
       }
+      state.userInfos = {
+        lastName:'',
+        firstName:'',
+        email:'',
+        admin:false
+      },
       localStorage.removeItem('user');
+      localStorage.removeItem('userInfos')
     },
     userInfos : function(state, userInfos){
       console.log('je passe la mtn')

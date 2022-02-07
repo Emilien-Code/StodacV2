@@ -43,6 +43,16 @@ const routes = [
     params: true,
     component: () => import('../views/Facture.vue')
   },
+  {
+    path:'/mesCommandes/',
+    name: 'mesCommandes',
+    component: () => import('../views/mesCommandes.vue')
+  },
+  {
+    path:'/allCommandes/',
+    name: 'allCommandes',
+    component: () => import('../views/allCommandes.vue')
+  },
   //{
   //  path: '/admin/',
   //  name: 'admin',

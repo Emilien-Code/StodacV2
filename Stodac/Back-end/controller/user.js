@@ -207,6 +207,7 @@ exports.addpanier = (req, res) => {
             } else if ((docs[0].qty - obj.qty) >= 0){
                 console.log(req.params.id)
                 prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
+                prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
                 console.log(prix_ttl)
                 User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl}}}, (err, docs) =>{
