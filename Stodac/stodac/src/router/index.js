@@ -33,9 +33,21 @@ const routes = [
     component: () => import('../views/PayementCommande.vue')
   },
   {
-    path: '/commande*',
-    component: () => import('../views/notFound.vue')
-  }
+    path:'/finiCommande/',
+    name: 'finiCommande',
+    component: () => import('../views/Merci.vue')
+  },
+  {
+    path:'/facture/:numfacture',
+    name: 'facture',
+    params: true,
+    component: () => import('../views/Facture.vue')
+  },
+  //{
+  //  path: '/admin/',
+  //  name: 'admin',
+  //  component: () => import('../views/admin.vue')
+  //}
 ]
 
 const router = createRouter({

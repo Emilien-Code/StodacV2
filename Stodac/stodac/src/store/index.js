@@ -129,6 +129,10 @@ export default createStore({
       });
       localStorage.setItem('pannier', JSON.stringify(state.pannier));
     },
+    resetPanier: function(state){
+      state.pannier = []
+      localStorage.setItem('pannier', JSON.stringify(state.pannier));
+    },
     changeUserID : function(state){
       console.log('eh oh')
       state.user.token = "dfuahgu"
@@ -254,23 +258,42 @@ export default createStore({
         })
       })
     },
-    resetpanier: (state) => {
+    resetpanier: ({commit, state}) => {
       console.log("je suis passer !")
-      instance.get(`/user/resetpanier/${state.state.user.userID}`)
+      instance.get(`/user/resetpanier/${state.user.userID}`)
       .then(function(){
+        commit('resetPanier')
         console.log('c passer pour le reset')
       })
       .catch(function(error){
         console.log(error)
       })
     },
-    saveFacture:(state) => {
-      instance.get(`/facture/create/${state.state.user.userID}`)
-      .then(function(){
-        console.log('c passer pour le la facture')
+    saveFacture:(state, option) => {
+      return new Promise((resolve, reject) => {
+        instance.post(`/user/addCommande/${state.state.user.userID}`, option)
+        .then(function(){
+          console.log('c passer pour le la facture')
+          resolve()
+        })
+        .catch(function(error){
+          console.log(error)
+          reject()
+        })
       })
-      .catch(function(error){
-        console.log(error)
+    },
+    getFacture:(state, numFacture) => {
+      return new Promise((resolve, reject) => {
+        console.log(numFacture)
+        instance.get(`/user/facture/${state.state.user.userID}/${numFacture}`)
+        .then(function(response){
+          console.log(response.data)
+          resolve(response.data)
+        })
+        .catch(function(error){
+          console.log(error)
+          reject(null)
+        })
       })
     },
     timeout : ({commit, state}) =>{

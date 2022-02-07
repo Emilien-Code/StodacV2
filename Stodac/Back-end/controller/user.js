@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Thing = require('../models/Thing');
 //"use strict";
 const nodemailer = require("nodemailer");
+const { rawListeners } = require('../models/User');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -16,9 +17,9 @@ exports.signup = (req, res, next) => {
                 lastName : req.body.lastName,
                 street:  "", 
                 city:  "",
-                streetNumber: 54000,
-                postCode: 10,
-                country: "FRA",
+                streetNumber: -1,
+                postCode: -1, 
+                country: "",
                 admin: false,
                 mobile: req.body.mobile
             });
@@ -78,6 +79,24 @@ exports.getInfos = (req, res) =>{
        res.send(docs);
    });
 };
+
+exports.getFacture = (req, res) =>{
+    num = req.params.id+req.params.numfacture
+    // num = parseInt(num)
+    console.log(num)
+    User.find({"_id":req.params.id},{"comande":{"$elemMatch":{"id":num}}}, (err, docs)=>{
+        if(err) console.log(err);
+        // console.log(docs[0])
+        console.log(docs)
+        res.send(docs[0])
+    })
+    // User.aggregate([{$match:{"_id":req.params.id}}, {$project: {comande: {$filter: {input: '$comande', as: 'com', cond: {$eq: ['$$com.id', num]}}}}}], (err, docs)=>{
+    //         if(err) console.log(err);
+    //         // console.log(docs[0])
+    //         console.log(docs)
+    //         res.send(docs[0])
+    //     })
+}
 
 exports.getByEmail = (req, res) =>{
     User.find({email:req.params.email}, (err, docs)=>{
@@ -172,6 +191,8 @@ exports.addpanier = (req, res) => {
         if(err) console.log(err);
     });
     prix_ttl = 0
+    ttl_a_faire = req.body.length
+    jensuis = 0
     req.body.forEach(function(obj){
         console.log(obj)
         console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
@@ -197,6 +218,7 @@ exports.addpanier = (req, res) => {
             }
             if (pasbon.length > 0){
                 console.log("azazazeezzeezzeezezee")
+                prix_obj_ttl = 0
                 User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
@@ -208,13 +230,116 @@ exports.addpanier = (req, res) => {
             console.log("ici par contre...")
         })
         .then(() => {console.log("mais pas ici par contre...")
-        prix_ttl = Math.round(prix_ttl * 100)/100
-        console.log(prix_ttl)
-        User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
-            if(err) console.log(err);
-        })})
+            prix_ttl = Math.round(prix_ttl * 100)/100
+            console.log(prix_ttl)
+            User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
+                if(err) console.log(err);
+            }).then(()=>{
+                jensuis += 1
+                if (jensuis == ttl_a_faire){
+                    console.log("ditmoiqueçasortmtnlatoutalafin")
+                    res.send()
+                }
+            })
+        })
     });
-    res.send();
+}
+
+exports.newCommand = (req, res) => {
+    materiels_crea = []
+    req_id = req.params.id
+    console.log("ça commence")
+    User.find({_id:req_id}, (err, docs) => {
+        docs[0].pannier.forEach(function(object){
+            materiel = {
+                obj:{
+                    id: object.articleID,
+                    reference: object.articleRef,
+                    name: object.articleName,
+                    img: object.articleImg,
+                    price: object.articlePrice,
+                },
+                qty: object.qty,
+                prix_ttl: object.prix_ttl
+            }
+            materiels_crea.push(materiel)
+        })
+        prix_ttl_crea = docs[0].prix_ttl_panier
+        console.log("jaifini")
+        facture_crea = {
+            lastname: req.body.lastname,
+            firstname: req.body.firstname,
+            mobile: req.body.mobile,
+            email: req.body.email,
+            street: req.body.street,
+            city: req.body.city,
+            streetNumber: req.body.streetNumber,
+            postCode: req.body.postCode,
+            moyendepayement: "rien",
+        }
+        ajd = new Date()
+        // console.log(ajd.getDate())
+        ajd = String(ajd.getDate()) + "/" + String(ajd.getMonth() + 1) + "/" + String(ajd.getFullYear())
+        numerocommande = String(docs[0].comande.length + 1)
+        for(var i = 0; numerocommande.length <= 5; i++){
+            numerocommande = "0"+numerocommande
+        }
+        lacommande = {
+            id:docs[0]._id+numerocommande,
+            materiels: materiels_crea,
+            facture: facture_crea,
+            prix_ttl: prix_ttl_crea,
+            date: ajd,
+            etat: 0,
+            fini: false
+        }
+        console.log(materiels_crea)
+        console.log(lacommande)
+        User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+            if(err) console.log(err);
+            console.log(docs)
+            res.send()
+        })
+        // .then(()=>{})
+    })
+    // .then(()=>{
+        // facture_crea = {
+        //     street: req.body.street,
+        //     city: req.body.city,
+        //     streetNumber: req.body.streetNumber,
+        //     postCode: req.body.postCode,
+        //     moyendepayement: "rien",
+        // }
+        // ajd = new Date()
+        // ajd = String(ajd.getDay()) + "/" + String(ajd.getMonth() + 1) + "/" + String(ajd.getFullYear())
+        // lacommande = {
+        //     materiels: materiels_crea,
+        //     facture: facture_crea,
+        //     date: ajd,
+        //     fini: false
+        // }
+        // console.log(materiels_crea)
+        // console.log(lacommande)
+        // User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+        //     if(err) console.log(err);
+        //     console.log(docs)
+        // }).then(()=>{res.send()})
+    // })
+    // commande = {
+    //     materiels: materiels_crea,
+    //     facture: facture_crea,
+    //     date: ajd,
+    //     fini: false
+    // }
+    // userID: docs[0]._id,
+    // street: docs[0].street,
+    // city: docs[0].city,
+    // streetNumber: docs[0].streetNumber,
+    // command: docs[0].pannier,
+    // postCode: docs[0].postCode,
+    // prix: docs[0].prix_ttl_panier,
+    // moyendepayement: "rien",
+    // prixpayer: 0
 }
 
 exports.resetpanier = (req, res) => {
