@@ -32,11 +32,10 @@ const routes = [
     name: 'payement',
     component: () => import('../views/PayementCommande.vue')
   },
-  //{
-  //  path: '/admin/',
-  //  name: 'admin',
-  //  component: () => import('../views/admin.vue')
-  //}
+  {
+    path: '/commande*',
+    component: () => import('../views/notFound.vue')
+  }
 ]
 
 const router = createRouter({

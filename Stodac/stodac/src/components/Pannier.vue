@@ -11,7 +11,7 @@
               <img :src="article.article.img" alt="">
               <div class="txts">
                   <span class="product-name">{{article.article.name}}</span><br>
-                  <span class="product-price" style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}</span>
+                  <span class="product-price" style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}€</span>
               </div>
               <div class="qty">
                 <button class="qty_button" id=plus @click="more(i, article.article._id)">

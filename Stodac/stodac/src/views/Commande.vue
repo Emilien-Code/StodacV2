@@ -1,5 +1,5 @@
 <template>
-  <div id="Commande" v-if="userInfos.firstName">    
+  <div id="Commande" v-if="userInfos.firstName">
           <!-- <h1 style="text-align:center ; margin:40px 0;" >Commande</h1> -->
 
         <div class="container">
@@ -13,8 +13,6 @@
             <p class="petit">{{userInfos.mobile}}</p>
           </div>
         </div>
-        <div></div>
-
 
         <div class="container">
           <p class="title">Adresse</p>
@@ -74,7 +72,7 @@
   <div class="Payment">
         <div ref="paypal"></div>
   </div>
- 
+
 
 </div>
 <div v-else>
@@ -84,8 +82,6 @@
   </div>
 </div>
 </template>
-
-
 
 
 <script>
@@ -205,10 +201,6 @@ export default {
 }
 
 </script>
-
-
-
-
 
  <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');

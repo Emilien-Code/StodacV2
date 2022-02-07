@@ -112,11 +112,12 @@ export default {
       fd.append('category', this.item.category)
       fd.append('state', this.item.state)
       fd.append('description', this.item.description)
-      fd.append('compatibility', this.item.compatibility)
+      fd.append('compatibility', JSON.stringify(this.item.compatibility))
       axios.post('http://localhost:3000/api/stuff/',fd)
           .then(res=>{
             console.log(res)
           });
+      console.log(this.item.compatibility)
     },
     addComp : function (){
       this.compatibilities++

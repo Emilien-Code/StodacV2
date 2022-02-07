@@ -12,21 +12,21 @@
     <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
 
     <div class="form-row">
-      <input v-model="email" class="form-row__input" type="text" placeholder="Adresse mail"/>
+      <input v-model="email" :class="{'form-row__input': true, 'validFields': mailValidation, 'unvalidField': !mailValidation&&this.email!==''}" type="text" placeholder="Adresse mail"/>
     </div>
 
     <div class="form-row" v-if="mode === 'create'">
-      <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
-      <input v-model="lastName" class="form-row__input" type="text" placeholder="Nom"/>
+      <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
+      <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
     </div>
     <div class="form-row" v-if="mode === 'create'">
-      <input v-model="mobile" class="form-row__input" type="tel" placeholder="Numéro de téléphone"/>
+      <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
     </div>
     <div class="form-row">
-      <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe"/>
+      <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
     </div>
     <div class="form-row" v-if="mode === 'create'">
-      <input v-model="passwordVerif" class="form-row__input" type="password" placeholder="Vérification du mot de passe"/>
+      <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
     </div>
     <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
       Adresse mail et/ou mot de passe invalide
@@ -68,10 +68,22 @@ export default {
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
-        return this.email !== "" && this.firstName !== "" && this.lastName !== "" && this.password !== "";
+        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.phoneValidation;
       } else {
-        return this.email !== "" && this.password !== "";
+        return this.mailValidation && this.passwordValidation
       }
+    },
+    mailValidation: function(){
+      const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regexp.test(String(this.email).toLowerCase());
+    },
+    phoneValidation: function(){
+      const regexp = /^[0-9]{10}$/;
+      return regexp.test(String(this.mobile));
+    },
+    passwordValidation: function(){
+      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
+      return regexp.test(String(this.password));
     },
     ...mapState(['status'])
   },
@@ -86,11 +98,17 @@ export default {
       this.$parent.logCloseLogin();
     },
     login: function(){
-      this.$store.dispatch('login',{
-        email: this.email,
-        password:this.password
-      }).then(function(){console.log("user loggedIn")})
-        .catch(function(error){console.log("cannot log", error)})
+      if(this.validatedFields) {
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password
+        }).then(function () {
+          console.log("user loggedIn")
+        })
+            .catch(function (error) {
+              console.log("cannot log", error)
+            })
+      }
     },
     createAccount: function(){
       const a = this;
@@ -130,6 +148,8 @@ export default {
     flex:1;
     min-width: 100px;
     color: black;
+    border: solid 2px #ffffff;
+    transition : 1s;
   }
 
   .form-row__input::placeholder {
@@ -230,6 +250,20 @@ export default {
     cursor:not-allowed;
     background:#cecece;
   }
+
+.unvalidField{
+  border: solid 2px #F18F01;
+  transition: 1s;
+
+}
+.validFields{
+  transition: 1s;
+  border: solid 2px #078A6C;
+}
+.emptyField{
+  border: solid 2px #000!important;
+}
+textarea, select, input, button { outline: none; }
 
 
 </style>

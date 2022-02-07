@@ -184,7 +184,6 @@ export default {
       //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.facture.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
     },
     reco : function(){
-      console.log('je suis la')
       this.$store.commit('logOut');
       this.$router.push('/login/');
     },
@@ -247,13 +246,10 @@ export default {
 .PContainer{
   flex-direction: column;
 }
-
 .title{
   color:#007057;
   margin-left: 21.4%;
 }
-
-
 .Produit{
     display: flex;
     flex-direction:row;
@@ -369,8 +365,6 @@ ul,li{
   padding: 12px;
   transition: .4s background-color;
 }
-
-
 .button:hover {
   cursor:pointer;
   background: #078A6C;

@@ -2,6 +2,8 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Thing = require('../models/Thing');
+//"use strict";
+const nodemailer = require("nodemailer");
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -14,14 +16,48 @@ exports.signup = (req, res, next) => {
                 lastName : req.body.lastName,
                 street:  "", 
                 city:  "",
-                streetNumber: -1,
-                postCode: -1, 
-                country: "",
+                streetNumber: 54000,
+                postCode: 10,
+                country: "FRA",
                 admin: false,
                 mobile: req.body.mobile
             });
             user.save()
-            .then(()=> res.status(201).json({ message : 'Utilisateur Créé'}))
+            .then(()=>{
+
+// async..await is not allowed in global scope, must use a wrapper
+                async function main() {
+                    // create reusable transporter object using the default SMTP transport
+                    let transporter = nodemailer.createTransport({
+                        host: "ssl0.ovh.net",
+                        port: 465,
+                        secure: true, // true for 465, false for other ports
+                        auth: {
+                            user: "boutique@stodac.fr", // generated ethereal user
+                            pass: "Bouboustodac@54360", // generated ethereal password
+                        },
+                    });
+
+                    // send mail with defined transport object
+                    let info = await transporter.sendMail({
+                        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                        to: req.body.email, // list of receivers
+                        subject: "Création de compte", // Subject line
+                        text: "Bonjour, vous venez de créer un compte sur la boutique en ligne Stodac.fr, merci de votre confiance !", // plain text body
+                        html: "<b>Bonjour, bous venez de créer un compte sur la boutique en ligne Stodac.fr, merci de votre confiance !</b>", // html body
+                    });
+
+                    console.log("Message sent: %s", info.messageId);
+                    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+                    // Preview only available when sending through an Ethereal account
+                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                }
+
+                main().catch(console.error);
+                console.log("test")
+             res.status(201).json({ message : 'Utilisateur Créé'})})
             .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json( { error }))

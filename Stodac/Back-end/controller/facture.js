@@ -14,7 +14,7 @@ exports.createFactue = (req, res)=>{
             command: docs[0].pannier,
             postCode: docs[0].postCode,
             prix: docs[0].prix_ttl_panier,
-            moyendepayement: "rien",
+            moyendepayement: "Paypal",
             prixpayer: 0
         })
         console.log(facture)

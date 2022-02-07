@@ -83,8 +83,7 @@ exports.createNewStuff = (req, res)=>{
         category: req.body.category,
         state: req.body.state,
         description: req.body.description,
-        compatibility: req.body.compatibility,
-
+        compatibility: JSON.parse(req.body.compatibility),
         img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
     thing.save()
