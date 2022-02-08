@@ -1,7 +1,5 @@
 <template>
-  <div id="Commande" v-if="userInfos.firstName">    
-          <!-- <h1 style="text-align:center ; margin:40px 0;" >Commande</h1> -->
-
+  <div id="Commande" v-if="userInfos.firstName">
       <div class="container">
         <p class="title">Commanditaire</p>
         <div class="inputsContainer">
@@ -12,7 +10,6 @@
           <input class="big" type="email" placeholder="Email" v-model="userInfos.email">
           <input class="small" type="tel" placeholder="Numérot de téléphone" v-model="userInfos.mobile">
         </div>
-
       </div>
 
 
@@ -27,44 +24,16 @@
             <input class="small" type="number" placeholder="Code postale" v-model="userInfos.postCode">
           </div>
           <div class="inputsContainer">
-          <div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>
+          <!--<div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>-->
           </div>
         </div>
-
-
         <div class="container">
           <p class="title">Récapitulatif de la commande</p>
           <div class="PContainer">
-            <!-- <div  v-for="article in userInfos.pannier" :key="article">
-              <div class="Produit">
-                <img :src="article.articleImg" alt="">
-                <div class="txts">
-
-                  <span class="product-name"  style="color:#419D79;font-weight:bold">{{article.articleName}}</span><br>
-                  <span class="product-name"  style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span><br>
-
-                  <p class="desc">{{article.articleDescription}}</p>
-                  <p class="desc">{{article}}</p>
-                </div>
-
-                <div class="qty">
-                  </div>
-                  <span type="number"> qté: {{article.qty}}</span>
-                    <div class="plus_horizontal"></div>
-                  </div>
-                  <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span>
-                </div>
-                  <span class="product-price" style="color:#419D79;font-weight:bold">{{article.prix_ttl}}</span>
-                  <div></div>
-                  <div></div>
-                </div>
-          </div>
-            <p class="title" style="margin-left: 40%">TOTAL : {{ userInfos.prix_ttl_panier }}</p>
-            <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p> -->
             <table>
               <thead>
                 <tr>
-                  <th>&nbsp;</th>
+                  <th></th>
                   <th>Nom</th>
                   <th>Prix unité</th>
                   <th>Quantité</th>
@@ -73,7 +42,7 @@
               </thead>
               <tfoot>
                 <tr>
-                  <th colspan="5">TOTAL : {{userInfos.prix_ttl_panier}}</th>
+                  <th colspan="5">TOTAL : {{userInfos.prix_ttl_panier}}€ </th>
                 </tr>
               </tfoot>
               <tbody>
@@ -82,7 +51,7 @@
                   <td>{{article.articleName}}</td>
                   <td>{{article.articlePrice}}</td>
                   <td>{{article.qty}}</td>
-                  <td>{{article.prix_ttl}}</td>
+                  <td>{{Math.round(article.prix_ttl *100)/100}}</td>
                 </tr>
               </tbody>
             </table>
@@ -93,7 +62,7 @@
 
 
   <div class="Payment">
-        <div ref="paypal"></div>
+        <div ref="paypal" id="paypal-button-container"></div>
   </div>
  
 
@@ -141,7 +110,6 @@ export default {
       this.$router.push('/login/');
     }
 
-    console.log("jzeofzeofeuehzufhyuizfuizfizifgzyygfzuyigfuyz")
     this.$store.dispatch('getUserInfos').then(() => {
       // console.log("la je test")
       // console.log(this.$store.state.userInfos)
@@ -155,7 +123,7 @@ export default {
       // this.panier = this.$store.state.userInfos.pannier
       // console.log(this.panier.length)
       // console.log(this.panier[0].articleDescription)
-      // console.log(this.$store.state)
+      console.log(this.$store.state)
     })
   },
   methods:{
@@ -199,13 +167,6 @@ export default {
         this.$store.dispatch("lessOne",a)
       }
     },
-    supr : function(a){
-      this.$store.dispatch("suprPannier", a)
-      console.log(a)
-    },
-    majLS : function(){
-      localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));
-    },
     saveAddress : function(){
       this.$store.dispatch('changeAddress', this.facture.adresse)
       //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.facture.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
@@ -215,7 +176,7 @@ export default {
       this.$router.push('/login/');
     },
     saveFacture: function(){
-      var option = {
+      let option = {
         lastname:this.userInfos.lastName,
         firstname:this.userInfos.firstName,
         mobile:this.userInfos.mobile,
@@ -293,58 +254,6 @@ export default {
   color:#007057;
   margin-left: 21.4%;
 }
-.Produit{
-    display: flex;
-    flex-direction:row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 15px 0 ;
-    margin-left: 10px;
-}
-.qty{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items:center;
-  width: 50px;
-}
-.qty_button{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25px;
-  height: 25px;
-  background-color: #419D78;
-  border: none;
-  border-radius: 5px;
-  transition: .4s background-color;
-  cursor: pointer;
-}
-#plus_vertical{
-  height: 17px;
-  width: 2.5px;
-  background-color: #FFFFFF;
-  border-radius: 5px;
-  position: absolute;
-}
-.plus_horizontal{
-  height: 2.5px;
-  width: 17px;
-  background-color: #FFFFFF;
-  border-radius: 5px;
-}
-.supr{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25px;
-  height: 25px;
-  background-color: #fff;
-  border-radius: 5px;
-  transition: .4s background-color;
-  border: solid 2px #A1A1A1;
-  cursor: pointer;
-}
 .supr div{
   width: 2.5px;
   height: 15px;
@@ -358,16 +267,6 @@ export default {
 .supr div:nth-child(2){
   transform:rotate(-45deg);
 }
-#qty  {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 10px;
-  width: 40px;
-  height: 40px;
-  border: solid #419D79 2px;
-  border-radius: 10px;
-  font-size: 1.5em;
-  text-align: center;
-}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -375,19 +274,11 @@ input::-webkit-inner-spin-button {
 }
 img{
     object-fit: cover;
-    width: 200px;
+    width: 20vw;
     margin-right: 10px;
-    height: 150px;
 }
 ul,li{
     list-style: none;
-}
-.desc{
-  width: 300px;
-  font-size: smaller;
-}
-.product-price{
-  margin: 0 10px;
 }
 .PContainer li{
   margin-bottom: 15px;
@@ -412,44 +303,40 @@ ul,li{
   cursor:pointer;
   background: #078A6C;
 }
-#remember_adresse{
-  position: absolute;
-  width: 300px;
-  text-align: center;
-  top : 600px;
-  right: 19%;
-
-}
 table{
   table-layout: fixed;
   width: 60%;
   border-collapse: collapse;
-  /* border-bottom: ; */
+  margin: 0;
+}
+td{
+  padding: 10px 0 ;
 }
 thead th:nth-child(1), tbody td:nth-child(1){
-  width: 220px;
+  width: 20vw;
   text-align: center;
 }
 thead th:nth-child(2), tbody td:nth-child(2){
-  width: 290px;
+  width: 20vw;
   text-align: left;
 }
 thead th:nth-child(3), tbody td:nth-child(3){
-  width: 125px;
+  width: 10vw;
   text-align: right;
 }
 thead th:nth-child(4), tbody td:nth-child(4){
-  width: 125px;
+  width: 10vw;
   text-align: right;
 }
 thead th:nth-child(5), tbody td:nth-child(5){
-  width: 125px;
+  width: 10vw;
   text-align: right;
 }
 td, thead th{
   border-bottom: 2px solid black;
+  text-align: center;
 }
 tfoot th{
-  text-align: right
+  text-align: right;
 }
  </style>

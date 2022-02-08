@@ -310,15 +310,21 @@ li:hover{
     background:#cecece;
   }
 
-@keyframes apear {
-  from{
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to  {
-    opacity: 1;
-    transform: translateY(0px);
-  }
 
+@keyframes apear {
+from{
+opacity: 0;
+transform: translateY(-10px);
+}
+to  {
+opacity: 1;
+transform: translateY(0px);
+}
+}
+@media (max-width: 650px) {
+  .card{
+    right:0;
+    width: 100vw;
+  }
 }
 </style>

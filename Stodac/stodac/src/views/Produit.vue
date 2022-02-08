@@ -215,4 +215,25 @@ button:hover {
   cursor:pointer;
   background: #078A6C;
 }
+@media(max-width: 800px ) {
+  section#Un {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .PriceAndInfos {
+    width: 80vw;
+    padding: 0;
+    text-justify: inter-word;
+  }
+
+  img {
+    width: 80vw;
+  }
+  li{
+    margin:0;
+  }
+}
 </style>

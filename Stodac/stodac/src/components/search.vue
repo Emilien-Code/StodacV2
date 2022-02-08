@@ -180,4 +180,9 @@ li:hover{
 .result-move{
   transition: all 1s ease;
 }
+@media(max-width: 950px){
+  input{
+    width: 80vw;
+  }
+}
 </style>

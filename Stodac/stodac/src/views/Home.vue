@@ -82,10 +82,12 @@
         <Manufacturer/>
       </div>
       <div id="stuff-container">
-        <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
-          <ProduitLite :produit="item" @click="pushToID(item)"/>
+        <div id="stuff-wrapper">
+          <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
+            <ProduitLite :produit="item" @click="pushToID(item)"/>
+          </div>
+          <p v-if="noItems">Aucun article dans cette catégorie</p>
         </div>
-        <p v-if="noItems">Aucun article dans cette catégorie</p>
       </div>
 
       <div id="buttons_wrapper">
@@ -166,12 +168,21 @@ svg{
   margin-top: 15px ;
 }
 #stuff-container{
-  width: 90vw;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 73px;
+  align-items: center;
+  margin-top: 73px;
+}
+#stuff-wrapper{
+  width: 85vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 .product{
   margin: 25px 25px ;
@@ -200,5 +211,31 @@ button{
 button:hover{
   background: #e3e3e3;
   transition: .5s;
+}
+@media (max-width: 950px){
+  #stuff-wrapper{
+    /*background-color: #078A6C;*/
+    margin-top: 40px;
+  }
+  #search{
+    margin-top: 50px;
+    left: 10vw;
+    width: 80vw;
+  }
+  svg{
+    top: 245px;
+    left : 80vw;
+  }
+  #category, #manufacturer{
+    width: 30vw;
+  }
+  #category{
+    left: 50%;
+    transform: translateX(10%);
+  }
+  #manufacturer{
+    left:50%;
+    transform: translateX(-110%);
+  }
 }
  </style>

@@ -265,5 +265,10 @@ export default {
 }
 textarea, select, input, button { outline: none; }
 
-
+@media (max-width: 650px) {
+.card{
+  right:0;
+  width: 100vw;
+}
+}
 </style>

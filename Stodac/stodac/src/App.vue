@@ -232,6 +232,22 @@ button.login {
     transform: scale(1);
   }
 }
+@media (max-width: 650px) {
+.slogan{
+  display: none;
+}
+  button.icon{
+    width: 40px;
+    height: 40px;
+  }
+  button.icon svg{
+    width: 35px;
+    height: 35px;
+  }
 
-
+  button.pannier svg {
+    width: 40px;
+    height: 40px;
+  }
+}
 </style>
