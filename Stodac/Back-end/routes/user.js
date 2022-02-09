@@ -23,6 +23,8 @@ router.get('/resetpanier/:id', auth, usrCtrl.resetpanier)
 
 router.get('/facture/:id/:numfacture', auth, usrCtrl.getFacture)
 
+router.post('/allFacture/:id/', auth, usrCtrl.getAllCommandes)
+
 
 // PATCH 
 

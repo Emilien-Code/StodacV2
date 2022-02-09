@@ -188,6 +188,7 @@ export default createStore({
       })
       .catch( function (error) {
         console.log(error);
+        commit('logOut')
         reject()
       })
       })
@@ -293,6 +294,19 @@ export default createStore({
       return new Promise((resolve, reject) => {
         console.log(numFacture)
         instance.get(`/user/facture/${state.state.user.userID}/${numFacture}`)
+        .then(function(response){
+          console.log(response.data)
+          resolve(response.data)
+        })
+        .catch(function(error){
+          console.log(error)
+          reject(null)
+        })
+      })
+    },
+    getAllCommande:(state, parametre) => {
+      return new Promise((resolve, reject) => {
+        instance.post(`/user/allFacture/${state.state.user.userID}/`, parametre)
         .then(function(response){
           console.log(response.data)
           resolve(response.data)

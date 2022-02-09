@@ -14,7 +14,7 @@
                 <tr>
                     <td><a style="cursor:pointer;color:black;" v-on:click="afficheFacture(userInfos.comande[userInfos.comande.length - 1].id.substr(-6))">{{userInfos.comande[userInfos.comande.length - 1].id.substr(-6)}}</a></td>
                     <!-- <td v-on:click="afficheFacture(userInfos.comande[userInfos.comande.length - 1].id.substr(-6))"> {{userInfos.comande[userInfos.comande.length - 1].id.substr(-6)}}</td> -->
-                    <td v-if="userInfos.comande[userInfos.comande.length - 1].etat === 0">En préparation</td>
+                    <td >{{userInfos.comande[userInfos.comande.length - 1].nometat[userInfos.comande[userInfos.comande.length - 1].etat]}}</td>
                     <td>{{userInfos.comande[userInfos.comande.length - 1].date}}</td>
                 </tr>
             </tbody>

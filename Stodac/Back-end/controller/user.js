@@ -80,6 +80,78 @@ exports.getInfos = (req, res) =>{
    });
 };
 
+exports.getAllCommandes = (req, res) =>{
+    console.log(req.body)
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){ 
+            let ordre = null
+            let trie = null
+            // req.body.order.forEach(function(param){
+            switch(req.body.parametre[0]){
+                case "num":
+                    if(req.body.num == -1 || req.body.num == 1){
+                        ordre = {"comande.id":req.body.num}
+                    }
+                    break
+                case "email":
+                    if(req.body.email == -1 || req.body.email == 1){
+                        ordre = {"comande.email":req.body.email}
+                    }
+                    break
+                case "tel":
+                    if(req.body.tel == -1 || req.body.tel == 1){
+                        ordre = {"comande.mobile":req.body.tel}
+                    }
+                    break
+                case "np":
+                    if(req.body.np == -1 || req.body.np == 1){
+                        ordre = {"comande.lastname":req.body.np,"comande.firstname":req.body.np}
+                    }
+                    break
+                case "etat":
+                    if(req.body.etat == -1 || req.body.etat == 1){
+                        ordre = {"comande.etat":req.body.etat}
+                    }
+                    break
+                case "date":
+                    if(req.body.date == -1 || req.body.date == 1){
+                        ordre = {"comande.date":req.body.date}
+                    }
+                    break
+                case "default":
+                    ordre = {"comande.etat":1, "comande.date":-1}
+                    break
+            }
+            if(req.body.parametre[1] == "global"){
+                trie = { $or: [{"comande.id":{$regex:req.body.recherche.Global, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.Global, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.Global, $options:'i'}},{"np":{$regex:req.body.recherche.Global, $options:'i'}},{"nometat":{$regex:req.body.recherche.Global, $options:'i'}},{"strdate":{$regex:req.body.recherche.Global, $options:'i'}}]}
+            }
+            else if(req.body.parametre[1] == "avancer"){
+                trie = { $and : [{"comande.id":{$regex:req.body.recherche.id, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.email, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.tel, $options:'i'}},{"np":{$regex:req.body.recherche.np, $options:'i'}},{"nometat":{$regex:req.body.recherche.etat, $options:'i'}},{"strdate":{$regex:req.body.recherche.date, $options:'i'}}]}
+            }
+            else{
+                trie = {"comande.id":{$regex:"",$options:'i'}}
+            }
+            console.log(ordre)
+            console.log(trie)
+            if (ordre != null){
+                if (req.body.limit == ""){
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"nometat":{$arrayElemAt:["$comande.nometat", "$comande.etat"]},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
+                        console.log(docs)
+                        res.send(docs)
+                    });
+                }
+                else{
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"nometat":{$arrayElemAt:["$comande.nometat", "$comande.etat"]},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre},{$limit:req.body.limit}], (err, docs)=>{
+                        console.log(docs)
+                        res.send(docs)
+                    });
+                }
+            }
+        }
+    })
+}
+
 exports.getFacture = (req, res) =>{
     num = req.params.id+req.params.numfacture
     // num = parseInt(num)
@@ -280,7 +352,8 @@ exports.newCommand = (req, res) => {
         }
         ajd = new Date()
         // console.log(ajd.getDate())
-        ajd = String(ajd.getDate()) + "/" + String(ajd.getMonth() + 1) + "/" + String(ajd.getFullYear())
+        console.log(new Date(ajd.toISOString()))
+        ajd = new Date(ajd.toISOString())
         numerocommande = String(docs[0].comande.length + 1)
         for(var i = 0; numerocommande.length <= 5; i++){
             numerocommande = "0"+numerocommande
@@ -292,6 +365,7 @@ exports.newCommand = (req, res) => {
             prix_ttl: prix_ttl_crea,
             date: ajd,
             etat: 0,
+            nometat: ["En préparation", "En livraison", "Recu"],
             fini: false
         }
         console.log(materiels_crea)
