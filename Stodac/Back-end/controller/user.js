@@ -124,30 +124,47 @@ exports.getAllCommandes = (req, res) =>{
                     break
             }
             if(req.body.parametre[1] == "global"){
-                trie = { $or: [{"comande.id":{$regex:req.body.recherche.Global, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.Global, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.Global, $options:'i'}},{"np":{$regex:req.body.recherche.Global, $options:'i'}},{"nometat":{$regex:req.body.recherche.Global, $options:'i'}},{"strdate":{$regex:req.body.recherche.Global, $options:'i'}}]}
+                trie = { $and: [{ $or: [{"comande.id":{$regex:req.body.recherche.Global, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.Global, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.Global, $options:'i'}},{"np":{$regex:req.body.recherche.Global, $options:'i'}},{"strdate":{$regex:req.body.recherche.Global, $options:'i'}}]}, {$or:[]}]}
             }
             else if(req.body.parametre[1] == "avancer"){
-                trie = { $and : [{"comande.id":{$regex:req.body.recherche.id, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.email, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.tel, $options:'i'}},{"np":{$regex:req.body.recherche.np, $options:'i'}},{"nometat":{$regex:req.body.recherche.etat, $options:'i'}},{"strdate":{$regex:req.body.recherche.date, $options:'i'}}]}
+                trie = { $and: [{ $and : [{"comande.id":{$regex:req.body.recherche.id, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.email, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.tel, $options:'i'}},{"np":{$regex:req.body.recherche.np, $options:'i'}},{"strdate":{$regex:req.body.recherche.date, $options:'i'}}]}, {$or:[]}]}
             }
             else{
-                trie = {"comande.id":{$regex:"",$options:'i'}}
+                trie = { $and: [{"comande.id":{$regex:"",$options:'i'}}, {$or:[]}]}
             }
+            console.log("c bug ici bro")
+            console.log(req.body.recherche)
+            let etatrecherche = []
+            if (req.body.recherche.etat[0] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":0})
+            }
+            if (req.body.recherche.etat[1] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":1})
+            }
+            if (req.body.recherche.etat[2] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":2})
+            }
+            console.log(etatrecherche)
+            trie.$and[1].$or = etatrecherche
             console.log(ordre)
             console.log(trie)
             if (ordre != null){
                 if (req.body.limit == ""){
-                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"nometat":{$arrayElemAt:["$comande.nometat", "$comande.etat"]},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
                         console.log(docs)
                         res.send(docs)
                     });
                 }
                 else{
-                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"nometat":{$arrayElemAt:["$comande.nometat", "$comande.etat"]},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre},{$limit:req.body.limit}], (err, docs)=>{
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre},{$limit:req.body.limit}], (err, docs)=>{
                         console.log(docs)
                         res.send(docs)
                     });
                 }
             }
+        }
+        else{
+            res.send()
         }
     })
 }
@@ -168,6 +185,20 @@ exports.getFacture = (req, res) =>{
     //         console.log(docs)
     //         res.send(docs[0])
     //     })
+}
+
+exports.getFactureAdmin = (req, res)=>{
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){
+            User.find({},{"comande":{"$elemMatch":{"id":req.params.numfacture}}}, (err, docs)=>{
+                if(err) console.log(err);
+                // console.log(docs[0])
+                console.log(docs)
+                res.send(docs[0])
+            })
+        }
+    })
 }
 
 exports.getByEmail = (req, res) =>{
@@ -301,8 +332,6 @@ exports.addpanier = (req, res) => {
                 // dire que tout est ok !
             }
             console.log("ici par contre...")
-        })
-        .then(() => {console.log("mais pas ici par contre...")
             prix_ttl = Math.round(prix_ttl * 100)/100
             console.log(prix_ttl)
             User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
@@ -314,6 +343,8 @@ exports.addpanier = (req, res) => {
                     res.send()
                 }
             })
+        })
+        .then(() => {console.log("mais pas ici par contre...")
         })
     });
 }
@@ -365,7 +396,7 @@ exports.newCommand = (req, res) => {
             prix_ttl: prix_ttl_crea,
             date: ajd,
             etat: 0,
-            nometat: ["En préparation", "En livraison", "Recu"],
+            nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
             fini: false
         }
         console.log(materiels_crea)
@@ -424,6 +455,22 @@ exports.resetpanier = (req, res) => {
         if(err) console.log(err);
     });
     res.send();
+}
+
+exports.setEtat = (req, res) => {
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){
+            console.log(req.body)
+            User.updateOne({"comande":{$elemMatch:{"id":req.body.id}}}, {$set:{"comande.$.etat":req.body.etat}}, (err, docs)=>{
+                console.log(docs)
+                res.send()
+            })
+        }
+        else{
+            res.send()
+        }
+    })
 }
 
 /**DELETE Controller */

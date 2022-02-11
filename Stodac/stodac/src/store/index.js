@@ -317,6 +317,18 @@ export default createStore({
         })
       })
     },
+    changeEtat:(state, parametre) => {
+      return new Promise((resolve, reject) => {
+        instance.post(`/user/changeEtat/${state.state.user.userID}`, parametre)
+        .then(()=>{
+          resolve()
+        })
+        .catch(function(error){
+          console.log(error)
+          reject()
+        })
+      })
+    },
     timeout : ({commit, state}) =>{
       console.log('au moins ça marche')
       commit('changeUserID', state)

@@ -12,6 +12,8 @@ const authAdmin = require('../middleware/auth-admin')
 router.post('/MA/:id', auth, usrCtrl.changeAddress)
 router.post('/addpanier/:id', auth, usrCtrl.addpanier)
 router.post('/addCommande/:id', auth, usrCtrl.newCommand)
+router.post('/allFacture/:id/', auth, usrCtrl.getAllCommandes)
+router.post('/changeEtat/:id', auth, usrCtrl.setEtat)
 
 // Get routes
 
@@ -23,7 +25,7 @@ router.get('/resetpanier/:id', auth, usrCtrl.resetpanier)
 
 router.get('/facture/:id/:numfacture', auth, usrCtrl.getFacture)
 
-router.post('/allFacture/:id/', auth, usrCtrl.getAllCommandes)
+router.get('/factureAdm/:id/:numfacture', auth, usrCtrl.getFactureAdmin)
 
 
 // PATCH 
