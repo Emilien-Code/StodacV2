@@ -80,6 +80,95 @@ exports.getInfos = (req, res) =>{
    });
 };
 
+exports.getAllCommandes = (req, res) =>{
+    console.log(req.body)
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){ 
+            let ordre = null
+            let trie = null
+            // req.body.order.forEach(function(param){
+            switch(req.body.parametre[0]){
+                case "num":
+                    if(req.body.num == -1 || req.body.num == 1){
+                        ordre = {"comande.id":req.body.num}
+                    }
+                    break
+                case "email":
+                    if(req.body.email == -1 || req.body.email == 1){
+                        ordre = {"comande.email":req.body.email}
+                    }
+                    break
+                case "tel":
+                    if(req.body.tel == -1 || req.body.tel == 1){
+                        ordre = {"comande.mobile":req.body.tel}
+                    }
+                    break
+                case "np":
+                    if(req.body.np == -1 || req.body.np == 1){
+                        ordre = {"comande.lastname":req.body.np,"comande.firstname":req.body.np}
+                    }
+                    break
+                case "etat":
+                    if(req.body.etat == -1 || req.body.etat == 1){
+                        ordre = {"comande.etat":req.body.etat}
+                    }
+                    break
+                case "date":
+                    if(req.body.date == -1 || req.body.date == 1){
+                        ordre = {"comande.date":req.body.date}
+                    }
+                    break
+                case "default":
+                    ordre = {"comande.etat":1, "comande.date":-1}
+                    break
+            }
+            if(req.body.parametre[1] == "global"){
+                trie = { $and: [{ $or: [{"comande.id":{$regex:req.body.recherche.Global, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.Global, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.Global, $options:'i'}},{"np":{$regex:req.body.recherche.Global, $options:'i'}},{"strdate":{$regex:req.body.recherche.Global, $options:'i'}}]}, {$or:[]}]}
+            }
+            else if(req.body.parametre[1] == "avancer"){
+                trie = { $and: [{ $and : [{"comande.id":{$regex:req.body.recherche.id, $options:'i'}}, {"comande.facture.email":{$regex:req.body.recherche.email, $options:'i'}}, {"strmobile":{$regex:req.body.recherche.tel, $options:'i'}},{"np":{$regex:req.body.recherche.np, $options:'i'}},{"strdate":{$regex:req.body.recherche.date, $options:'i'}}]}, {$or:[]}]}
+            }
+            else{
+                trie = { $and: [{"comande.id":{$regex:"",$options:'i'}}, {$or:[]}]}
+            }
+            console.log("c bug ici bro")
+            console.log(req.body.recherche)
+            let etatrecherche = []
+            if (req.body.recherche.etat[0] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":0})
+            }
+            if (req.body.recherche.etat[1] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":1})
+            }
+            if (req.body.recherche.etat[2] || req.body.recherche.etat[3]){
+                etatrecherche.push({"comande.etat":2})
+            }
+            console.log(etatrecherche)
+            trie.$and[1].$or = etatrecherche
+            console.log(ordre)
+            console.log(trie)
+            if (ordre != null){
+                if (req.body.limit == ""){
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
+                        console.log(docs)
+                        res.send(docs)
+                    });
+                }
+                else{
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre},{$limit:req.body.limit}], (err, docs)=>{
+                        console.log(docs)
+                        res.send(docs)
+                    });
+                }
+            }
+        }
+        else{
+            res.send()
+        }
+    })
+}
+
 exports.getFacture = (req, res) =>{
     num = req.params.id+req.params.numfacture
     // num = parseInt(num)
@@ -96,6 +185,20 @@ exports.getFacture = (req, res) =>{
     //         console.log(docs)
     //         res.send(docs[0])
     //     })
+}
+
+exports.getFactureAdmin = (req, res)=>{
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){
+            User.find({},{"comande":{"$elemMatch":{"id":req.params.numfacture}}}, (err, docs)=>{
+                if(err) console.log(err);
+                // console.log(docs[0])
+                console.log(docs)
+                res.send(docs[0])
+            })
+        }
+    })
 }
 
 exports.getByEmail = (req, res) =>{
@@ -207,6 +310,7 @@ exports.addpanier = (req, res) => {
             } else if ((docs[0].qty - obj.qty) >= 0){
                 console.log(req.params.id)
                 prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
+                prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
                 console.log(prix_ttl)
                 User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl}}}, (err, docs) =>{
@@ -228,8 +332,6 @@ exports.addpanier = (req, res) => {
                 // dire que tout est ok !
             }
             console.log("ici par contre...")
-        })
-        .then(() => {console.log("mais pas ici par contre...")
             prix_ttl = Math.round(prix_ttl * 100)/100
             console.log(prix_ttl)
             User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
@@ -241,6 +343,8 @@ exports.addpanier = (req, res) => {
                     res.send()
                 }
             })
+        })
+        .then(() => {console.log("mais pas ici par contre...")
         })
     });
 }
@@ -279,7 +383,8 @@ exports.newCommand = (req, res) => {
         }
         ajd = new Date()
         // console.log(ajd.getDate())
-        ajd = String(ajd.getDate()) + "/" + String(ajd.getMonth() + 1) + "/" + String(ajd.getFullYear())
+        console.log(new Date(ajd.toISOString()))
+        ajd = new Date(ajd.toISOString())
         numerocommande = String(docs[0].comande.length + 1)
         for(var i = 0; numerocommande.length <= 5; i++){
             numerocommande = "0"+numerocommande
@@ -291,6 +396,7 @@ exports.newCommand = (req, res) => {
             prix_ttl: prix_ttl_crea,
             date: ajd,
             etat: 0,
+            nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
             fini: false
         }
         console.log(materiels_crea)
@@ -349,6 +455,22 @@ exports.resetpanier = (req, res) => {
         if(err) console.log(err);
     });
     res.send();
+}
+
+exports.setEtat = (req, res) => {
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){
+            console.log(req.body)
+            User.updateOne({"comande":{$elemMatch:{"id":req.body.id}}}, {$set:{"comande.$.etat":req.body.etat}}, (err, docs)=>{
+                console.log(docs)
+                res.send()
+            })
+        }
+        else{
+            res.send()
+        }
+    })
 }
 
 /**DELETE Controller */

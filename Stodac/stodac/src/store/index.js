@@ -62,9 +62,16 @@ export default createStore({
     logOut: function(state){
       state.user = {
           userID: -1,
-          token: ''
+          token: '',
       }
+      state.userInfos = {
+        lastName:'',
+        firstName:'',
+        email:'',
+        admin:false
+      },
       localStorage.removeItem('user');
+      localStorage.removeItem('userInfos')
     },
     userInfos : function(state, userInfos){
       console.log('je passe la mtn')
@@ -181,6 +188,7 @@ export default createStore({
       })
       .catch( function (error) {
         console.log(error);
+        commit('logOut')
         reject()
       })
       })
@@ -293,6 +301,31 @@ export default createStore({
         .catch(function(error){
           console.log(error)
           reject(null)
+        })
+      })
+    },
+    getAllCommande:(state, parametre) => {
+      return new Promise((resolve, reject) => {
+        instance.post(`/user/allFacture/${state.state.user.userID}/`, parametre)
+        .then(function(response){
+          console.log(response.data)
+          resolve(response.data)
+        })
+        .catch(function(error){
+          console.log(error)
+          reject(null)
+        })
+      })
+    },
+    changeEtat:(state, parametre) => {
+      return new Promise((resolve, reject) => {
+        instance.post(`/user/changeEtat/${state.state.user.userID}`, parametre)
+        .then(()=>{
+          resolve()
+        })
+        .catch(function(error){
+          console.log(error)
+          reject()
         })
       })
     },

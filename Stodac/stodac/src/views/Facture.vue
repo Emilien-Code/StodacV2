@@ -1,19 +1,22 @@
 <template>
     <div v-if="commande">
         <div class="recappetit">
-            <p>numero de commande : {{commande.id.substr(-6)}}</p>
-            <p>etat de la commande : {{commande.etat}}</p>
-            <p>date de commande : {{commande.date}}</p>
+            <p class="petittext">numero de commande : {{commande.id.substr(-6)}}</p>
+            <p class="petittext">{{commande.etat}}</p>
+            <p class="petittext">date de commande : {{commande.date}}</p>
         </div>
         <div class="info">
-            <title>Information personnel</title>
-            <p>nom : {{commande.facture.lastname}}</p>
-            <p>prenom : {{commande.facture.firstname}}</p>
-            <p>adresse : {{commande.facture.streetNumber}} {{commande.facture.street}}, {{commande.facture.city}}, {{commande.facture.postCode}}</p>
-            <p>adresse mail : {{commande.facture.email}}</p>
-            <p>numero de téléphone : {{commande.facture.mobile}}</p>
+            <p class="title">Information personnel</p>
+            <div class="infoPerso">
+              <p class="nom">{{commande.facture.lastname}} {{commande.facture.firstname}}</p>
+              <p class="adresse">{{commande.facture.streetNumber}} {{commande.facture.street}}, {{commande.facture.city}}, {{commande.facture.postCode}}</p>
+              <p class="email">{{commande.facture.email}}</p>
+              <p class="tel">{{commande.facture.mobile}}</p>
+            </div>
         </div>
-        <div class="commande">
+        <div class="recapcommande">
+          <p class="title">Commande</p>
+          <div class="commande">
             <table>
               <thead>
                 <tr>
@@ -39,7 +42,9 @@
                 </tr>
               </tbody>
             </table>
+          </div>
         </div>
+        <p class="payement">Payer par {{commande.facture.moyendepayement}}</p>
     </div>
 </template>
 
@@ -74,3 +79,106 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .recappetit{
+    width: 80%;
+    margin-left: 10%;
+    padding-top: 25px;
+    padding-bottom: 75px;
+    /* flex-direction: row;
+    justify-content: space-between; */
+  }
+  .petittext{
+    width: 33%;
+    float: left;
+    text-align: center;
+    font-size: 18px;
+  }
+  .info{
+    width: 80%;
+    margin-left:10%;
+    padding-bottom: 100px;
+  }
+  .title{
+    color:#007057;
+    font-size: 25px;
+    text-align: center;
+    width: 100%;
+  }
+  .infoPerso{
+    padding-top: 15px;
+    font-size: 17px;
+  }
+  .nom{
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .adresse{
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .email{
+    width:60%;
+    float:left;
+    padding-bottom: 10px;
+  }
+  .tel{
+    width:40%;
+    float:left;
+    text-align: right;
+    padding-bottom: 10px;
+  }
+  .recapcommande{
+    width: 80%;
+    margin-left:10%;
+    padding-bottom: 50px;
+  }
+  .commande{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .payement{
+    margin-left: 10%;
+    font-size: 17px;
+  }
+  img{
+    object-fit: cover;
+    width: 200px;
+    margin-right: 10px;
+    height: 150px;
+  }
+  table{
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    /* border-bottom: ; */
+  }
+  thead th:nth-child(1), tbody td:nth-child(1){
+    width: 220px;
+    text-align: center;
+  }
+  thead th:nth-child(2), tbody td:nth-child(2){
+    width: 290px;
+    text-align: left;
+  }
+  thead th:nth-child(3), tbody td:nth-child(3){
+    width: 125px;
+    text-align: right;
+  }
+  thead th:nth-child(4), tbody td:nth-child(4){
+    width: 125px;
+    text-align: right;
+  }
+  thead th:nth-child(5), tbody td:nth-child(5){
+    width: 125px;
+    text-align: right;
+  }
+  td, thead th{
+    border-bottom: 2px solid black;
+  }
+  tfoot th{
+    text-align: right
+  }
+</style>
