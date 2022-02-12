@@ -153,8 +153,6 @@ li:hover{
   background-color: #e3e3e3;
   transition: .5s;
 }
-
-
 .result-enter-from {
   transform: translateY(-100%);
   opacity: 0;
