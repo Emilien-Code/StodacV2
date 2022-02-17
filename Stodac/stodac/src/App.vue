@@ -176,8 +176,8 @@ export default {
 }
 #nav  {
   width: 100%;
-  position: fixed;
-  position: -webkit-sticky;
+  position: absolute  ;
+ /* position: -webkit-sticky;*/
   z-index: 3;
 }
 #nbPannier2{

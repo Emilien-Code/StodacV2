@@ -28,17 +28,17 @@
           <button @click="choix(3)">annulé</button>
           <button @click="choix(4)">tout</button>
         </div>
-        <div>
+        <div class="tableContainer">
           <table id="tableCommandes">
             <thead>
               <tr>
                 <th>&nbsp;</th>
                 <th v-on:click="trieordre('num')">Numero de commande</th>
                 <th v-on:click="trieordre('email')">email</th>
-                <th v-on:click="trieordre('tel')">Telephone</th>
-                <th v-on:click="trieordre('np')">NOM Prenom</th>
-                <th v-on:click="trieordre('etat')">Etat de la commande</th>
-                <th v-on:click="trieordre('date')">date de commande</th>
+                <th v-on:click="trieordre('tel')">Téléphone</th>
+                <th v-on:click="trieordre('np')">NOM Prénom</th>
+                <th v-on:click="trieordre('etat')">État commande</th>
+                <th v-on:click="trieordre('date')">Date commande</th>
               </tr>
             </thead>
             <tbody>
@@ -67,7 +67,7 @@
                         </select>
                       </div>
                     </div>
-                    <div>
+                    <div class="tableContainer">
                       <table>
                         <thead>
                           <tr>
@@ -433,6 +433,19 @@ export default {
 </script>
 
 <style scoped>
+.tableContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+td{
+  padding: 10px;
+  text-align: center;
+}
+th{
+  padding: 10px;
+  text-align: center;
+}
 .flechecoteTableau, .flechecote{
   width: 15px;
   height: 20px;
