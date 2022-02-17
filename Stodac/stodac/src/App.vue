@@ -1,5 +1,7 @@
 <template>
   <div id="nav">
+    <div class="wrapper">
+
     <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
       <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
       <circle id="Ellipse_4" data-name="Ellipse 4" cx="42" cy="42" r="42" transform="translate(120.424 53.994) rotate(130)" fill="#078a6c"/>
@@ -38,12 +40,49 @@
           </g>
         </svg>
       </button>
+
+      <div id="menu-btn" :class="{'open':menu}" @click="openMenu">
+
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+
     </div>
   </div>
+
+
+  <div id="menuContainer" v-if="menu">
+    <router-link @click="closeMenu" class="menu-content" to="/">
+      Boutique
+      <span id="hovered"></span>
+    </router-link>
+    <router-link @click="closeMenu" class="menu-content" to="/mesCommandes/">
+      Mes commandes
+      <span></span>
+    </router-link>
+    <router-link @click="closeMenu" class="menu-content" v-if="userInfos.admin" to="/allCommandes/">
+      Commandes Admin
+      <span></span>
+    </router-link>
+    <div class="menu-content" @click="openPannier"> Pannier
+      <div id="nbPannier2" v-if="$store.state.pannier.length!==0">
+        <span>{{$store.state.pannier.length}}</span>
+      </div>
+    </div>
+    <div class="menu-content" @click="connection"> Conexion </div>
+
+  </div>
+
+
+
   <div class="banner">
     <h1 class="titre">Stodac.</h1>
     <p class="slogan">Vente de poêles à granulés et assistance technique.</p>
   </div>
+
+
 
   <router-view/>
 
@@ -55,6 +94,7 @@
     J'aime le saucisson
 
   </footer>
+
 </template>
 <script>
 import Login from '@/components/Login.vue'
@@ -71,6 +111,7 @@ export default {
       login:'',
       loginData : Login.data,
       pannier: false,
+      menu:false
     }
   },
   mounted: function(){
@@ -90,6 +131,7 @@ export default {
       }else{
         this.login = '';
       }
+      this.menu=false
     },
     logCloseLogin(){
       this.tryToLog = false;
@@ -98,9 +140,16 @@ export default {
     openPannier(){
       this.pannier = !this.pannier;
       this.tryToLog = false;
+      this.menu=false
     },
     closePannier(){
       this.pannier = false;
+    },
+    openMenu(){
+      this.menu=!this.menu
+    },
+    closeMenu(){
+      this.menu = false
     }
   },
   components: {
@@ -124,6 +173,28 @@ export default {
   height: 25px;
   background-color:#F18F01;
   border-radius: 50%;
+}
+#nav  {
+  width: 100%;
+  position: fixed;
+  position: -webkit-sticky;
+  z-index: 3;
+}
+#nbPannier2{
+  position: absolute;
+  top: -10px;
+  right: -30px;
+  width: 20px;
+  height: 20px;
+  background-color:#F18F01;
+  border-radius: 50%;
+}
+#nbPannier2 span{
+  display : block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-25%, -50%);
 }
 #nbPannier span{
   display : block;
@@ -152,9 +223,10 @@ a{
   height: 70px;
   width: 70px;
 }
-#nav{
+.wrapper{
   width:100%;
   overflow:hidden;
+
 }
 button.icon {
   overflow: hidden;
@@ -182,6 +254,8 @@ button.login {
   background-color: #078A6C;
 }
 .banner{
+  position: relative;
+  top: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,7 +285,7 @@ button.login {
 
 }
 
-#nav {
+.wrapper {
   padding: 20px;
   height: 70px;
   color: White;
@@ -220,8 +294,13 @@ button.login {
   align-items: center;
   justify-content: space-between;
 }
-
-#nav a {
+#menu-btn{
+  display: none;
+}
+#menuContainer{
+  display: none;
+}
+.wrapper a {
   font-weight: bold;
   font-size: 1.2em;
   color: White;
@@ -261,5 +340,112 @@ button.login {
     width: 40px;
     height: 40px;
   }
+}
+
+@media (max-width: 650px) {
+  .nav_left {
+    display: none;
+  }
+  .icon{
+    display: none;
+  }
+  #menu-btn{
+    display: block;
+    position: absolute;
+    z-index: 2;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px ;
+  }
+  .line{
+    width: 50%;
+    height:  3px ;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.4s ease, opacity 0s ease 0.4s, top 0.4s ease 0.4s;
+    position: relative  ;
+    will-change: transform;
+  }
+  .line:nth-child(1){
+    top: 15px;
+  }
+  .line:nth-child(2){
+    top: 20px;
+  }
+  .line:nth-child(3){
+    top: 25px;
+  }
+  .open .line:nth-child(1){
+    top: 18px;
+    transform: rotate(45deg);
+    transition: top 0.2s ease, transform 0.2s ease  0.2s;
+  }
+  .open .line:nth-child(2){
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .open .line:nth-child(3){
+    top: 12px;
+    transform: rotate(-45deg);
+    transition: top 0.2s ease, transform 0.2s ease 0.2s;
+  }
+  #menuContainer{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #007057;
+    color: #ffffff;
+    animation: 0.5s apearMenu;
+    font-size: 1.2rem;
+  }
+  .menu-content{
+    opacity: 0;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-animation: 0.5s ease 0.5s forwards apearText;
+    -o-animation: 0.5s ease 0.5s forwards apearText;
+    animation: 0.5s ease 0.5s forwards apearText;
+  }
+  .menu-content:nth-child(1){
+    animation-delay: 0.3s;
+  }
+  .menu-content:nth-child(2){
+    animation-delay: 0.4s;
+  }
+  .menu-content:nth-child(3){
+    animation-delay: 0.5s;
+  }
+  .menu-content:nth-child(4){
+    animation-delay: 0.6s;
+  }
+  @keyframes apearText {
+    0%{
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    100%{
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+@keyframes apearMenu {
+  0%{
+    transform: scale(0);
+    border-radius: 100%;
+  }
+  100%{
+    transform: scale(1);
+    border-radius: 0;
+  }
+}
 }
 </style>

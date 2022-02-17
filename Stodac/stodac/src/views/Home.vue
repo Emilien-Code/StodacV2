@@ -174,7 +174,7 @@ svg{
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 73px;
+  margin-top: 120px;
 }
 #stuff-wrapper{
   width: 85vw;
@@ -214,8 +214,7 @@ button:hover{
 }
 @media (max-width: 950px){
   #stuff-wrapper{
-    /*background-color: #078A6C;*/
-    margin-top: 40px;
+    margin-top: 80px;
   }
   #search{
     margin-top: 50px;

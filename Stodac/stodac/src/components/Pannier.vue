@@ -254,7 +254,8 @@ li:hover{
 
 .card {
   position:fixed;
-  top: 60px;
+  z-index: 4;
+  top: 70px;
   right: 25px;
   max-width: 100%;
   width: 400px;
