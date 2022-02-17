@@ -304,6 +304,20 @@ export default createStore({
         })
       })
     },
+    getFactureAdm:(state, numFacture) => {
+      return new Promise((resolve, reject) => {
+        console.log(numFacture)
+        instance.get(`/user/factureAdm/${state.state.user.userID}/${numFacture}`)
+        .then(function(response){
+          console.log(response.data)
+          resolve(response.data)
+        })
+        .catch(function(error){
+          console.log(error)
+          reject(null)
+        })
+      })
+    },
     getAllCommande:(state, parametre) => {
       return new Promise((resolve, reject) => {
         instance.post(`/user/allFacture/${state.state.user.userID}/`, parametre)

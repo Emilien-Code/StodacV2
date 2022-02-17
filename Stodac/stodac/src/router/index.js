@@ -44,6 +44,12 @@ const routes = [
     component: () => import('../views/Facture.vue')
   },
   {
+    path:'/factureAdm/:numfacture',
+    name:"factureAdm",
+    params:true,
+    component:() => import('../views/FactureAdm.vue')
+  },
+  {
     path:'/mesCommandes/',
     name: 'mesCommandes',
     component: () => import('../views/mesCommandes.vue')
@@ -52,6 +58,10 @@ const routes = [
     path:'/allCommandes/',
     name: 'allCommandes',
     component: () => import('../views/allCommandes.vue')
+  },
+  {
+    path:"/:catchAll(.*)",
+    component: () => import('../views/notFound.vue')
   },
   //{
   //  path: '/admin/',

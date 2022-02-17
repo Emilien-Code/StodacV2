@@ -25,7 +25,8 @@
           <button @click="choix(0)">en preparation</button>
           <button @click="choix(1)">envoyer</button>
           <button @click="choix(2)">recu</button>
-          <button @click="choix(3)">tout</button>
+          <button @click="choix(3)">annulé</button>
+          <button @click="choix(4)">tout</button>
         </div>
         <div>
           <table id="tableCommandes">
@@ -127,7 +128,7 @@ export default {
           email:"",
           tel:"",
           np:"",
-          etat:[0,0,0,1],
+          etat:[0,0,0,0,1],
           date:"",
         },
         listCommandes: "",
@@ -144,7 +145,7 @@ export default {
             this.$router.push('/')
         }
         else{
-          let parametre = {
+          const parametre = {
             parametre: this.parametre.type,
             limit:this.parametre.limit,
             recherche:this.parametre.recherche
@@ -164,7 +165,7 @@ export default {
       this.$router.push({name:`factureAdm`, params:{numfacture: nomFacture}});
     },
     trieordre:function(nomColone){
-      let parametre = {
+      const parametre = {
         parametre: [nomColone],
         limit:this.parametre.limit
       }
@@ -327,7 +328,7 @@ export default {
       this.recherchenp = "";
       this.parametre.recherche.date = "";
       this.recherchedate = "";
-      let parametre = {
+      const parametre = {
         parametre: this.parametre.type,
         limit:this.parametre.limit,
         recherche:this.parametre.recherche
@@ -349,7 +350,7 @@ export default {
       this.parametre.recherche.np=this.recherchenp;
       this.parametre.recherche.date=this.recherchedate;
       this.parametre.type = ["default","avancer"]
-      let parametre = {
+      const parametre = {
         parametre: this.parametre.type,
         limit:this.parametre.limit,
         recherche:this.parametre.recherche
@@ -389,14 +390,14 @@ export default {
     },
     choix:function(num){
       this.parametre.recherche.etat[num] =  !this.parametre.recherche.etat[num]
-      if (num === 3){
-        this.parametre.recherche.etat = [0,0,0,1]
+      if (num === 4){
+        this.parametre.recherche.etat = [0,0,0,0,1]
       }
       else{
-        this.parametre.recherche.etat[3] = 0
+        this.parametre.recherche.etat[4] = 0
       }
-      let parametre = {
-        parametre: ["default","global"],
+      const parametre = {
+        parametre: this.parametre.type,
         limit:this.parametre.limit,
         recherche:this.parametre.recherche
       }

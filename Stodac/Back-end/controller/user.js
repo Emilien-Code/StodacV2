@@ -135,14 +135,17 @@ exports.getAllCommandes = (req, res) =>{
             console.log("c bug ici bro")
             console.log(req.body.recherche)
             let etatrecherche = []
-            if (req.body.recherche.etat[0] || req.body.recherche.etat[3]){
+            if (req.body.recherche.etat[0] || req.body.recherche.etat[4]){
                 etatrecherche.push({"comande.etat":0})
             }
-            if (req.body.recherche.etat[1] || req.body.recherche.etat[3]){
+            if (req.body.recherche.etat[1] || req.body.recherche.etat[4]){
                 etatrecherche.push({"comande.etat":1})
             }
-            if (req.body.recherche.etat[2] || req.body.recherche.etat[3]){
+            if (req.body.recherche.etat[2] || req.body.recherche.etat[4]){
                 etatrecherche.push({"comande.etat":2})
+            }
+            if (req.body.recherche.etat[3] || req.body.recherche.etat[4]){
+                etatrecherche.push({"comande.etat":3})
             }
             console.log(etatrecherche)
             trie.$and[1].$or = etatrecherche
@@ -191,7 +194,7 @@ exports.getFactureAdmin = (req, res)=>{
     User.find({_id:req.params.id},{admin:1},(err,docs)=>{
         console.log(docs)
         if(docs[0].admin){
-            User.find({},{"comande":{"$elemMatch":{"id":req.params.numfacture}}}, (err, docs)=>{
+            User.find({"comande":{"$elemMatch":{"id":req.params.numfacture}}},{"comande":{"$elemMatch":{"id":req.params.numfacture}}}, (err, docs)=>{
                 if(err) console.log(err);
                 // console.log(docs[0])
                 console.log(docs)
