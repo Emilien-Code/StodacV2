@@ -11,11 +11,11 @@
     <div class="nav_left">
       <router-link to="/">
         Boutique
-        <span></span>
+        <span id="span1"></span>
       </router-link>
       <router-link to="/mesCommandes/">
         Mes commandes
-        <span></span>
+        <span id="span2"></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/allCommandes/">
         Commandes Admin
@@ -447,5 +447,25 @@ button.login {
     border-radius: 0;
   }
 }
+}
+a:hover span{
+  display: block;
+  position: absolute;
+  transform: translateY(5px);
+  bottom: 15px;
+  height: 3px;
+  background-color: #ffffff;
+  transition: all .5s ease 0s;
+}
+#span1{
+  left: 125px;
+  width:70px;
+}
+#span2{
+  left: 285px;
+  width:140px;
+}
+.router-link-active span {
+  color: #F18F01;
 }
 </style>

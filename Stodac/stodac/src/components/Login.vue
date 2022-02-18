@@ -111,18 +111,21 @@ export default {
       }
     },
     createAccount: function(){
-      const a = this;
-      this.$store.dispatch('createAccount', {
-        email: this.email,
-        password: this.password,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        mobile: 33 + this.mobile,
-      }).then(function(){
-        a.login();
-      }).catch(function (error){
-        console.log(error);
-      });
+      if(this.validatedFields) {
+
+        const a = this;
+        this.$store.dispatch('createAccount', {
+          email: this.email,
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          mobile: 33 + this.mobile,
+        }).then(function () {
+          a.login();
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
     }
   }
 }
