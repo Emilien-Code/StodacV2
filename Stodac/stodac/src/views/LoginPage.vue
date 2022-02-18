@@ -6,38 +6,48 @@
     <p class="card__subtitle" v-if="mode === 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
     <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
 
-    <div class="form-row">
-      <input v-model="email" class="form-row__input" type="text" placeholder="Adresse mail"/>
-    </div>
+      <div class="form-row">
+        <input v-model="email" :class="{'form-row__input': true, 'validFields': mailValidation, 'unvalidField': !mailValidation&&this.email!==''}" type="text" placeholder="Adresse mail"/>
+      </div>
 
-    <div class="form-row" v-if="mode === 'create'">
-      <input v-model="firstName" class="form-row__input" type="text" placeholder="Prénom"/>
-      <input v-model="lastName" class="form-row__input" type="text" placeholder="Nom"/>
-    </div>
-    <div class="form-row" v-if="mode === 'create'">
-      <input v-model="mobile" class="form-row__input" type="tel" placeholder="Numéro de téléphone"/>
-    </div>
-    <div class="form-row">
-      <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe"/>
-    </div>
-    <div class="form-row" v-if="mode === 'create'">
-      <input v-model="passwordVerif" class="form-row__input" type="password" placeholder="Vérification du mot de passe"/>
-    </div>
-    <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
-      Adresse mail et/ou mot de passe invalide
-    </div>
-    <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
-      Adresse mail déjà utilisée
-    </div>
-    <div class="form-row">
-      <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
+        <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
+      </div>
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
+      </div>
+      <div class="form-row">
+        <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
+      </div>
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
+      </div>
+      <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
+        Adresse mail et/ou mot de passe invalide
+      </div>
+      <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
+        Adresse mail déjà utilisée
+      </div>
+
+
+
+
+
+    <div class="form-row conexion">
+
+        <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
         <span v-if="status === 'loading'">Connexion en cours...</span>
         <span v-else>Connexion</span>
       </button>
+
+
       <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
-        <span v-if="status === 'loading'">Création en cours...</span>
-        <span v-else>Créer mon compte</span>
+          <span v-if="status === 'loading'">Création en cours...</span>
+          <span v-else>Créer mon compte</span>
       </button>
+
+
     </div>
     </div>
 </template>
@@ -57,16 +67,27 @@ export default {
       password: '',
       mobile: '',
       passwordVerif:'',
-      closeLogin: false
     }
   },
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
-        return this.email !== "" && this.firstName !== "" && this.lastName !== "" && this.password !== "";
+        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.phoneValidation;
       } else {
-        return this.email !== "" && this.password !== "";
+        return this.mailValidation && this.passwordValidation
       }
+    },
+    mailValidation: function(){
+      const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regexp.test(String(this.email).toLowerCase());
+    },
+    phoneValidation: function(){
+      const regexp = /^[0-9]{10}$/;
+      return regexp.test(String(this.mobile));
+    },
+    passwordValidation: function(){
+      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
+      return regexp.test(String(this.password));
     },
     ...mapState(['status'])
   },
@@ -83,26 +104,35 @@ export default {
       this.mode = 'login';
     },
     login: function(){
-      const a = this;
-      this.$store.dispatch('login',{
-        email: this.email,
-        password:this.password
-      }).then(function(){console.log("user loggedIn");a.$router.push('/commande')})
-        .catch(function(error){console.log("cannot log", error)})
+      if(this.validatedFields) {
+        const a = this;
+        this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password
+        }).then(function () {
+          console.log("user loggedIn");
+          a.$router.push('/commande')
+        })
+            .catch(function (error) {
+              console.log("cannot log", error)
+            })
+      }
     },
     createAccount: function(){
-      const a = this;
-      this.$store.dispatch('createAccount', {
-        email: this.email,
-        password: this.password,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        mobile: 33 + this.mobile,
-      }).then(function(){
-        a.login();
-      }).catch(function (error){
-        console.log(error);
-      });
+      if(this.validatedFields) {
+        const a = this;
+        this.$store.dispatch('createAccount', {
+          email: this.email,
+          password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          mobile: 33 + this.mobile,
+        }).then(function () {
+          a.login();
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
     }
   }
 }
@@ -172,10 +202,12 @@ export default {
 }
 
 .card {
+  padding-top: 90px;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
   width: 800px;
+  height: 64vh;
   background:white;
 }
 
@@ -197,7 +229,7 @@ export default {
   font-weight: 800;
   font-size: 15px;
   border: none;
-  width: 100%;
+  width: 380px;
   padding: 16px;
   transition: .4s background-color;
 }
@@ -224,6 +256,27 @@ export default {
     cursor:not-allowed;
     background:#cecece;
   }
+  .conexion{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: self-end;
+    height: 100px;
+    justify-content: center;
+  }
+.unvalidField{
+  border: solid 2px #F18F01;
+  transition: 1s;
+
+}
+.validFields{
+  transition: 1s;
+  border: solid 2px #078A6C;
+}
+.emptyField{
+  border: solid 2px #000!important;
+}
+textarea, select, input, button { outline: none; }
 
 
 </style>
