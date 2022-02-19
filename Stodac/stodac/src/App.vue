@@ -300,7 +300,7 @@ button.login {
   font-weight: bold;
   font-size: 1.2em;
   color: White;
-  margin-right: 5vw
+  margin-right: 50px
 }
 .nbPannier-enter-active {
   animation: bounce-in .5s;
@@ -461,29 +461,10 @@ a:hover span{
   width:70px;
 }
 #span2{
-  left: 287px;
+  left: 265px;
   width:140px;
 }
 .router-link-active span {
   color: #F18F01;
-}
-
-@media (max-width: 1000px) {
-  #span2{
-    left: 270px;
-    width:140px;
-  }
-}
-@media (max-width: 850px) {
-  #span2{
-    left: 260px;
-    width:140px;
-  }
-}
-@media (max-width: 700px) {
-  #span2{
-    left: 250px;
-    width:140px;
-  }
 }
 </style>
