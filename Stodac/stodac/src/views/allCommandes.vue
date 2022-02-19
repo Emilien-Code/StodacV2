@@ -137,7 +137,7 @@ export default {
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
-      this.$router.push('/login/');
+      this.$router.push('/login/allCommandes');
     }
     this.$store.dispatch('getUserInfos').then(()=>{
         console.log("etape1")

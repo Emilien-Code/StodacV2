@@ -90,6 +90,9 @@ export default {
     }
   },
   mounted: function(){
+    if(this.$store.state.user.userID === -1){
+      this.$router.push('/login/add');
+    }
     this.$store.dispatch('getUserInfos');
     axios.get('http://localhost:3000/api/stuff/manufacturer')
         .then((response)=>{
