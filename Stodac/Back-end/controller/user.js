@@ -35,7 +35,7 @@ exports.signup = (req, res, next) => {
                         secure: true, // true for 465, false for other ports
                         auth: {
                             user: "boutique@stodac.fr", // generated ethereal user
-                            pass: "Bouboustodac@54360", // generated ethereal password
+                            pass: "StdcBoo54@", // generated ethereal password
                         },
                     });
 
@@ -408,47 +408,32 @@ exports.newCommand = (req, res) => {
             if(err) console.log(err);
             console.log(docs)
             res.send()
-        })
-        // .then(()=>{})
+        }).then(()=>{
+            console.log("chocapic")
+                    async function main() {
+                        let transporter = nodemailer.createTransport({
+                            host: "ssl0.ovh.net",
+                            port: 465,
+                            secure: true,
+                            auth: {
+                                user: "boutique@stodac.fr",
+                                pass: "StdcBoo54@",
+                            },
+                        });
+
+                        let info = await transporter.sendMail({
+                            from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                            to: req.body.email, // list of receivers
+                            subject: "Nouvelle commande", // Subject line
+                            text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                            html: "<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>", // html body
+                        });
+
+                        console.log("Message sent: %s", info.messageId);
+                    }
+                    main().catch(console.error);
+            })
     })
-    // .then(()=>{
-        // facture_crea = {
-        //     street: req.body.street,
-        //     city: req.body.city,
-        //     streetNumber: req.body.streetNumber,
-        //     postCode: req.body.postCode,
-        //     moyendepayement: "rien",
-        // }
-        // ajd = new Date()
-        // ajd = String(ajd.getDay()) + "/" + String(ajd.getMonth() + 1) + "/" + String(ajd.getFullYear())
-        // lacommande = {
-        //     materiels: materiels_crea,
-        //     facture: facture_crea,
-        //     date: ajd,
-        //     fini: false
-        // }
-        // console.log(materiels_crea)
-        // console.log(lacommande)
-        // User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
-        //     if(err) console.log(err);
-        //     console.log(docs)
-        // }).then(()=>{res.send()})
-    // })
-    // commande = {
-    //     materiels: materiels_crea,
-    //     facture: facture_crea,
-    //     date: ajd,
-    //     fini: false
-    // }
-    // userID: docs[0]._id,
-    // street: docs[0].street,
-    // city: docs[0].city,
-    // streetNumber: docs[0].streetNumber,
-    // command: docs[0].pannier,
-    // postCode: docs[0].postCode,
-    // prix: docs[0].prix_ttl_panier,
-    // moyendepayement: "rien",
-    // prixpayer: 0
 }
 
 exports.resetpanier = (req, res) => {
