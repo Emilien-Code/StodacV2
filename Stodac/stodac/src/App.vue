@@ -51,8 +51,6 @@
 
     </div>
   </div>
-
-
   <div id="menuContainer" v-if="menu">
     <router-link @click="closeMenu" class="menu-content" to="/">
       Boutique
@@ -74,8 +72,6 @@
     <div class="menu-content" @click="connection"> Conexion </div>
 
   </div>
-
-
 
   <div class="banner">
     <h1 class="titre">Stodac.</h1>
@@ -176,7 +172,7 @@ export default {
 }
 #nav  {
   width: 100%;
-  position: absolute  ;
+  position: fixed  ;
  /* position: -webkit-sticky;*/
   z-index: 3;
 }
@@ -343,6 +339,9 @@ button.login {
 }
 
 @media (max-width: 650px) {
+  .titre  {
+    padding: 0;
+  }
   .nav_left {
     display: none;
   }
@@ -462,7 +461,7 @@ a:hover span{
   width:70px;
 }
 #span2{
-  left: 285px;
+  left: 287px;
   width:140px;
 }
 .router-link-active span {
