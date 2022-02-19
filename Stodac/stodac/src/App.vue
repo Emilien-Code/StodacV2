@@ -468,4 +468,23 @@ a:hover span{
 .router-link-active span {
   color: #F18F01;
 }
+
+@media (max-width: 1000px) {
+  #span2{
+    left: 270px;
+    width:140px;
+  }
+}
+@media (max-width: 850px) {
+  #span2{
+    left: 260px;
+    width:140px;
+  }
+}
+@media (max-width: 700px) {
+  #span2{
+    left: 250px;
+    width:140px;
+  }
+}
 </style>

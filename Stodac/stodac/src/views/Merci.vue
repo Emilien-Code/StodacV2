@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="merci">
         <p class="title">Merci d'avoir commandé chez nous !</p>
         <div>
         <table>
@@ -57,6 +57,9 @@ export default {
 </script>
 
 <style scoped>
+#merci  {
+  margin-top: 80px;
+}
 .title{
     margin-top: 20px;;
     text-align: center;

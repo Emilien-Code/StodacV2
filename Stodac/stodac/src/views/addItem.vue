@@ -129,5 +129,7 @@ export default {
 </script>
 
 <style scoped>
-
+#addItem{
+  margin-top: 80px;
+}
 </style>

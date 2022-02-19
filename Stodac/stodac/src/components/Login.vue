@@ -198,7 +198,7 @@ export default {
 
 .card {
   position:fixed;
-  z-index: 3;
+  z-index: 4;
   top: 70px;
   right: 25px;
   max-width: 100%;

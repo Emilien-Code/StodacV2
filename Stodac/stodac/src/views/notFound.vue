@@ -1,5 +1,5 @@
 <template>
-  <div class="NotFound">
+  <div id="NotFound">
     <h1>Erreur 404 comme on dit</h1>
   </div>
 </template>
@@ -21,5 +21,7 @@ export default {
 </script>
 
 <style scoped>
-
+  #NotFound{
+    margin-top:80px
+  }
 </style>

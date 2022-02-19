@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="mesCommandes">
         <div>
             <p class="title">VOS COMMANDES</p>
         </div>
@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style scoped>
+#mesCommandes{
+  margin-top: 80px;
+}
 .title{
     margin-top: 20px;;
     text-align: center;

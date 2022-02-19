@@ -148,6 +148,7 @@ export default {
               this.data;
               this.paidFor = true;
               console.log(order); // + Créer un nouvel élément dans la collection commande
+              this.saveFacture()
             },
             onError: err => {
               console.log(err);
@@ -215,6 +216,9 @@ export default {
 
  <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+#Commande{
+  margin-top: 80px;
+}
 *{
   font-family: 'Poppins', sans-serif;
   margin: 0;

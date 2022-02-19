@@ -1,6 +1,6 @@
 <template>
-  <div class="Produit">
-    <h1>{{ article.name }}</h1>
+  <div id="Produit">
+    <h1 id="name">{{ article.name }}</h1>
     <section id="Un">
       <img :src="article.img" alt="Image d'illustration">
       <div class="PriceAndInfos">
@@ -97,6 +97,9 @@ export default {
 <style scoped>
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
+#Produit{
+  margin-top: 80px;
+}
 li{
   list-style: none;
   margin-left: 50px;
@@ -227,6 +230,9 @@ button:hover {
     width: 80vw;
     padding: 0;
     text-justify: inter-word;
+  }
+  #name{
+    text-align: center;
   }
 
   img {
