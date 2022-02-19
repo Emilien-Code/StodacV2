@@ -452,7 +452,7 @@ a:hover span{
   display: block;
   position: absolute;
   transform: translateY(5px);
-  bottom: 15px;
+  bottom: 25px;
   height: 3px;
   background-color: #ffffff;
   transition: all .5s ease 0s;
