@@ -74,22 +74,12 @@ table{
   table-layout: fixed;
   width: 60%;
   border-collapse: collapse;
-  /* border-bottom: ; */
 }
-thead th:nth-child(1), tbody td:nth-child(1){
-  width: 250px;
-  text-align: center;
-}
-thead th:nth-child(2), tbody td:nth-child(2){
-  width: 300px;
-  text-align: center;
-}
-thead th:nth-child(3), tbody td:nth-child(3){
-  width: 250px;
-  text-align: center;
-}
+
 td, thead th{
   border-bottom: 2px solid black;
-  padding: 30px
+  padding: 30px;
+  text-align: center;
+  width : 30vw;
 }
 </style>
