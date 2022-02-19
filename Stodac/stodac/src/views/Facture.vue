@@ -60,7 +60,7 @@ export default {
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
-      this.$router.push('/login/');
+      this.$router.push(`/login/mesCommandes`);
     }
     this.$store.dispatch('getUserInfos').then(()=>{
       this.$store.dispatch('getFacture', this.$route.params.numfacture).then((resul)=>{

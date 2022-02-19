@@ -116,7 +116,7 @@ export default {
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
     if(this.$store.state.user.userID === -1){
-      this.$router.push('/login/');
+      this.$router.push('/login/commande');
       return;
     }
     this.$store.dispatch('getUserInfos').then(() => {

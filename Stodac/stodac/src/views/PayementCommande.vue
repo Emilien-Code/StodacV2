@@ -67,7 +67,7 @@
  
 
 </div>
-<div v-else>
+<div id="commandelse" v-else>
   <p style="text-align: center">Votre connexion à éxpirée. Reconnectez vous afin d'acceder a ces informations</p>
   <div class="inputsContainer">
   <button @click="reco()" class="button">Reconnection</button>
@@ -174,7 +174,7 @@ export default {
     },
     reco : function(){
       this.$store.commit('logOut');
-      this.$router.push('/login/');
+      this.$router.push('/login/payement');
     },
     saveFacture: function(){
       let option = {
@@ -217,6 +217,9 @@ export default {
  <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 #Commande{
+  margin-top: 80px;
+}
+#commandelse{
   margin-top: 80px;
 }
 *{

@@ -67,6 +67,7 @@ export default {
       password: '',
       mobile: '',
       passwordVerif:'',
+      redirection: this.$route.params.id
     }
   },
   computed: {
@@ -91,11 +92,6 @@ export default {
     },
     ...mapState(['status'])
   },
-  mounted: function(){
-    if(this.$store.state.user.userID !== -1){
-      this.$router.push('/commande');
-    }
-  },
   methods: {
     switchToCreateAccount: function () {
       this.mode = 'create';
@@ -111,7 +107,7 @@ export default {
           password: this.password
         }).then(function () {
           console.log("user loggedIn");
-          a.$router.push('/commande')
+          a.$router.push(`/${a.redirection}`)
         })
             .catch(function (error) {
               console.log("cannot log", error)

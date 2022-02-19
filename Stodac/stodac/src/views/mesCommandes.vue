@@ -1,5 +1,5 @@
 <template>
-    <div id="mesCommandes">
+    <div id="mesCommandes" v-if="userInfos">
         <div>
             <p class="title">VOS COMMANDES</p>
         </div>
@@ -37,11 +37,12 @@ export default {
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
-      this.$router.push('/login/');
+      this.$router.push('/login/mesCommandes');
+    }else{
+      this.$store.dispatch('getUserInfos').then(
+        console.log(this.userInfos)
+      )
     }
-    this.$store.dispatch('getUserInfos').then(
-      console.log(this.userInfos)
-    )
   },
   methods:{
     afficheFacture:function(nomFacture){

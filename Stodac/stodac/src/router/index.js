@@ -23,8 +23,9 @@ const routes = [
     component: () => import('../views/addItem.vue')
   },
   {
-    path:'/login/',
+    path:'/login/:id',
     name: 'login',
+    params: true,
     component: () => import('../views/LoginPage.vue')
   },
   {
@@ -59,10 +60,10 @@ const routes = [
     name: 'allCommandes',
     component: () => import('../views/allCommandes.vue')
   },
-  {
+  /*{
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
-  },
+  },*/
   //{
   //  path: '/admin/',
   //  name: 'admin',

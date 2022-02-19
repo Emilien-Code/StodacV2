@@ -12,7 +12,7 @@
         <div id="advanced">
           <div class="flechecote" id="flecheavancer" v-on:click="rechercheavancer()"></div>
           <p v-on:click="rechercheavancer()">Recherche avancer</p>
-          <div v-if="ouvertavancer">
+          <div id="textAdvanced" v-if="ouvertavancer">
             <input type="text" placeholder="ID Commande" v-model="rechercheID">
             <input type="text" placeholder="email" v-model="rechercheemail">
             <input type="text" placeholder="tel" v-model="recherchetel">
@@ -436,6 +436,21 @@ export default {
 <style scoped>
 #AllCommandes{
   margin-top: 80px;
+}
+#advanced{
+  display: flex;
+  width: 100vw;
+}
+#textAdvanced{
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+}
+input, button  {
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 2px #a3a3a3;
+
 }
 .tableContainer{
   display: flex;
