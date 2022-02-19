@@ -307,6 +307,7 @@ export default {
       }
       else{
         parametre.parametre.push("")
+        parametre.recherche = this.parametre.recherche
       }
       console.log(parametre)
       this.$store.dispatch('getAllCommande', parametre).then((resul)=>{
