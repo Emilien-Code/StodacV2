@@ -79,8 +79,14 @@
   </div>
 
 
-
-  <router-view/>
+<Suspense>
+  <template #default>
+    <router-view/>
+  </template>
+  <template #fallback>
+    <p style="margin-top: 100px">z;,fnzlkf,</p>
+  </template>
+</Suspense>
 
   <Login v-if="tryToLog && this.$store.state.user.userID === -1"/>
   <LogedIn v-if="tryToLog &&  this.$store.state.user.userID !== -1"/>
@@ -447,14 +453,21 @@ button.login {
   }
 }
 }
-a:hover span{
+a span{
   display: block;
   position: absolute;
-  transform: translateY(5px);
-  bottom: 25px;
+  transform: scale(0);
+  bottom: 15px;
   height: 3px;
   background-color: #ffffff;
-  transition: all .5s ease 0s;
+  transition: transform .5s ease 0s;
+  transform-origin: right ;
+}
+a:hover span{
+  transform: scale(1);
+  transform-origin: left;
+  transition: transform .5s ease 0s;
+
 }
 #span1{
   left: 125px;

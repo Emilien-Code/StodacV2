@@ -1,6 +1,8 @@
 <template>
   <div id="addItem">
     <div v-if="$store.state.userInfos.admin">
+      <div class="row">
+
       <div>
         <span>Nom :</span>
         <input type="text" v-model="item.name">
@@ -9,7 +11,9 @@
         <span>Référence : </span>
         <input type="text" v-model="item.reference">
       </div>
-      <div>
+      </div>
+
+      <div class="row">
         <span>Marque :</span>
 
         <select id="marque" v-model="item.manufacturer">
@@ -21,6 +25,12 @@
         nouvelle marque :<input type="text" v-model="item.manufacturer">
 
       </div>
+      <div class="row">
+
+      <div>
+        <span>Poids :</span>
+        <input type="number" v-model="item.poids">
+      </div>
       <div>
         <span>État : (neuf ou occasion) :</span>
         <select id="state" v-model="item.state">
@@ -28,6 +38,9 @@
           <option value="Occasion">Occasion</option>
         </select>
       </div>
+      </div>
+      <div class="row">
+
       <div>
         <span>Quantitée :</span>
         <input type="number" v-model="item.qty">
@@ -36,27 +49,25 @@
         <span>Prix :</span>
         <input type="number" v-model="item.price">
       </div>
-      <div>
-        <span>Poids :</span>
-        <input type="number" v-model="item.poids">
       </div>
-      <div>
+      <div class="row">
         <span>Compatibilités :</span>
-        <input v-for="(comp, index) in compatibilities" :key="comp" type="text" v-model="item.compatibility[index]"/>
-        <button @click="addComp()">+</button>
+        <input class="comps" v-for="(comp, index) in compatibilities" :key="comp" type="text" v-model="item.compatibility[index]"/>
+        <button id="rond" @click="addComp()">+</button>
       </div><!-- VMODEL compatibility[0] -->
-      <div>
+      <div class="row" id="desc">
         <span>Description : </span>
         <textarea v-model="item.description"></textarea>
       </div>
-      <div>
+      <div class="row">
         <span>Image : </span>
         <input type="file" id="file" ref="file" name="first" @change="handleFileUploaded()"/>
       </div>
 
 
-
-      <button @click="create()">Ajouter</button>
+    <div class="row" >
+      <button id="ajouter" @click="create()">Ajouter</button>
+    </div>
 
 
     </div>
@@ -134,5 +145,43 @@ export default {
 <style scoped>
 #addItem{
   margin-top: 80px;
+}
+input, select, textarea, button{
+  padding: 5px;
+  border-radius: 10px;
+  border: solid #078A6C 2px;
+}
+textarea{
+  width: 500px;
+  height: 200px;
+  resize: none;
+}
+#desc{
+  height: 200px;
+}
+.row{
+  width: 100vw;
+  height: 50px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+button  {
+  background-color: #078A6C;
+  cursor: pointer;
+}
+#ajouter  {
+  width: 250px;
+  height: 50px;
+}
+
+#rond{
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+ }
+.comps  {
+  margin-left: 2px;
 }
 </style>

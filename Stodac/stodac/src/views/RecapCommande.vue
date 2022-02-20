@@ -37,9 +37,8 @@
           </div>
         </div>
       <div class="inputsContainer">
-          <div id="remember_adresse" @click="command()" class="button">Commander</div>
+          <button  @click="command()" class="button">Commander</button>
         </div>
-          <div id="ifzoiue" @click="reset()" class="button">Reset</div>
 
 </div>
 </template>
@@ -117,7 +116,7 @@ export default {
  <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 #Commande{
-  margin-top: 80px;
+  margin-top: 130px;
 }
 *{
   font-family: 'Poppins', sans-serif;
@@ -126,7 +125,7 @@ export default {
   box-sizing: border-box;
 }
 .container{
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 .numerot,.postal,.petit{
   width: 350px;
@@ -268,11 +267,6 @@ ul,li{
 .PContainer li{
   margin-bottom: 15px;
 }
-.Payment div{
-  position:relative;
-  left: 50%;
-  transform: translateX(-25%)
-}
 .button {
   background: #419D79;
   color:white;
@@ -290,12 +284,11 @@ ul,li{
   cursor:pointer;
   background: #078A6C;
 }
-#remember_adresse{
-  position: absolute;
-  width: 300px;
-  text-align: center;
-  top : 600px;
-  right: 19%;
 
+@media (max-width: 685px) {
+  .Produit{
+    flex-direction: column;
+  }
 }
+
  </style>

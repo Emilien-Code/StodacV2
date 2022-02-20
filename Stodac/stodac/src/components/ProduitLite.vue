@@ -18,6 +18,7 @@ export default {
   props : {
     produit: Object
   },
+
 }
 </script>
 <style scoped>

@@ -1,81 +1,82 @@
 <template>
-  <div id="home">    
+  <Suspense>
+    <div id="home">
       <div id="precisions">
         <search/>
-            <svg
-              xmlns:dc="http://purl.org/dc/elements/1.1/"
-              xmlns:cc="http://creativecommons.org/ns#"
-              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-              xmlns:svg="http://www.w3.org/2000/svg"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-              xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-              width="500"
-              height="500"
-              viewBox="0 0 500.00001 500.00001"
-              id="svg4162"
-              version="1.1"
-              inkscape:version="0.92.3 (2405546, 2018-03-11)"
-              sodipodi:docname="Search_Icon.svg">
-              <defs
-                id="defs4164" />
-              <sodipodi:namedview
-                id="base"
-                pagecolor="#ffffff"
-                bordercolor="#666666"
-                borderopacity="1.0"
-                inkscape:pageopacity="0.0"
-                inkscape:pageshadow="2"
-                inkscape:zoom="0.954"
-                inkscape:cx="250"
-                inkscape:cy="250"
-                inkscape:document-units="px"
-                inkscape:current-layer="layer1"
-                showgrid="false"
-                units="px"
-                inkscape:window-width="1366"
-                inkscape:window-height="706"
-                inkscape:window-x="-8"
-                inkscape:window-y="-8"
-                inkscape:window-maximized="1" />
-              <metadata
-                id="metadata4167">
-                <rdf:RDF>
-                  <cc:Work
-                    rdf:about="">
-                    <dc:format>image/svg+xml</dc:format>
-                    <dc:type
-                      rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                    <dc:title />
-                  </cc:Work>
-                </rdf:RDF>
-              </metadata>
-              <g
-                inkscape:label="Layer 1"
-                inkscape:groupmode="layer"
-                id="layer1"
-                transform="translate(0,-552.36216)">
-                <g
-                  id="g1400"
-                  transform="translate(-4.3609793,-7.6704785)">
-                  <path
-                    inkscape:connector-curvature="0"
-                    id="path4714"
-                    d="M 232.83952,614.96702 A 154.04816,154.04794 0 0 0 78.79153,769.01382 154.04816,154.04794 0 0 0 232.83952,923.06184 154.04816,154.04794 0 0 0 386.88751,769.01382 154.04816,154.04794 0 0 0 232.83952,614.96702 Z m 0,26.77613 A 129.95832,127.2707 0 0 1 362.79832,769.01382 129.95832,127.2707 0 0 1 232.83952,896.28449 129.95832,127.2707 0 0 1 102.88194,769.01382 129.95832,127.2707 0 0 1 232.83952,641.74315 Z"
-                    style="opacity:1;fill:#2b0000;fill-opacity:1;stroke:none;stroke-opacity:1" />
-                  <rect
-                    ry="18.08342"
-                    rx="33.249443"
-                    transform="matrix(0.65316768,0.7572133,-0.60689051,0.79478545,0,0)"
-                    y="319.55432"
-                    x="794.8775"
-                    height="36.16684"
-                    width="173.02675"
-                    id="rect4721"
-                    style="opacity:1;fill:#2b0000;fill-opacity:1;stroke:none;stroke-opacity:1" />
-                </g>
-              </g>
-            </svg>
+        <svg
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:cc="http://creativecommons.org/ns#"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+            xmlns:svg="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+            width="500"
+            height="500"
+            viewBox="0 0 500.00001 500.00001"
+            id="svg4162"
+            version="1.1"
+            inkscape:version="0.92.3 (2405546, 2018-03-11)"
+            sodipodi:docname="Search_Icon.svg">
+          <defs
+              id="defs4164" />
+          <sodipodi:namedview
+              id="base"
+              pagecolor="#ffffff"
+              bordercolor="#666666"
+              borderopacity="1.0"
+              inkscape:pageopacity="0.0"
+              inkscape:pageshadow="2"
+              inkscape:zoom="0.954"
+              inkscape:cx="250"
+              inkscape:cy="250"
+              inkscape:document-units="px"
+              inkscape:current-layer="layer1"
+              showgrid="false"
+              units="px"
+              inkscape:window-width="1366"
+              inkscape:window-height="706"
+              inkscape:window-x="-8"
+              inkscape:window-y="-8"
+              inkscape:window-maximized="1" />
+          <metadata
+              id="metadata4167">
+            <rdf:RDF>
+              <cc:Work
+                  rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                    rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title />
+              </cc:Work>
+            </rdf:RDF>
+          </metadata>
+          <g
+              inkscape:label="Layer 1"
+              inkscape:groupmode="layer"
+              id="layer1"
+              transform="translate(0,-552.36216)">
+            <g
+                id="g1400"
+                transform="translate(-4.3609793,-7.6704785)">
+              <path
+                  inkscape:connector-curvature="0"
+                  id="path4714"
+                  d="M 232.83952,614.96702 A 154.04816,154.04794 0 0 0 78.79153,769.01382 154.04816,154.04794 0 0 0 232.83952,923.06184 154.04816,154.04794 0 0 0 386.88751,769.01382 154.04816,154.04794 0 0 0 232.83952,614.96702 Z m 0,26.77613 A 129.95832,127.2707 0 0 1 362.79832,769.01382 129.95832,127.2707 0 0 1 232.83952,896.28449 129.95832,127.2707 0 0 1 102.88194,769.01382 129.95832,127.2707 0 0 1 232.83952,641.74315 Z"
+                  style="opacity:1;fill:#2b0000;fill-opacity:1;stroke:none;stroke-opacity:1" />
+              <rect
+                  ry="18.08342"
+                  rx="33.249443"
+                  transform="matrix(0.65316768,0.7572133,-0.60689051,0.79478545,0,0)"
+                  y="319.55432"
+                  x="794.8775"
+                  height="36.16684"
+                  width="173.02675"
+                  id="rect4721"
+                  style="opacity:1;fill:#2b0000;fill-opacity:1;stroke:none;stroke-opacity:1" />
+            </g>
+          </g>
+        </svg>
 
 
         <Category/>
@@ -102,7 +103,17 @@
         </div>
       </div>
 
-  </div>
+    </div>
+
+
+    <template #fallback>
+      <loader/>
+    </template>
+
+  </Suspense>
+
+<!-- loader v-if="isLoading"  Mais ca bug -->
+
 </template>
 
 <script>
@@ -110,6 +121,8 @@ import ProduitLite from '../components/ProduitLite.vue'
 import Category from '../components/Category.vue'
 import Manufacturer from '../components/manufacturer.vue'
 import search from '../components/search.vue'
+import loader from '../components/loader.vue'
+
 // @ is an alias to /src
 
 export default {
@@ -118,21 +131,31 @@ export default {
     return{
       noItems: 0,
       recherche: false,
+      isCodeLoading:true,
+      areDataLoading:true
     }
   },
   components: {
     ProduitLite,
     Category,
     Manufacturer,
-    search
+    search,
+    loader
   },
   mounted() {
+    const a = this
     this.$store.dispatch('getStufs', 1)
-    .then(()=>{console.log('Stuffs chargés')})
+    .then(()=>{
+      a.areDataLoading = false;
+    })
     .catch(()=>{console.log('Impossible de charger les Stuffs')})
     this.$store.dispatch('getStuffNb')
     .then(()=>{console.log('nbStuff chargé')})
     .catch(()=>{console.log('Impossible de charger le nombre Stuffs')})
+
+    window.addEventListener("load", ()=>{
+      a.isCodeLoading = false
+    })
   },
   methods:{
     pushToID : function(item){
@@ -143,6 +166,11 @@ export default {
       this.$store.dispatch('getStufs', nb)
       .then(()=>{console.log('Stuffs chargés')})
       .catch(()=>{console.log('Impossible de charger les Stuffs')})
+    }
+  },
+  computed:{
+    isLoading: function (){
+      return this.areDataLoading || this.isCodeLoading
     }
   }
 }

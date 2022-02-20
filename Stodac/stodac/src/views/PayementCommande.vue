@@ -290,10 +290,13 @@ ul,li{
 .PContainer li{
   margin-bottom: 15px;
 }
-.Payment div{
-  position:relative;
-  left: 50%;
-  transform: translateX(-25%)
+.Payment{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+#paypal-button-container{
+  width: 750px;
 }
 .button {
   background: #419D79;
@@ -324,20 +327,20 @@ thead th:nth-child(1), tbody td:nth-child(1){
   text-align: center;
 }
 thead th:nth-child(2), tbody td:nth-child(2){
-  width: 20vw;
-  text-align: left;
+  width: 10vw;
+  text-align: center;
 }
 thead th:nth-child(3), tbody td:nth-child(3){
   width: 10vw;
-  text-align: right;
+  text-align: center;
 }
 thead th:nth-child(4), tbody td:nth-child(4){
   width: 10vw;
-  text-align: right;
+  text-align: center;
 }
 thead th:nth-child(5), tbody td:nth-child(5){
   width: 10vw;
-  text-align: right;
+  text-align: center;
 }
 td, thead th{
   border-bottom: 2px solid black;
@@ -346,4 +349,22 @@ td, thead th{
 tfoot th{
   text-align: right;
 }
+@media (max-width: 660px) {
+  thead th:nth-child(1), tbody td:nth-child(1){
+    display: none;
+  }
+  thead th:nth-child(2), tbody td:nth-child(2){
+    width: 20vw;
+  }
+  thead th:nth-child(3), tbody td:nth-child(3){
+    width: 20vw;
+  }
+  thead th:nth-child(4), tbody td:nth-child(4){
+    width: 20vw;
+  }
+  thead th:nth-child(5), tbody td:nth-child(5){
+    width: 20vw;
+  }
+}
+
  </style>
