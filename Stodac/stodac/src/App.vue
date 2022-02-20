@@ -80,11 +80,9 @@
 
 
 <Suspense>
-  <template #default>
     <router-view/>
-  </template>
   <template #fallback>
-    <p style="margin-top: 100px">z;,fnzlkf,</p>
+    <loader/>
   </template>
 </Suspense>
 
@@ -102,10 +100,12 @@
 import Login from '@/components/Login.vue'
 import LogedIn from '@/components/LogedIn.vue'
 import Pannier from './components/Pannier.vue'
+import loader from './components/loader.vue'
+
 import { mapState } from 'vuex'
 
 export default {
-  name: 'nav',
+  name: 'app',
   data: function (){
     return{
       tryToLog: false,
@@ -157,7 +157,8 @@ export default {
   components: {
     Login,
     LogedIn,
-    Pannier
+    Pannier,
+    loader
   },
   computed: {
     ...mapState(['userInfos']),

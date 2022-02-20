@@ -1,5 +1,4 @@
 <template>
-  <Suspense>
     <div id="home">
       <div id="precisions">
         <search/>
@@ -104,16 +103,6 @@
       </div>
 
     </div>
-
-
-    <template #fallback>
-      <loader/>
-    </template>
-
-  </Suspense>
-
-<!-- loader v-if="isLoading"  Mais ca bug -->
-
 </template>
 
 <script>
@@ -121,7 +110,6 @@ import ProduitLite from '../components/ProduitLite.vue'
 import Category from '../components/Category.vue'
 import Manufacturer from '../components/manufacturer.vue'
 import search from '../components/search.vue'
-import loader from '../components/loader.vue'
 
 // @ is an alias to /src
 
@@ -140,7 +128,6 @@ export default {
     Category,
     Manufacturer,
     search,
-    loader
   },
   mounted() {
     const a = this
