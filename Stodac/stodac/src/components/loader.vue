@@ -30,7 +30,10 @@
 
 <script>
 export default {
-  name: "loader"
+  name: "loader",
+  props : {
+    isLoaded: Boolean
+  },
 }
 </script>
 
@@ -48,8 +51,10 @@ export default {
   align-items: center;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
+  transition: opacity 1s;
   font-size: 4em;
 }
+
 svg {
   transform: scale(3) translateY(90px) ;
 }
