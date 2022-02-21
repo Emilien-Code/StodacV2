@@ -76,16 +76,14 @@
             </g>
           </g>
         </svg>
-
-
         <Category/>
         <Manufacturer/>
       </div>
       <div id="stuff-container">
         <div id="stuff-wrapper">
-          <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
-            <ProduitLite :produit="item" @click="pushToID(item)"/>
-          </div>
+            <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
+              <ProduitLite class="Products" :produit="item" @click="pushToID(item)"/>
+            </div>
           <p v-if="noItems">Aucun article dans cette catégorie</p>
         </div>
       </div>
@@ -103,6 +101,12 @@
       </div>
 
     </div>
+
+  <Transition>
+
+  <loader v-if="isLoading"/>
+  </Transition>
+
 </template>
 
 <script>
@@ -110,7 +114,7 @@ import ProduitLite from '../components/ProduitLite.vue'
 import Category from '../components/Category.vue'
 import Manufacturer from '../components/manufacturer.vue'
 import search from '../components/search.vue'
-
+import loader from '../components/loader'
 // @ is an alias to /src
 
 export default {
@@ -119,7 +123,6 @@ export default {
     return{
       noItems: 0,
       recherche: false,
-      isCodeLoading:true,
       areDataLoading:true
     }
   },
@@ -128,21 +131,19 @@ export default {
     Category,
     Manufacturer,
     search,
+    loader
   },
   mounted() {
-    const a = this
     this.$store.dispatch('getStufs', 1)
     .then(()=>{
-      a.areDataLoading = false;
+      console.log("Stuffs loaded")
     })
     .catch(()=>{console.log('Impossible de charger les Stuffs')})
     this.$store.dispatch('getStuffNb')
     .then(()=>{console.log('nbStuff chargé')})
     .catch(()=>{console.log('Impossible de charger le nombre Stuffs')})
 
-    window.addEventListener("load", ()=>{
-      a.isCodeLoading = false
-    })
+
   },
   methods:{
     pushToID : function(item){
@@ -156,8 +157,11 @@ export default {
     }
   },
   computed:{
-    isLoading: function (){
-      return this.areDataLoading || this.isCodeLoading
+    isLoading:function (){
+      if(this.$store.state.stuffs!=0) {
+        return false;
+      }
+      return true
     }
   }
 }
@@ -250,6 +254,63 @@ button:hover{
   #manufacturer{
     left:50%;
     transform: translateX(-110%);
+  }
+}
+
+
+/************** transitions **************/
+
+#stuff-wrapper div:nth-child(1){
+  animation-delay: .1s;
+}
+#stuff-wrapper div:nth-child(2){
+  animation-delay: .15s;
+}
+#stuff-wrapper div:nth-child(3){
+  animation-delay: .2s;
+}
+#stuff-wrapper div:nth-child(4){
+  animation-delay: .25s;
+}
+#stuff-wrapper div:nth-child(5){
+  animation-delay: .3s;
+}
+#stuff-wrapper div:nth-child(6){
+  animation-delay: .35s;
+}
+#stuff-wrapper div:nth-child(7){
+  animation-delay: .4s;
+}
+#stuff-wrapper div:nth-child(8){
+  animation-delay: .45s;
+}
+#stuff-wrapper div:nth-child(9){
+  animation-delay: .5s;
+}
+
+
+#stuff-wrapper div{
+  opacity: 0;
+  animation: .5s apear;
+  animation-fill-mode: forwards;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+@keyframes apear{
+  0%{
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
   }
 }
  </style>
