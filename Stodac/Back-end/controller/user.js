@@ -74,7 +74,7 @@ exports.getAllUsers = (req, res) =>{
 };
 
 exports.getInfos = (req, res) =>{
-    User.find({_id:req.params.id}, (err, docs)=>{
+    User.find({_id:req.params.id},{password:0}, (err, docs)=>{
        if(err) console.log(err);
        res.send(docs);
    });
@@ -357,82 +357,163 @@ exports.newCommand = (req, res) => {
     req_id = req.params.id
     console.log("ça commence")
     User.find({_id:req_id}, (err, docs) => {
-        docs[0].pannier.forEach(function(object){
-            materiel = {
-                obj:{
-                    id: object.articleID,
-                    reference: object.articleRef,
-                    name: object.articleName,
-                    img: object.articleImg,
-                    price: object.articlePrice,
-                },
-                qty: object.qty,
-                prix_ttl: object.prix_ttl
-            }
-            materiels_crea.push(materiel)
-        })
-        prix_ttl_crea = docs[0].prix_ttl_panier
-        console.log("jaifini")
-        facture_crea = {
-            lastname: req.body.lastname,
-            firstname: req.body.firstname,
-            mobile: req.body.mobile,
-            email: req.body.email,
-            street: req.body.street,
-            city: req.body.city,
-            streetNumber: req.body.streetNumber,
-            postCode: req.body.postCode,
-            moyendepayement: "rien",
-        }
-        ajd = new Date()
-        // console.log(ajd.getDate())
-        console.log(new Date(ajd.toISOString()))
-        ajd = new Date(ajd.toISOString())
-        numerocommande = String(docs[0].comande.length + 1)
-        for(var i = 0; numerocommande.length <= 5; i++){
-            numerocommande = "0"+numerocommande
-        }
-        lacommande = {
-            id:docs[0]._id+numerocommande,
-            materiels: materiels_crea,
-            facture: facture_crea,
-            prix_ttl: prix_ttl_crea,
-            date: ajd,
-            etat: 0,
-            nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
-            fini: false
-        }
-        console.log(materiels_crea)
-        console.log(lacommande)
-        User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+        docsancien = docs[0]
+        User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
             if(err) console.log(err);
-            console.log(docs)
-            res.send()
-        }).then(()=>{
-            console.log("chocapic")
-                    async function main() {
-                        let transporter = nodemailer.createTransport({
-                            host: "ssl0.ovh.net",
-                            port: 465,
-                            secure: true,
-                            auth: {
-                                user: "boutique@stodac.fr",
-                                pass: "StdcBoo54@",
-                            },
-                        });
-
-                        let info = await transporter.sendMail({
-                            from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                            to: req.body.email, // list of receivers
-                            subject: "Nouvelle commande", // Subject line
-                            text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                            html: "<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>", // html body
-                        });
-
-                        console.log("Message sent: %s", info.messageId);
+            else{
+                docsancien.pannier.forEach(function(object){
+                    materiel = {
+                        obj:{
+                            id: object.articleID,
+                            reference: object.articleRef,
+                            name: object.articleName,
+                            img: object.articleImg,
+                            price: object.articlePrice,
+                        },
+                        qty: object.qty,
+                        prix_ttl: object.prix_ttl
                     }
-                    main().catch(console.error);
-            })
+                    materiels_crea.push(materiel)
+                })
+                prix_ttl_crea = docsancien.prix_ttl_panier
+                console.log("jaifini")
+                facture_crea = {
+                    lastname: req.body.lastname,
+                    firstname: req.body.firstname,
+                    mobile: req.body.mobile,
+                    email: req.body.email,
+                    street: req.body.street,
+                    city: req.body.city,
+                    streetNumber: req.body.streetNumber,
+                    postCode: req.body.postCode,
+                    moyendepayement: "rien",
+                }
+                ajd = new Date()
+                // console.log(ajd.getDate())
+                console.log(new Date(ajd.toISOString()))
+                ajd = new Date(ajd.toISOString())
+                numerocommande = String(docsancien.comande.length + 1)
+                for(var i = 0; numerocommande.length <= 5; i++){
+                    numerocommande = "0"+numerocommande
+                }
+                lacommande = {
+                    id:docsancien._id+numerocommande,
+                    materiels: materiels_crea,
+                    facture: facture_crea,
+                    prix_ttl: prix_ttl_crea,
+                    date: ajd,
+                    etat: 0,
+                    nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
+                    fini: false
+                }
+                console.log(materiels_crea)
+                console.log(lacommande)
+                User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+                    if(err) console.log(err);
+                    console.log(docs)
+                    res.send()
+                    console.log("chocapic")
+                            async function main() {
+                                let transporter = nodemailer.createTransport({
+                                    host: "ssl0.ovh.net",
+                                    port: 465,
+                                    secure: true,
+                                    auth: {
+                                        user: "boutique@stodac.fr",
+                                        pass: "StdcBoo54@",
+                                    },
+                                });
+        
+                                let info = await transporter.sendMail({
+                                    from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                                    to: req.body.email, // list of receivers
+                                    subject: "Nouvelle commande", // Subject line
+                                    text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                                    html: "<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>", // html body
+                                });
+        
+                                console.log("Message sent: %s", info.messageId);
+                            }
+                            main().catch(console.error);
+                })
+            }
+        });
+        // docsancien.pannier.forEach(function(object){
+        //     materiel = {
+        //         obj:{
+        //             id: object.articleID,
+        //             reference: object.articleRef,
+        //             name: object.articleName,
+        //             img: object.articleImg,
+        //             price: object.articlePrice,
+        //         },
+        //         qty: object.qty,
+        //         prix_ttl: object.prix_ttl
+        //     }
+        //     materiels_crea.push(materiel)
+        // })
+        // prix_ttl_crea = docsancien.prix_ttl_panier
+        // console.log("jaifini")
+        // facture_crea = {
+        //     lastname: req.body.lastname,
+        //     firstname: req.body.firstname,
+        //     mobile: req.body.mobile,
+        //     email: req.body.email,
+        //     street: req.body.street,
+        //     city: req.body.city,
+        //     streetNumber: req.body.streetNumber,
+        //     postCode: req.body.postCode,
+        //     moyendepayement: "rien",
+        // }
+        // ajd = new Date()
+        // // console.log(ajd.getDate())
+        // console.log(new Date(ajd.toISOString()))
+        // ajd = new Date(ajd.toISOString())
+        // numerocommande = String(docsancien.comande.length + 1)
+        // for(var i = 0; numerocommande.length <= 5; i++){
+        //     numerocommande = "0"+numerocommande
+        // }
+        // lacommande = {
+        //     id:docsancien._id+numerocommande,
+        //     materiels: materiels_crea,
+        //     facture: facture_crea,
+        //     prix_ttl: prix_ttl_crea,
+        //     date: ajd,
+        //     etat: 0,
+        //     nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
+        //     fini: false
+        // }
+        // console.log(materiels_crea)
+        // console.log(lacommande)
+        // User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+        //     if(err) console.log(err);
+        //     console.log(docs)
+        //     res.send()
+        // }).then(()=>{
+        //     console.log("chocapic")
+        //             async function main() {
+        //                 let transporter = nodemailer.createTransport({
+        //                     host: "ssl0.ovh.net",
+        //                     port: 465,
+        //                     secure: true,
+        //                     auth: {
+        //                         user: "boutique@stodac.fr",
+        //                         pass: "StdcBoo54@",
+        //                     },
+        //                 });
+
+        //                 let info = await transporter.sendMail({
+        //                     from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+        //                     to: req.body.email, // list of receivers
+        //                     subject: "Nouvelle commande", // Subject line
+        //                     text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+        //                     html: "<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>", // html body
+        //                 });
+
+        //                 console.log("Message sent: %s", info.messageId);
+        //             }
+        //             main().catch(console.error);
+        //     })
     })
 }
 
@@ -456,6 +537,38 @@ exports.setEtat = (req, res) => {
             })
         }
         else{
+            res.send()
+        }
+    })
+}
+
+exports.ChangeTout = (req, res) => {
+    User.find({_id:req.params.id},{admin:1},(err,docs)=>{
+        console.log(docs)
+        if(docs[0].admin){
+            User.updateOne({
+                "comande":{
+                    $elemMatch:{"id":req.body.id}
+                }
+            }, 
+            {
+                $set:{
+                    "comande.$.etat":req.body.parametre[0], 
+                    "comande.$.facture.lastname":req.body.parametre[1], 
+                    "comande.$.facture.firstname":req.body.parametre[2],  
+                    "comande.$.facture.streetnumber":req.body.parametre[3], 
+                    "comande.$.facture.street": req.body.parametre[4],
+                    "comande.$.facture.city":req.body.parametre[5],
+                    "comande.$.facture.postCode":req.body.parametre[6],
+                    "comande.$.facture.email":req.body.parametre[7],
+                    "comande.$.facture.mobile":req.body.parametre[8],
+                }
+            }, 
+            (err, docs)=>{
+                console.log(docs)
+                res.send()
+            })
+        }else{
             res.send()
         }
     })

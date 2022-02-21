@@ -1,5 +1,5 @@
 <template>
-    <div id="merci">
+    <div id="merci" v-if="userInfos.comande[0]">
         <p class="title">Merci d'avoir commandé chez nous !</p>
         <div>
         <table>
@@ -37,9 +37,10 @@ export default {
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/');
     }
-    this.$store.dispatch('getUserInfos').then(
+    this.$store.dispatch('getUserInfos').then(()=>{
+      console.log("la c le user info bg")
       console.log(this.userInfos)
-    )
+    })
   },
   methods:{
     afficheFacture:function(nomFacture){
