@@ -81,11 +81,9 @@
       </div>
       <div id="stuff-container">
         <div id="stuff-wrapper">
-          <TransitionGroup name="products">
             <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
               <ProduitLite class="Products" :produit="item" @click="pushToID(item)"/>
             </div>
-          </TransitionGroup>
           <p v-if="noItems">Aucun article dans cette catégorie</p>
         </div>
       </div>
@@ -263,45 +261,40 @@ button:hover{
 /************** transitions **************/
 
 #stuff-wrapper div:nth-child(1){
-  transition-delay: .5s;
+  animation-delay: .1s;
 }
 #stuff-wrapper div:nth-child(2){
-  transition-delay: .55s;
+  animation-delay: .15s;
 }
 #stuff-wrapper div:nth-child(3){
-  transition-delay: .6s;
+  animation-delay: .2s;
 }
 #stuff-wrapper div:nth-child(4){
-  transition-delay: .65s;
+  animation-delay: .25s;
 }
 #stuff-wrapper div:nth-child(5){
-  transition-delay: .7s;
+  animation-delay: .3s;
 }
 #stuff-wrapper div:nth-child(6){
-  transition-delay: .75s;
+  animation-delay: .35s;
 }
 #stuff-wrapper div:nth-child(7){
-  transition-delay: .8s;
+  animation-delay: .4s;
 }
 #stuff-wrapper div:nth-child(8){
-  transition-delay: .85s;
+  animation-delay: .45s;
 }
 #stuff-wrapper div:nth-child(9){
-  transition-delay: .9s;
+  animation-delay: .5s;
 }
 
 
-.products-enter-active,
-.products-leave-active {
-  transition: all 0.5s ease;
-}
-.products-enter-from,
-.products-leave-to {
+#stuff-wrapper div{
   opacity: 0;
-  position: absolute;
-  z-index: -1;
-  transform: translateY(-30px);
+  animation: .5s apear;
+  animation-fill-mode: forwards;
 }
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
@@ -309,5 +302,15 @@ button:hover{
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+@keyframes apear{
+  0%{
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
  </style>
