@@ -138,6 +138,7 @@ export default {
     savethat:function(){
         this.modifier = false
         const parametre={
+            id:this.commande.id,
             parametre: [this.etatcommande, this.testnom, this.testpernom, this.testnumrue, this.testrue, this.testville, this.testcp, this.testemail, this.testtel]
         }
         this.$store.dispatch("changeFacture", parametre).then(() => {

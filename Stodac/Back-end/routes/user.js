@@ -14,6 +14,7 @@ router.post('/addpanier/:id', auth, usrCtrl.addpanier)
 router.post('/addCommande/:id', auth, usrCtrl.newCommand)
 router.post('/allFacture/:id/', auth, usrCtrl.getAllCommandes)
 router.post('/changeEtat/:id', auth, usrCtrl.setEtat)
+router.post(`/changeAdm/:id`, auth, usrCtrl.ChangeTout)
 
 // Get routes
 
