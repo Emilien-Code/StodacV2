@@ -89,7 +89,7 @@ export default {
   color: #007057;
   font-weight : bold;
 }
-* {
+*{
   font-family: 'Segoe UI', sans-serif;
 }
 #noResult{

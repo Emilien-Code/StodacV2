@@ -252,7 +252,6 @@ button.icon svg{
 button.pannier svg {
   margin-right: 50px;
 }
-
 button.login {
   background-color: #078A6C;
 }
@@ -284,10 +283,10 @@ button.login {
   font-family: sans-serif;
   color: #2c3e50;
   width: 100vw;
+  min-height: 100vh;
   overflow: hidden;
 
 }
-
 .wrapper {
   padding: 20px;
   height: 70px;
@@ -344,7 +343,6 @@ button.login {
     height: 40px;
   }
 }
-
 @media (max-width: 650px) {
   .titre  {
     padding: 0;
@@ -403,7 +401,7 @@ button.login {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     width: 100%;
     height: 100%;
