@@ -265,9 +265,6 @@ export default {
   transition: 1s;
   border: solid 2px #078A6C;
 }
-.emptyField{
-  border: solid 2px #000!important;
-}
 textarea, select, input, button { outline: none; }
 
 @media (max-width: 650px) {
@@ -281,18 +278,6 @@ textarea, select, input, button { outline: none; }
   animation: apearform .5s ease forwards;
   opacity: 0;
 }
-
-.card div.form-row:nth-child(1){
-  animation-delay: 0s;
-  border: solid 10px #078A6C;
-}
-.card div.form-row:nth-child(2){
-  animation-delay: 0s;
-}
-.card div.form-row:nth-child(3){
-  animation-delay: 0s;
-}
-
 
 /* Email connection password*/
 .card div.form-row:nth-child(4){

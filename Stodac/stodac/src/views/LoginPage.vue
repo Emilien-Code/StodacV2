@@ -154,6 +154,7 @@ export default {
     flex:1;
     min-width: 100px;
     color: black;
+    border: solid 2px #ffffff;
   }
 
   .form-row__input::placeholder {

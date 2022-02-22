@@ -60,10 +60,15 @@ const routes = [
     name: 'allCommandes',
     component: () => import('../views/allCommandes.vue')
   },
-  /*{
+  {
+    path:'/MentionsLegales/',
+    name: 'MentionsLegales',
+    component: () => import('../views/MentionsLegal.vue')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
-  },*/
+  },
   //{
   //  path: '/admin/',
   //  name: 'admin',

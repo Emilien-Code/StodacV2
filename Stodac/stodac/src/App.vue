@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <div class="wrapper">
+    <div :class="{'wrapper':windowTop<70, 'moved':windowTop>=70}">
 
     <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
       <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
@@ -79,19 +79,18 @@
   </div>
 
 
-<Suspense>
     <router-view/>
-  <template #fallback>
-    <loader/>
-  </template>
-</Suspense>
+
 
   <Login v-if="tryToLog && this.$store.state.user.userID === -1"/>
   <LogedIn v-if="tryToLog &&  this.$store.state.user.userID !== -1"/>
   <Pannier v-if="pannier"/>
   <footer>
 
-    J'aime le saucisson
+    <router-link to="/MentionsLegales/">
+      Mention légales
+      <span id="span3"></span>
+    </router-link>
 
   </footer>
 
@@ -100,8 +99,6 @@
 import Login from '@/components/Login.vue'
 import LogedIn from '@/components/LogedIn.vue'
 import Pannier from './components/Pannier.vue'
-import loader from './components/loader.vue'
-
 import { mapState } from 'vuex'
 
 export default {
@@ -113,16 +110,21 @@ export default {
       login:'',
       loginData : Login.data,
       pannier: false,
-      menu:false
+      menu:false,
+      windowTop:0
     }
   },
   mounted: function(){
+    window.addEventListener('scroll', this.handleScroll);
     if(this.$store.state.user.userID !== -1){
       this.$store.dispatch('getUserInfos').then(()=>{
         console.log("la il y a le userInfo")
         console.log(this.userInfos)
       })
     }
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.onScroll)
   },
   methods:{
     connection(){
@@ -134,6 +136,10 @@ export default {
         this.login = '';
       }
       this.menu=false
+    },
+    handleScroll () {
+      this.windowTop = window.top.scrollY
+      console.log(this.windowTop)
     },
     logCloseLogin(){
       this.tryToLog = false;
@@ -152,17 +158,16 @@ export default {
     },
     closeMenu(){
       this.menu = false
-    }
+    },
   },
   components: {
     Login,
     LogedIn,
     Pannier,
-    loader
   },
   computed: {
     ...mapState(['userInfos']),
-  }
+  },
 }
 </script>
 
@@ -180,7 +185,6 @@ export default {
 #nav  {
   width: 100%;
   position: fixed  ;
- /* position: -webkit-sticky;*/
   z-index: 3;
 }
 #nbPannier2{
@@ -212,6 +216,11 @@ footer{
   background-color: #007057;
   color: white;
   text-align: center;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 a{
   text-decoration: none;
@@ -225,11 +234,6 @@ a{
   top: 0;
   height: 70px;
   width: 70px;
-}
-.wrapper{
-  width:100%;
-  overflow:hidden;
-
 }
 button.icon {
   overflow: hidden;
@@ -285,9 +289,8 @@ button.login {
   width: 100vw;
   min-height: 100vh;
   overflow: hidden;
-
 }
-.wrapper {
+.wrapper,.moved {
   padding: 20px;
   height: 70px;
   color: White;
@@ -295,12 +298,23 @@ button.login {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width:100%;
+  overflow:hidden;
+  transform-origin: center;
 }
-#menu-btn{
-  display: none;
-}
-#menuContainer{
-  display: none;
+.moved{
+  position: absolute;
+  transition: width .5s ease;
+  background-color: #007057F0;
+  backdrop-filter: blur(10px);
+  width: 80vw;
+  left: 50%;
+  top: 90vh;
+  transform-origin: center;
+  transform: translateX(-50%);
+  border-radius: 20px;
+  transition: width .5s ease;
+
 }
 .wrapper a {
   font-weight: bold;
@@ -308,27 +322,39 @@ button.login {
   color: White;
   margin-right: 50px
 }
+.moved a {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: White;
+  margin-right: 50px
+}
+#menu-btn{
+display: none;
+}
+#menuContainer{
+display: none;
+}
 .nbPannier-enter-active {
-  animation: bounce-in .5s;
+animation: bounce-in .5s;
 }
 .nbPannier-leave-active {
-  animation: bounce-in .5s reverse;
+animation: bounce-in .5s reverse;
 }
 @keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
+0% {
+transform: scale(0);
 }
-@media (max-width: 650px) {
-.slogan{
-  display: none;
+50% {
+transform: scale(1.5);
 }
+100% {
+transform: scale(1);
+}
+}
+@media (max-width: 780px) {
+  .slogan{
+    display: none;
+  }
   button.icon{
     width: 40px;
     height: 40px;
@@ -337,146 +363,144 @@ button.login {
     width: 35px;
     height: 35px;
   }
-
   button.pannier svg {
     width: 40px;
     height: 40px;
   }
-}
-@media (max-width: 650px) {
   .titre  {
-    padding: 0;
+  padding: 0;
   }
   .nav_left {
-    display: none;
+  display: none;
   }
   .icon{
-    display: none;
+  display: none;
   }
   #menu-btn{
-    display: block;
-    position: absolute;
-    z-index: 2;
-    right: 10px;
-    top: 10px;
-    cursor: pointer;
-    width: 50px;
-    height: 50px ;
-  }
-  .line{
-    width: 50%;
-    height:  3px ;
-    background: #fff;
-    border-radius: 2px;
-    transition: transform 0.4s ease, opacity 0s ease 0.4s, top 0.4s ease 0.4s;
-    position: relative  ;
-    will-change: transform;
-  }
-  .line:nth-child(1){
-    top: 15px;
-  }
-  .line:nth-child(2){
-    top: 20px;
-  }
-  .line:nth-child(3){
-    top: 25px;
-  }
-  .open .line:nth-child(1){
-    top: 18px;
-    transform: rotate(45deg);
-    transition: top 0.2s ease, transform 0.2s ease  0.2s;
-  }
-  .open .line:nth-child(2){
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .open .line:nth-child(3){
-    top: 12px;
-    transform: rotate(-45deg);
-    transition: top 0.2s ease, transform 0.2s ease 0.2s;
-  }
-  #menuContainer{
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #007057;
-    color: #ffffff;
-    animation: 0.5s apearMenu;
-    font-size: 1.2rem;
-  }
-  .menu-content{
-    opacity: 0;
-    margin: 10px;
-    cursor: pointer;
-    -webkit-animation: 0.5s ease 0.5s forwards apearText;
-    -o-animation: 0.5s ease 0.5s forwards apearText;
-    animation: 0.5s ease 0.5s forwards apearText;
-  }
-  .menu-content:nth-child(1){
-    animation-delay: 0.3s;
-  }
-  .menu-content:nth-child(2){
-    animation-delay: 0.4s;
-  }
-  .menu-content:nth-child(3){
-    animation-delay: 0.5s;
-  }
-  .menu-content:nth-child(4){
-    animation-delay: 0.6s;
-  }
-  @keyframes apearText {
-    0%{
-      transform: translateX(-100px);
-      opacity: 0;
-    }
-    100%{
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-@keyframes apearMenu {
-  0%{
-    transform: scale(0);
-    border-radius: 100%;
-  }
-  100%{
-    transform: scale(1);
-    border-radius: 0;
-  }
-}
-}
-a span{
   display: block;
   position: absolute;
+  z-index: 2;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px ;
+  }
+  .line{
+  width: 50%;
+  height:  3px ;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.4s ease, opacity 0s ease 0.4s, top 0.4s ease 0.4s;
+  position: relative  ;
+  will-change: transform;
+  }
+  .line:nth-child(1){
+  top: 15px;
+  }
+  .line:nth-child(2){
+  top: 20px;
+  }
+  .line:nth-child(3){
+  top: 25px;
+  }
+  .open .line:nth-child(1){
+  top: 18px;
+  transform: rotate(45deg);
+  transition: top 0.2s ease, transform 0.2s ease  0.2s;
+  }
+  .open .line:nth-child(2){
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  }
+  .open .line:nth-child(3){
+  top: 12px;
+  transform: rotate(-45deg);
+  transition: top 0.2s ease, transform 0.2s ease 0.2s;
+  }
+  #menuContainer{
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  top: 0;
+  width: 100%;
+  height: 100%;
+    background-color: #007057E0;
+    backdrop-filter: blur(10px);
+  color: #ffffff;
+  animation: 0.5s apearMenu;
+  font-size: 1.2rem;
+  }
+  .menu-content{
+  opacity: 0;
+  margin: 10px;
+  cursor: pointer;
+  -webkit-animation: 0.5s ease 0.5s forwards apearText;
+  -o-animation: 0.5s ease 0.5s forwards apearText;
+  animation: 0.5s ease 0.5s forwards apearText;
+  }
+  .menu-content:nth-child(1){
+  animation-delay: 0.3s;
+  }
+  .menu-content:nth-child(2){
+  animation-delay: 0.4s;
+  }
+  .menu-content:nth-child(3){
+  animation-delay: 0.5s;
+  }
+  .menu-content:nth-child(4){
+  animation-delay: 0.6s;
+  }
+  @keyframes apearText {
+  0%{
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+  }
+
+  @keyframes apearMenu {
+  0%{
   transform: scale(0);
-  bottom: 15px;
-  height: 3px;
-  background-color: #ffffff;
-  transition: transform .5s ease 0s;
-  transform-origin: right ;
+  border-radius: 100%;
+  }
+  100%{
+  transform: scale(1);
+  border-radius: 0;
+  }
+  }
+}
+a span{
+display: block;
+position: absolute;
+transform: scale(0);
+bottom: 15px;
+height: 3px;
+background-color: #ffffff;
+transition: transform .5s ease 0s;
+transform-origin: right ;
 }
 a:hover span{
-  transform: scale(1);
-  transform-origin: left;
-  transition: transform .5s ease 0s;
+transform: scale(1);
+transform-origin: left;
+transition: transform .5s ease 0s;
 
 }
 #span1{
-  left: 125px;
-  width:70px;
+left: 125px;
+width:70px;
 }
 #span2{
-  left: 265px;
-  width:140px;
+left: 265px;
+width:140px;
 }
 .router-link-active span {
-  color: #F18F01;
+color: #F18F01;
 }
 </style>
