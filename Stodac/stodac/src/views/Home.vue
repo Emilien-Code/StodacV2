@@ -81,7 +81,7 @@
       </div>
       <div id="stuff-container">
         <div id="stuff-wrapper">
-            <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
+            <div v-for="item in $store.state.stuffs" :key="item._id" class="product" tabindex="0">
               <ProduitLite class="Products" :produit="item" @click="pushToID(item)"/>
             </div>
           <p v-if="noItems">Aucun article dans cette catégorie</p>
