@@ -104,6 +104,8 @@
   </ul>
 </div>
 
+  <div id="responsabilite">
+
   <h3>  RESPONSABILITE FACE AUX LIENS VERS D'AUTRES SITES</h3>
   <p>  Le site stodac.fr propose de nombreux liens vers d'autres sites, essentiellement des sites officiels (gouvernement, institutions, organismes publics, etc.) mais aussi vers des sites, français ou étrangers, d'associations, d'organismes professionnels du secteur éducatif ou d'entreprises partenaires sur des opérations ponctuelles.</p>
   <p>  Chaque fois, il est systématiquement précisé vers quel site nous vous proposons d'aller. Ces pages, dont les adresses sont régulièrement vérifiées, ne font pas partie du site stodac.fr : elles n'engagent pas la responsabilité de la rédaction du site qui ne peut être tenue pour responsable des contenus vers lesquels ces liens pointent. Ils ne visent qu'à permettre à l'internaute d'accéder plus facilement à d'autres ressources documentaires sur le sujet consulté.</p>
@@ -118,9 +120,10 @@
 </ul>
   <p>  Les sites qui font le choix de pointer vers stodac.fr engagent leur responsabilité dès lors qu'ils porteraient atteinte à l'image du site public.</p>
 
+  </div>
 
-  DROIT APPLICABLE ET ATTRIBUTION DE JURIDICTION
-  Tout litige en relation avec l’utilisation du site stodac.fr est soumis au droit français. Il est fait attribution exclusive de juridiction aux tribunaux compétents de Paris.
+  <h2>DROIT APPLICABLE ET ATTRIBUTION DE JURIDICTION</h2>
+  <p>Tout litige en relation avec l’utilisation du site stodac.fr est soumis au droit français. Il est fait attribution exclusive de juridiction aux tribunaux compétents de Paris.</p>
 
   ACCESSIBILITE DU SITE
   Un soin tout particulier est pris pour rendre le site internet stodac.fr le plus accessible possible, et tout particulièrement aux personnes ayant un handicap visuel. Les pages sont mises progressivement en conformité avec les recommandations du référentiel commun des critères d'accessibilité des services Internet de l'administration française pour respecter la loi n°2005-102 du 11 février 2005 pour l'égalité des droits et des chances, la participation et la citoyenneté des personnes handicapées.

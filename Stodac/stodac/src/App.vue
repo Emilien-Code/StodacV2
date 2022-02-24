@@ -304,6 +304,7 @@ button.login {
 }
 .moved{
   position: absolute;
+  z-index: 2;
   transition: width .5s ease;
   background-color: #007057F0;
   backdrop-filter: blur(10px);

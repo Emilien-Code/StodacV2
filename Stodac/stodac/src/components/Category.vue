@@ -80,6 +80,7 @@ button{
   cursor: pointer;
   border-radius: 10px;
   transition: height 0.5s ease-out;
+  z-index: 5;
 }
 li{
   padding: 10px;
