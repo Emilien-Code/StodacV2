@@ -47,6 +47,8 @@ export default {
 }
 img{
   width: 250px;
+  object-fit: cover;
+  height: 190px;
   display: inline;
 }
 </style>

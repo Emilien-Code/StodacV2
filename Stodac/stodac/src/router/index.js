@@ -5,11 +5,15 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { transition: 'slide-left' },
+
   },
   {
     path: '/produit/:id',
     name: 'produitTemplate',
+    meta: { transition: 'slide-right' },
+
     component: () => import('../views/Produit.vue')
   },
   {

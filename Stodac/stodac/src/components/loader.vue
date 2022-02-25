@@ -46,6 +46,7 @@ export default {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0,0,0,0.25);
+  backdrop-filter: blur(20px);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -261,7 +261,8 @@ li:hover{
   right: 25px;
   max-width: 100%;
   width: 400px;
-  background:white;
+  background:#ffffffA0;
+  backdrop-filter: blur(20px);
   border-radius: 16px;
   padding:32px;
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;

@@ -202,8 +202,8 @@ export default {
   right: 25px;
   max-width: 100%;
   width: 400px;
-  background:#ffffffE0;
-  backdrop-filter: blur(10px);
+  background:#ffffffA0;
+  backdrop-filter: blur(20px);
 
   border-radius: 16px;
   padding:32px;
