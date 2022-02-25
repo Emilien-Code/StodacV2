@@ -1,5 +1,6 @@
 const http = require('http');
 const app = require('./app');
+const paypalCtrl = require('./controller/paypal')
 
 const normalizePort = val => {
     const port = parseInt(val, 10);
@@ -43,5 +44,11 @@ server.on('listening', () => {
     const adress = server.address();
     const bind = typeof adress === 'string' ? 'pipe ' + address : 'port ' + port; 
 })
+if(paypalCtrl.demandeToken){
+    console.log("token paypal recupe")
+}
+else{
+    console.log("token paypal pas recupe")
+}
 console.log('port: ', port);
 server.listen(port);

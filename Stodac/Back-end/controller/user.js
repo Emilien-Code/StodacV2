@@ -411,6 +411,7 @@ exports.newCommand = (req, res) => {
                 User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
                     if(err) console.log(err);
                     console.log(docs)
+                    
                     res.send()
                     console.log("chocapic")
                             async function main() {
