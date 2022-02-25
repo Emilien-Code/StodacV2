@@ -5,7 +5,6 @@
       <div></div>
     </button>
     <h1 style="text-align:center">Panier</h1>
-      <!--<transition-group name="list" tag="ul" appear>-->
       <li  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
           <div class="Produit">
               <img :src="article.article.img" alt="">
@@ -29,7 +28,6 @@
                 </button>
           </div>
       </li>
-    <!--</transition-group>-->
     <div id="actions" v-if="$store.state.pannier.length !== 0">
           <a href="/">Continuer mes achats</a>
           <button class="button" @click="push()">Commander</button>
@@ -159,7 +157,11 @@ input::-webkit-inner-spin-button {
     align-items: center;
     margin: 15px 0 ;
     margin-left: 10px;
-    animation: apear .4s ease-out 0s 1 forwards;
+  opacity: 0;
+    animation: apearItem .4s ease-out 0s 1 forwards;
+}
+.Produit:nth-child(1){
+  animation-delay: .2s;
 }
 img{
     object-fit: cover;
@@ -263,6 +265,8 @@ li:hover{
   border-radius: 16px;
   padding:32px;
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  transform-origin: top;
+  animation: apearCard .5s ease;
 }
 
 .card__title {
@@ -312,15 +316,23 @@ li:hover{
   }
 
 
-@keyframes apear {
-from{
-opacity: 0;
-transform: translateY(-10px);
+@keyframes apearItem {
+  from{
+  opacity: 0;
+  transform: translateX(-30px);
+  }
+  to  {
+  opacity: 1;
+  transform: translateY(0px);
+  }
 }
-to  {
-opacity: 1;
-transform: translateY(0px);
-}
+@keyframes apearCard {
+  0%{
+    transform: scaleY(0);
+  }
+  100%{
+    transform: scaleY(1);
+  }
 }
 @media (max-width: 650px) {
   .card{

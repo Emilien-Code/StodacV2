@@ -3,7 +3,7 @@
     <input v-model="word" type="text" placeholder="Rechercher dans notre catalogue" @click="clicked()" @keyup="results()" @keyup.enter="search()">
     <div id="print" v-if="isSearch">
       <!--<ul  >-->
-      <transition-group name="result" tag="ul" v-if="resultArray[0]">
+      <transition-group name="res" tag="ul" v-if="resultArray[0]">
         <li  v-for="result in resultArray" :key="result" @click="pushToID(result)">
           <div class="Produit">
             <img :src="result.img" alt="">
@@ -147,36 +147,26 @@ ul{
 li{
   cursor:pointer;
   border-radius: 10px;
-  transition: .5s;
 }
 li:hover{
   background-color: #e3e3e3;
   transition: .5s;
 }
-.result-enter-from {
-  transform: translateY(-100%);
+
+.res-enter-active,
+.res-leave-active {
+  transition: all 0.5s ease;
+  animation-delay: .5s;
+}
+.res-enter-from{
   opacity: 0;
+  transform: translateX(-300px);
 }
-.result-enter-to {
-  transform: translateY(0);
-  opacity: 1;
-}
-.result-enter-active {
-  transition: all .4s ease .4s;
-}
-.result-leave-from {
-  transform: translateY(0);
-  opacity: 1;
-}
-.result-leave-to {
-  transform: translateY(100%);
+.res-leave-to {
   opacity: 0;
-}
-.result-leave-active {
-  transition: all .4s ease;
-}
-.result-move{
-  transition: all 1s ease;
+  transform: translateX(300px);
+  position: absolute;
+  z-index: -1;
 }
 @media(max-width: 950px){
   input{

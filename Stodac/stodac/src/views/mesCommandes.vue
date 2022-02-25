@@ -39,9 +39,7 @@ export default {
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/mesCommandes');
     }else{
-      this.$store.dispatch('getUserInfos').then(
-        console.log(this.userInfos)
-      )
+      this.$store.dispatch('getUserInfos')
     }
   },
   methods:{

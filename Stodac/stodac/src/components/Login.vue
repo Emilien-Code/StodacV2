@@ -1,10 +1,9 @@
 <template>
   <div class="card">
     <button id="close" @click="croix()">
-      <div></div>
-      <div></div>
+      <span></span>
+      <span></span>
     </button>
-
     <h1 class="card__title" v-if="mode === 'login'">Connexion</h1>
     <h1 class="card__title" v-else>Inscription</h1>
 
@@ -180,7 +179,7 @@ export default {
 #close:hover{
   background-color: #E1E1E1;
 }
-#close div{
+#close span{
   width: 2.5px;
   height: 15px;
   background-color: #A1A1A1;
@@ -189,10 +188,10 @@ export default {
   top : 5px;
   left  : 10.5px;
 }
-#close div:nth-child(1){
+#close span:nth-child(1){
   transform:rotate(45deg);
 }
-#close div:nth-child(2){
+#close span:nth-child(2){
   transform:rotate(-45deg);
 }
 
@@ -203,10 +202,14 @@ export default {
   right: 25px;
   max-width: 100%;
   width: 400px;
-  background:white;
+  background:#ffffffE0;
+  backdrop-filter: blur(10px);
+
   border-radius: 16px;
   padding:32px;
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  transform-origin: top ;
+  animation: apearCard 0.5s ease;
 }
 
 .card__title {
@@ -247,12 +250,12 @@ export default {
   }
 
   .button--disabled {
-    background:#cecece;
+    background:#aeaeae;
     color:#ececec
   }
   .button--disabled:hover {
     cursor:not-allowed;
-    background:#cecece;
+    background:#aeaeae;
   }
 
 .unvalidField{
@@ -264,9 +267,6 @@ export default {
   transition: 1s;
   border: solid 2px #078A6C;
 }
-.emptyField{
-  border: solid 2px #000!important;
-}
 textarea, select, input, button { outline: none; }
 
 @media (max-width: 650px) {
@@ -274,5 +274,42 @@ textarea, select, input, button { outline: none; }
   right:0;
   width: 100vw;
 }
+}
+
+.form-row{
+  animation: apearform .5s ease forwards;
+  opacity: 0;
+}
+
+/* Email connection password*/
+.card div.form-row:nth-child(4){
+  animation-delay: .2s;
+}
+.card div.form-row:nth-child(5){
+  animation-delay: .4s;
+}
+.card div.form-row:nth-child(6){
+  animation-delay: .6s;
+}
+
+@keyframes apearform {
+  0%{
+    opacity: 0;
+    transform: translateX(-30px);
+
+  }
+  100%{
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes apearCard {
+  0%{
+    transform: scaleY(0);
+  }
+  100%{
+    transform: scaleY(1);
+  }
 }
 </style>

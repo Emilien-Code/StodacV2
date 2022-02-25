@@ -81,7 +81,7 @@
       </div>
       <div id="stuff-container">
         <div id="stuff-wrapper">
-            <div v-for="item in $store.state.stuffs" :key="item._id" class="product">
+            <div v-for="item in $store.state.stuffs" :key="item._id" class="product" tabindex="0">
               <ProduitLite class="Products" :produit="item" @click="pushToID(item)"/>
             </div>
           <p v-if="noItems">Aucun article dans cette catégorie</p>
@@ -172,7 +172,6 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 svg{
   width: 25px;
   height: 25px;
@@ -231,6 +230,9 @@ button:hover{
   background: #e3e3e3;
   transition: .5s;
 }
+#search{
+  z-index: 1;
+}
 @media (max-width: 950px){
   #stuff-wrapper{
     margin-top: 80px;
@@ -287,7 +289,9 @@ button:hover{
 #stuff-wrapper div:nth-child(9){
   animation-delay: .5s;
 }
-
+#stuff-wrapper div:nth-child(10){
+  animation-delay: .55s;
+}
 
 #stuff-wrapper div{
   opacity: 0;
