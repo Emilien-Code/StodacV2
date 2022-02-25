@@ -216,7 +216,7 @@ footer{
   color: white;
   text-align: center;
   position: relative;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
