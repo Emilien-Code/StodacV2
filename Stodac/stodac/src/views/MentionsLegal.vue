@@ -1,4 +1,5 @@
 <template>
+  <div id="container">
   <h1>MENTIONS LEGALES</h1>
   <div id="Info_Edi">
   <h2>INFORMATIONS EDITORIALES</h2>
@@ -127,6 +128,7 @@
 
   ACCESSIBILITE DU SITE
   Un soin tout particulier est pris pour rendre le site internet stodac.fr le plus accessible possible, et tout particulièrement aux personnes ayant un handicap visuel. Les pages sont mises progressivement en conformité avec les recommandations du référentiel commun des critères d'accessibilité des services Internet de l'administration française pour respecter la loi n°2005-102 du 11 février 2005 pour l'égalité des droits et des chances, la participation et la citoyenneté des personnes handicapées.
+  </div>
 </template>
 
 <script>
@@ -138,5 +140,20 @@ export default {
 <style scoped>
 h1  {
   margin-top: 80px;
+  color: #078A6C;
+}
+h2  {
+  margin-top: 20px;
+  color: #078A6C;
+}
+h3  {
+  margin-top: 10px;
+  color: #078A6C;
+}
+li{
+  margin-left: 20px;
+}
+#container{
+  padding: 20px;
 }
 </style>

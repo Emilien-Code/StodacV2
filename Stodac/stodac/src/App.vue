@@ -139,7 +139,6 @@ export default {
     },
     handleScroll () {
       this.windowTop = window.top.scrollY
-      console.log(this.windowTop)
     },
     logCloseLogin(){
       this.tryToLog = false;
@@ -184,8 +183,8 @@ export default {
 }
 #nav  {
   width: 100%;
-  position: fixed  ;
-  z-index: 3;
+  position: fixed;
+  z-index: 4;
 }
 #nbPannier2{
   position: absolute;
@@ -314,8 +313,6 @@ button.login {
   transform-origin: center;
   transform: translateX(-50%);
   border-radius: 20px;
-  transition: width .5s ease;
-
 }
 .wrapper a {
   font-weight: bold;
@@ -330,27 +327,27 @@ button.login {
   margin-right: 50px
 }
 #menu-btn{
-display: none;
+  display: none;
 }
 #menuContainer{
-display: none;
+  display: none;
 }
 .nbPannier-enter-active {
 animation: bounce-in .5s;
 }
 .nbPannier-leave-active {
-animation: bounce-in .5s reverse;
+  animation: bounce-in .5s reverse;
 }
 @keyframes bounce-in {
-0% {
-transform: scale(0);
-}
-50% {
-transform: scale(1.5);
-}
-100% {
-transform: scale(1);
-}
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @media (max-width: 780px) {
   .slogan{
@@ -369,32 +366,31 @@ transform: scale(1);
     height: 40px;
   }
   .titre  {
-  padding: 0;
+    padding: 0;
   }
   .nav_left {
-  display: none;
+    display: none;
   }
   .icon{
-  display: none;
+    display: none;
   }
   #menu-btn{
-  display: block;
-  position: absolute;
-  z-index: 2;
-  right: 10px;
-  top: 10px;
-  cursor: pointer;
-  width: 50px;
-  height: 50px ;
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px ;
   }
   .line{
-  width: 50%;
-  height:  3px ;
-  background: #fff;
-  border-radius: 2px;
-  transition: transform 0.4s ease, opacity 0s ease 0.4s, top 0.4s ease 0.4s;
-  position: relative  ;
-  will-change: transform;
+    width: 50%;
+    height:  3px ;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.4s ease, opacity 0s ease 0.4s, top 0.4s ease 0.4s;
+    position: relative  ;
+    will-change: transform;
   }
   .line:nth-child(1){
   top: 15px;
@@ -405,103 +401,103 @@ transform: scale(1);
   .line:nth-child(3){
   top: 25px;
   }
+
   .open .line:nth-child(1){
-  top: 18px;
-  transform: rotate(45deg);
-  transition: top 0.2s ease, transform 0.2s ease  0.2s;
+    top: 23px;
+    transform: rotate(45deg);
+    transition: top 0.2s ease, transform 0.2s ease  0.2s;
   }
   .open .line:nth-child(2){
-  opacity: 0;
-  transition: opacity 0.2s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
   .open .line:nth-child(3){
-  top: 12px;
-  transform: rotate(-45deg);
-  transition: top 0.2s ease, transform 0.2s ease 0.2s;
+    top: 17px;
+    transform: rotate(-45deg);
+    transition: top 0.2s ease, transform 0.2s ease 0.2s;
   }
   #menuContainer{
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  top: 0;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    top: 0;
+    width: 100%;
+    height: 100%;
     background-color: #007057E0;
     backdrop-filter: blur(10px);
-  color: #ffffff;
-  animation: 0.5s apearMenu;
-  font-size: 1.2rem;
+    color: #ffffff;
+    animation: 0.5s apearMenu;
+    font-size: 1.2rem;
   }
   .menu-content{
-  opacity: 0;
-  margin: 10px;
-  cursor: pointer;
-  -webkit-animation: 0.5s ease 0.5s forwards apearText;
-  -o-animation: 0.5s ease 0.5s forwards apearText;
-  animation: 0.5s ease 0.5s forwards apearText;
+    opacity: 0;
+    margin: 10px;
+    cursor: pointer;
+    -webkit-animation: 0.5s ease 0.5s forwards apearText;
+    -o-animation: 0.5s ease 0.5s forwards apearText;
+    animation: 0.5s ease 0.5s forwards apearText;
   }
   .menu-content:nth-child(1){
-  animation-delay: 0.3s;
+    animation-delay: 0.3s;
   }
   .menu-content:nth-child(2){
-  animation-delay: 0.4s;
+    animation-delay: 0.4s;
   }
   .menu-content:nth-child(3){
-  animation-delay: 0.5s;
+    animation-delay: 0.5s;
   }
   .menu-content:nth-child(4){
-  animation-delay: 0.6s;
+    animation-delay: 0.6s;
   }
   @keyframes apearText {
-  0%{
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  100%{
-    transform: translateX(0);
-    opacity: 1;
-  }
+    0%{
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+    100%{
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
   @keyframes apearMenu {
-  0%{
-  transform: scale(0);
-  border-radius: 100%;
-  }
-  100%{
-  transform: scale(1);
-  border-radius: 0;
-  }
+    0%{
+      transform: scale(0);
+      border-radius: 100%;
+    }
+    100%{
+      transform: scale(1);
+      border-radius: 0;
+    }
   }
 }
 a span{
-display: block;
-position: absolute;
-transform: scale(0);
-bottom: 15px;
-height: 3px;
-background-color: #ffffff;
-transition: transform .5s ease 0s;
-transform-origin: right ;
+  display: block;
+  position: absolute;
+  transform: scale(0);
+  bottom: 15px;
+  height: 3px;
+  background-color: #ffffff;
+  transition: transform .5s ease 0s;
+  transform-origin: right ;
 }
 a:hover span{
-transform: scale(1);
-transform-origin: left;
-transition: transform .5s ease 0s;
-
+  transform: scale(1);
+  transform-origin: left;
+  transition: transform .5s ease 0s;
 }
 #span1{
-left: 125px;
-width:70px;
+  left: 125px;
+  width:70px;
 }
 #span2{
-left: 265px;
-width:140px;
+  left: 265px;
+  width:140px;
 }
 .router-link-active span {
-color: #F18F01;
+  color: #F18F01;
 }
 </style>
