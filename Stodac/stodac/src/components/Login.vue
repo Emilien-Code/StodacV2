@@ -202,7 +202,9 @@ export default {
   right: 25px;
   max-width: 100%;
   width: 400px;
-  background:white;
+  background:#ffffffE0;
+  backdrop-filter: blur(10px);
+
   border-radius: 16px;
   padding:32px;
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
@@ -248,12 +250,12 @@ export default {
   }
 
   .button--disabled {
-    background:#cecece;
+    background:#aeaeae;
     color:#ececec
   }
   .button--disabled:hover {
     cursor:not-allowed;
-    background:#cecece;
+    background:#aeaeae;
   }
 
 .unvalidField{
