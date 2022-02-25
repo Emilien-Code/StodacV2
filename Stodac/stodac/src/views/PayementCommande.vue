@@ -11,8 +11,7 @@
           <input class="small" type="tel" placeholder="Numérot de téléphone" v-model="userInfos.mobile">
         </div>
       </div>
-
-
+      <lafenetre v-bind:popup="popup" v-bind:jaichoisi="jaichoisi"></lafenetre>
         <div class="container">
           <p class="title">Adresse</p>
           <div class="inputsContainer">
@@ -77,9 +76,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import MaModale from '../components/saveAdresse.vue'
 //const axios = require('axios');
 export default {
   name: 'Commande',
+  components: {
+    lafenetre:MaModale
+  },
   data: function () {
     return {
       facture:{
@@ -98,11 +101,13 @@ export default {
       lastName: '',
       loaded: false,
       paidFor: false,
+      popup: false,
     }
   },
   mounted: function(){
     const script = document.createElement("script");
-    script.src = "https://www.paypal.com/sdk/js?client-id=ASOWp-_1zxWf4EXEzuc47swzhquPSB2XchEHOTMB8Ymv_KwnbQvBXRK9M6BFKqhSMTl90dMSp_qxVQxJ&currency=EUR";
+    // script.src = "https://www.paypal.com/sdk/js?client-id=ASOWp-_1zxWf4EXEzuc47swzhquPSB2XchEHOTMB8Ymv_KwnbQvBXRK9M6BFKqhSMTl90dMSp_qxVQxJ&currency=EUR";
+    script.src = "https://www.paypal.com/sdk/js?client-id=AcEtnb29bqEV3TrgU7d17CLOZdn6ic6WttgSXV4uRZBog32B02eGZDFGNiLkAwhJOAplxRhU3EMtgykQ&currency=EUR";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
 
@@ -114,10 +119,10 @@ export default {
       // console.log("la je test")
       // console.log(this.$store.state.userInfos)
       // this.facture.adresse.id = this.$store.state.userInfos.id;
-      // this.facture.adresse.street = this.$store.state.userInfos.street;
-      // this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
-      // this.facture.adresse.city = this.$store.state.userInfos.city;
-      // this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+      this.facture.adresse.street = this.$store.state.userInfos.street;
+      this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+      this.facture.adresse.city = this.$store.state.userInfos.city;
+      this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
       // console.log("eaueueuaheuazueh")
       // console.log(this.$store.state.userInfos.pannier)
       // this.panier = this.$store.state.userInfos.pannier
@@ -137,7 +142,7 @@ export default {
                   {
                     description: this.description,
                     amount: {
-                      value: this.total
+                      value: this.userInfos.prix_ttl_panier
                     }
                   }
                 ]
@@ -147,8 +152,14 @@ export default {
               const order = await actions.order.capture();
               this.data;
               this.paidFor = true;
+              console.log("la c la facture de paypal bg")
               console.log(order); // + Créer un nouvel élément dans la collection commande
-              this.saveFacture()
+              if(this.facture.adresse.street != this.$store.state.userInfos.street || this.facture.adresse.streetNumber != this.$store.state.userInfos.streetNumber || this.facture.adresse.city != this.$store.state.userInfos.city || this.facture.adresse.postCode != this.$store.state.userInfos.postCode){
+                this.saveFacture(true, order.id)
+              }
+              else{
+                this.saveFacture(false, order.id)
+              }
             },
             onError: err => {
               console.log(err);
@@ -176,7 +187,7 @@ export default {
       this.$store.commit('logOut');
       this.$router.push('/login/payement');
     },
-    saveFacture: function(){
+    saveFacture: function(changementadresse, Factureid){
       let option = {
         lastname:this.userInfos.lastName,
         firstname:this.userInfos.firstName,
@@ -185,15 +196,30 @@ export default {
         street:this.userInfos.street,
         city:this.userInfos.city,
         streetNumber:this.userInfos.streetNumber,
-        postCode:this.userInfos.postCode
+        postCode:this.userInfos.postCode,
+        idp:Factureid
       }
       console.log(option)
       this.$store.dispatch('saveFacture', option)
       .then(()=>{
         console.log("jarrivepasla")
-        this.$store.dispatch('resetpanier', this.$store.state.pannier)
-        this.$router.push('/finiCommande/');
+        // this.$store.dispatch('resetpanier', this.$store.state.pannier)
+        if(changementadresse){
+          this.popup = true
+        }else{
+          this.$router.push('/finiCommande/');
+        }
       })
+    },
+    jaichoisi: function(lechoix){
+      if(lechoix){
+        this.facture.adresse.street = this.$store.state.userInfos.street;
+        this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+        this.facture.adresse.city = this.$store.state.userInfos.city;
+        this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+        this.$store.dispatch('changeAddress', this.facture.adresse)
+      }
+      this.$router.push('/finiCommande/')
     }
   },
   computed: {

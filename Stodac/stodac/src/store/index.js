@@ -277,10 +277,11 @@ export default createStore({
         console.log(error)
       })
     },
-    saveFacture:(state, option) => {
+    saveFacture:({commit,state}, option) => {
       return new Promise((resolve, reject) => {
-        instance.post(`/user/addCommande/${state.state.user.userID}`, option)
+        instance.post(`/user/addCommande/${state.user.userID}`, option)
         .then(function(){
+          commit('resetPanier') 
           console.log('c passer pour le la facture')
           resolve()
         })
