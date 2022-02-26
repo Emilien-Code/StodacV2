@@ -73,7 +73,8 @@ button{
 }
 #manufacturer{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
+  background-color: #ffffffA0;
+  backdrop-filter: blur(20px);
   top: 170px;
   right : 280px;
   position: absolute;

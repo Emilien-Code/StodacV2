@@ -83,7 +83,8 @@ export default {
     }
   },
   mounted(){
-      axios.get(`http://localhost:3000/api/stuff/product/${this.articleId}`)
+    window.top.scrollY = 0;
+    axios.get(`http://localhost:3000/api/stuff/product/${this.articleId}`)
       .then((response)=>{
         this.article =  response.data[0]
       })

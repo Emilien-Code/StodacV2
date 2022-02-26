@@ -1,5 +1,5 @@
 <template>
-    <div v-if="commande">
+    <div id="facture" v-if="commande">
         <div class="recappetit">
             <p class="petittext">numero de commande : {{commande.id.substr(-6)}}</p>
             <p class="petittext">{{commande.nometat[commande.etat]}}</p>
@@ -180,5 +180,8 @@ export default {
   }
   tfoot th{
     text-align: right
+  }
+  #facture{
+    margin: 80px;
   }
 </style>

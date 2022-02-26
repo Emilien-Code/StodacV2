@@ -71,7 +71,8 @@ button{
 }
 #category{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
+  background-color: #ffffffA0;
+  backdrop-filter: blur(20px);
   position: absolute;
   top: 170px;
   right: 50px;

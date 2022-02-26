@@ -17,7 +17,6 @@
   <p>AMC EST vous offre la possibilité de correspondre avec ses services, dans le respect du référentiel Marianne. Cette charte interministérielle vise à garantir la qualité de l'accueil et promeut des valeurs telles que la courtoisie, l'accessibilité, la rapidité, la clarté des réponses mais aussi un esprit d'écoute, de rigueur et de transparence.</p>
 
   <p>Pour vous aider dans vos échanges et trouver le bon interlocuteur :</p>
-
     <ul>
       <li>
         questions générales, demandes de renseignements ou compléments d'information : MANESSIER Clément – contact@stodac.fr

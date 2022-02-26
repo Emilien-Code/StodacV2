@@ -37,7 +37,7 @@ const requetePaypal = axios.create({
 
 
 exports.demandeToken = () => {
-    expire = Date.now()
+    let expire = Date.now()
     const demandedetoken = axios.create({
         method: 'post',
         headers: {

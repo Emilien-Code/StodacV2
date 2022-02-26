@@ -108,7 +108,8 @@ img{
 }
 #search {
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
-  background-color: #ffffff;
+  background-color: #ffffffA0;
+  backdrop-filter: blur(20px);
   border-radius: 10px;
   width: 400px;
   position: absolute;

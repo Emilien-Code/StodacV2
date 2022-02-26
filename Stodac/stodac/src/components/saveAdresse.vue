@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="popup" class="bloc-modale">
         <div class="overlay">
             <div class="modale-card">
