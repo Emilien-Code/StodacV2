@@ -32,7 +32,7 @@
           <a href="/">Continuer mes achats</a>
           <button class="button" @click="push()">Commander</button>
     </div>
-    <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
+    <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre panier est vide</p>
 
   </div>
 </template>

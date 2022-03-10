@@ -45,7 +45,7 @@
           <td>{{article.reference}}</td>
         </tr>
         <tr>
-          <td>État du Produit</td>
+          <td>État du produit</td>
           <td>{{article.state}}</td>
         </tr>
       </table>

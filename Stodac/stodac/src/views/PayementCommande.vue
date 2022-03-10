@@ -11,7 +11,7 @@
           <input class="small" type="tel" placeholder="Numérot de téléphone" v-model="userInfos.mobile">
         </div>
       </div>
-      <lafenetre v-bind:popup="popup" v-bind:jaichoisi="jaichoisi"></lafenetre>
+      <MaModale v-bind:popup="popup" v-bind:jaichoisi="jaichoisi"/>
         <div class="container">
           <p class="title">Adresse</p>
           <div class="inputsContainer">
@@ -57,7 +57,6 @@
           </div>
         </div>
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
-        <button @click="saveFacture()" class="button">test</button>
 
 
   <div class="Payment">
@@ -72,17 +71,19 @@
   <button @click="reco()" class="button">Reconnection</button>
   </div>
 </div>
+
+
+  <loader v-if="isLoading"/>
+
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import MaModale from '../components/saveAdresse.vue'
+import loader from "../components/loader";
 //const axios = require('axios');
 export default {
   name: 'Commande',
-  components: {
-    lafenetre:MaModale
-  },
   data: function () {
     return {
       facture:{
@@ -92,6 +93,7 @@ export default {
           streetNumber: '',
           city: '',
           postCode: '',
+          isLoading: true
         },
         panier: [],
       },
@@ -103,6 +105,10 @@ export default {
       paidFor: false,
       popup: false,
     }
+  },
+  components: {
+    MaModale,
+    loader
   },
   mounted: function(){
     const script = document.createElement("script");
@@ -116,20 +122,19 @@ export default {
     }
 
     this.$store.dispatch('getUserInfos').then(() => {
-      // console.log("la je test")
-      // console.log(this.$store.state.userInfos)
-      // this.facture.adresse.id = this.$store.state.userInfos.id;
+
       this.facture.adresse.street = this.$store.state.userInfos.street;
       this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
       this.facture.adresse.city = this.$store.state.userInfos.city;
       this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
-      // console.log("eaueueuaheuazueh")
-      // console.log(this.$store.state.userInfos.pannier)
-      // this.panier = this.$store.state.userInfos.pannier
-      // console.log(this.panier.length)
-      // console.log(this.panier[0].articleDescription)
-      console.log(this.$store.state)
+
+      this.isLoading = false;
     })
+
+    if(this.$store.state.pannier.length === 0){
+      this.$router.push('/');
+    }
+
   },
   methods:{
     setLoaded: function() {
@@ -305,9 +310,12 @@ ul,li{
   margin-bottom: 15px;
 }
 .Payment{
+  position: relative;
   display: flex;
   width: 100%;
   justify-content: center;
+  z-index: 10;
+  background-color: #fff;
 }
 #paypal-button-container{
   width: 750px;
@@ -380,5 +388,7 @@ tfoot th{
     width: 20vw;
   }
 }
-
+footer  {
+  margin: 0;
+}
  </style>

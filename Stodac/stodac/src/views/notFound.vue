@@ -72,10 +72,6 @@ export default {
       rightArrow : false
     }
   },
-  //computed: {
-  //},
-  //mounted: function(){
-  //},
   methods: {
     pushTo : function(){
         this.$router.push('/')

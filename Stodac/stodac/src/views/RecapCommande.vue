@@ -41,6 +41,8 @@
         </div>
 
 </div>
+  <loader v-if="isLoading"/>
+
 </template>
 
 
@@ -49,19 +51,29 @@
 <script>
 import { mapState } from 'vuex'
 //const axios = require('axios');
+import loader from '../components/loader'
 export default {
   name: 'Commande',
   data: function () {
     return {
       panier: '',
+      isLoading : true
     }
+  },
+  components:{
+    loader
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/commande');
       return;
     }
-    this.$store.dispatch('getUserInfos')
+
+    this.$store.dispatch('getUserInfos').then(()=>{this.isLoading = false})
+
+    if(this.$store.state.pannier.length === 0){
+      this.$router.push('/');
+    }
   },
   methods:{
     more : function(i, a){

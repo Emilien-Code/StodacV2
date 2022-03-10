@@ -64,12 +64,12 @@
       Commandes Admin
       <span></span>
     </router-link>
-    <div class="menu-content" @click="openPannier"> Pannier
+    <div class="menu-content" @click="openPannier"> Panier
       <div id="nbPannier2" v-if="$store.state.pannier.length!==0">
         <span>{{$store.state.pannier.length}}</span>
       </div>
     </div>
-    <div class="menu-content" @click="connection"> Conexion </div>
+    <div class="menu-content" @click="connection"> Connexion </div>
 
   </div>
 
@@ -309,7 +309,7 @@ button.login {
   backdrop-filter: blur(10px);
   width: 80vw;
   left: 50%;
-  top: 90vh;
+  top: 89vh;
   transform-origin: center;
   transform: translateX(-50%);
   border-radius: 20px;
