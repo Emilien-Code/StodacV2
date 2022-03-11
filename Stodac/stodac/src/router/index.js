@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/MentionsLegal.vue')
   },
   {
+    path:"/conditionsGeneralesDeVente",
+    name  : "conditionsGeneralesDeVente",
+    component: () => import('../views/cdv.vue')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
   },

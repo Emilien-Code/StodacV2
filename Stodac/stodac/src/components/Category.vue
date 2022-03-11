@@ -1,5 +1,5 @@
 <template>
-  <div id="category">
+  <div id="category" v-clickOutside="close">
     <button @click="isCategoryClicked()">{{nameCategory}}</button>
     <div v-if="clicked">
       <ul>
@@ -11,6 +11,16 @@
 
 <script>
 const axios = require('axios');
+
+let clickOutside = function(el, binding) {
+  el.clickOutsideEvent = function (event) {
+    if (!el.contains(event.target)) {
+      binding.value()
+    }
+  };
+  document.body.addEventListener('click', el.clickOutsideEvent)
+}
+
 export default {
   name:"category",
   data : function(){
@@ -43,11 +53,18 @@ export default {
       }else{
         this.$store.dispatch('getStufs')
       }
+    },
+    close: function(){
+      this.clicked = false
     }
   },
   mounted() {
     axios.get('http://localhost:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
+  },
+  directives:{
+    clickOutside
   }
+
 }
 </script>
 
@@ -82,6 +99,7 @@ button{
   border-radius: 10px;
   transition: height 0.5s ease-out;
   z-index: 2;
+  user-select: none;
 }
 li{
   padding: 10px;

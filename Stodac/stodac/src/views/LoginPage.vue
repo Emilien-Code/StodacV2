@@ -106,7 +106,9 @@ export default {
           email: this.email,
           password: this.password
         }).then(function () {
-          console.log("user loggedIn");
+          if(a.redirection==="payement"){
+            a.$store.dispatch('savepanier', a.$store.state.pannier)
+          }
           a.$router.push(`/${a.redirection}`)
         })
             .catch(function (error) {

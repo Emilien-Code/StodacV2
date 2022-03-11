@@ -1,5 +1,5 @@
 <template>
-  <div id="search">
+  <div id="search" v-clickOutside="close">
     <input v-model="word" type="text" placeholder="Rechercher dans notre catalogue" @click="clicked()" @keyup="results()" @keyup.enter="search()">
     <div id="print" v-if="isSearch">
       <!--<ul  >-->
@@ -20,7 +20,7 @@
     <button v-if="resultArray[0] && isSearch" @click="search()">
       <span>Afficher tous les résultats</span>
     </button>
-    <div id="noResult" v-if="word && !resultArray[0]"> Aucuns résultats </div>
+    <div id="noResult" v-if="word && !resultArray[0] && isSearch"> Aucuns résultats </div>
   </div>
 
 
@@ -28,13 +28,21 @@
 
 <script>
 const axios = require("axios") ;
+let clickOutside = function(el, binding) {
+  el.clickOutsideEvent = function (event) {
+    if (!el.contains(event.target)) {
+      binding.value()
+    }
+  };
+  document.body.addEventListener('click', el.clickOutsideEvent)
+}
 export default {
   name : 'search',
   data: function(){
     return {
       word: '',
       isSearch : false,
-      resultArray: []
+      resultArray: [],
     }
   },
   methods:{
@@ -73,6 +81,9 @@ export default {
     pushToID : function(item){
       this.$router.push(`/produit/${item._id}`);
     }
+  },
+  directives:{
+    clickOutside
   }
 
 }

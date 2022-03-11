@@ -2,11 +2,17 @@
   <div id="produit">
     <div class="contain-img">
       <img :src="produit.img" :alt="produit.name" srcset="">
+      <span>{{produit.description}}</span>
     </div>
     <div class="product-info">
         <p class="product-name">{{produit.name}}</p>
         <p class="product-category">{{produit.category}}</p>
-        <p class="product-price">{{produit.price}}€</p>
+      <div class="product-price">
+        <p v-if="produit.qty>0">En stock</p>
+        <p v-else style="color: #F18F01">Rupture de stock</p>
+
+        <p>{{produit.price}}€</p>
+      </div>
       </div>
     </div>
 </template>
@@ -24,7 +30,7 @@ export default {
 <style scoped>
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
 .product-info{
-  padding-left: 5px;
+  padding: 5px;
   margin-bottom: 20px;
 }
 .product-category{
@@ -34,21 +40,61 @@ export default {
   font-size: 1.2em;
 }
 .product-price{
+  display: flex;
+  justify-content: space-between;
   color: #007057;
   font-weight : bold;
-}               
+}
+p{
+  padding: 5px 0;
+}
 * {
   font-family: 'Segoe UI', sans-serif;
 }
 .contain-img{
-  width: 250px;
+  height: 250px;
   overflow:hidden;
   margin-bottom: 20px;
 }
 img{
-  width: 250px;
+  width: 100%;
   object-fit: cover;
-  height: 190px;
+  height: 100%;
   display: inline;
+  transition: .5s ease ;
+}
+span{
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  height: 250px;
+  white-space: normal;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  color: black;
+  font-size: calc(0.95rem + 20%);
+  text-align: justify;
+  opacity: 0;
+  overflow: hidden;
+}
+span:after{
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  right: 1rem;
+  width: 100px;
+  height: 1rem;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(249, 249, 249, 1) 75%);
+}
+
+#produit:hover img{
+  transition: .5s ease ;
+  filter: blur(1000px);
+}
+#produit:hover span{
+  transition: .5s ease ;
+  opacity: 1;
 }
 </style>

@@ -25,6 +25,20 @@
         nouvelle marque :<input type="text" v-model="item.manufacturer">
 
       </div>
+
+      <div class="row">
+        <span>Catégorie :</span>
+
+        <select id="category" v-model="item.category">
+          <option v-for="man in categoryList" :value="man" :key="man">{{ man }}</option>
+        </select>
+
+        OU
+
+        nouvelle categorie :<input type="text" v-model="item.category">
+
+      </div>
+
       <div class="row">
 
       <div>
@@ -48,6 +62,7 @@
       <div>
         <span>Prix :</span>
         <input type="number" v-model="item.price">
+        <span>avec TVA : {{ Math.round(item.price * 1.2 * 100) / 100 }}</span>
       </div>
       </div>
       <div class="row">
@@ -97,6 +112,7 @@ export default {
       },
       file : '',
       manufactureList : [],
+      categoryList : [],
       compatibilities: 1
     }
   },
@@ -109,6 +125,10 @@ export default {
         .then((response)=>{
           this.manufactureList = response.data;
         })
+    axios.get('http://localhost:3000/api/stuff/categories')
+        .then((response)=>{
+          this.categoryList = response.data;
+        })
   },
   methods : {
     handleFileUploaded(){
@@ -120,7 +140,7 @@ export default {
       fd.append('name', this.item.name)
       fd.append('manufacturer', this.item.manufacturer)
       fd.append('qty', this.item.qty)
-      fd.append('price', this.item.price)
+      fd.append('price', this.item.price * 1.2)
       fd.append('poids', this.item.poids)
       fd.append('reference', this.item.reference)
       fd.append('category', this.item.category)
