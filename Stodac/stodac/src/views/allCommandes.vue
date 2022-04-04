@@ -22,11 +22,12 @@
           </div>
         </div>
         <div>
-          <button @click="choix(0)">en preparation</button>
-          <button @click="choix(1)">envoyer</button>
-          <button @click="choix(2)">recu</button>
-          <button @click="choix(3)">annulé</button>
-          <button @click="choix(4)">tout</button>
+          <button @click="choix(0)">traitement en cours</button>
+          <button @click="choix(1)">en preparation</button>
+          <button @click="choix(2)">envoyer</button>
+          <button @click="choix(3)">recu</button>
+          <button @click="choix(4)">annulé</button>
+          <button @click="choix(5)">tout</button>
         </div>
         <div class="tableContainer">
           <table id="tableCommandes">
@@ -64,6 +65,7 @@
                           <option>{{commande.comande.nometat[1]}}</option>
                           <option>{{commande.comande.nometat[2]}}</option>
                           <option>{{commande.comande.nometat[3]}}</option>
+                          <option>{{commande.comande.nometat[4]}}</option>
                         </select>
                       </div>
                     </div>
@@ -128,7 +130,7 @@ export default {
           email:"",
           tel:"",
           np:"",
-          etat:[0,0,0,0,1],
+          etat:[0,0,0,0,0,1],
           date:"",
         },
         listCommandes: "",
@@ -392,10 +394,10 @@ export default {
     choix:function(num){
       this.parametre.recherche.etat[num] =  !this.parametre.recherche.etat[num]
       if (num === 4){
-        this.parametre.recherche.etat = [0,0,0,0,1]
+        this.parametre.recherche.etat = [0,0,0,0,0,1]
       }
       else{
-        this.parametre.recherche.etat[4] = 0
+        this.parametre.recherche.etat[5] = 0
       }
       const parametre = {
         parametre: this.parametre.type,

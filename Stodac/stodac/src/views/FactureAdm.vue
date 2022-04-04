@@ -8,6 +8,7 @@
                 <option>{{commande.nometat[1]}}</option>
                 <option>{{commande.nometat[2]}}</option>
                 <option>{{commande.nometat[3]}}</option>
+                <option>{{commande.nometat[4]}}</option>
             </select>
             <p v-if="!modifier" class="petittext">{{commande.nometat[commande.etat]}}</p>
             <p class="petittext">date de commande : {{commande.date}}</p>
@@ -73,7 +74,11 @@
           </div>
         </div>
         <div>
-            <p class="payement">Payer par {{commande.facture.moyendepayement}}</p>
+            <p class="payement">Payé : {{commande.paypal_info.prix_payer}}</p>
+        </div>
+        <div v-if="commande.etat == 5 || commande.etat == 6" class="err">
+          <p v-if="commande.etat == 5">L'id paypal est le meme que la commande {{commande.paypal_info.doublon}}</p>
+          <p v-if="commande.etat == 6">Le prix payé n'est pas le même que celui du pannier</p>
         </div>
         <div v-if="!modifier">
             <button @click="modifie()">modifier</button>
@@ -137,9 +142,10 @@ export default {
     },
     savethat:function(){
         this.modifier = false
+        const newetat = this.commande.nometat.indexOf(this.etatcommande)
         const parametre={
             id:this.commande.id,
-            parametre: [this.etatcommande, this.testnom, this.testpernom, this.testnumrue, this.testrue, this.testville, this.testcp, this.testemail, this.testtel]
+            parametre: [newetat, this.testnom, this.testpernom, this.testnumrue, this.testrue, this.testville, this.testcp, this.testemail, this.testtel]
         }
         this.$store.dispatch("changeFacture", parametre).then(() => {
             this.$store.dispatch('getFactureAdm', this.$route.params.numfacture).then((resul)=>{
