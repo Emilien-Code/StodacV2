@@ -10,7 +10,8 @@
                 <option>{{commande.nometat[3]}}</option>
                 <option>{{commande.nometat[4]}}</option>
             </select>
-            <p v-if="!modifier" class="petittext">{{commande.nometat[commande.etat]}}</p>
+            <p v-if="!modifier & commande.etat >= 0" class="petittext">{{commande.nometat[commande.etat]}}</p>
+            <p v-if="!modifier & commande.etat < 0" class="petittext" >{{commande.nometat[commande.nometat.length + commande.etat]}}</p>
             <p class="petittext">date de commande : {{commande.date}}</p>
         </div>
         <div class="info" v-if="modifier">

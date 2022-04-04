@@ -2,7 +2,8 @@
     <div id="facture" v-if="commande">
         <div class="recappetit">
             <p class="petittext">Numéro de commande : {{commande.id.substr(-6)}}</p>
-            <p class="petittext">{{commande.nometat[commande.etat]}}</p>
+            <p v-if="commande.etat >= 0" class="petittext">{{commande.nometat[commande.etat]}}</p>
+            <p v-else class="petittext">{{commande.nometat[commande.nometat.length + commande.etat]}}</p>
             <p class="petittext">Date de commande : {{commande.date}}</p>
         </div>
         <div class="info">

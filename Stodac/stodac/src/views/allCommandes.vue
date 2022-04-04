@@ -50,7 +50,8 @@
                   <td>{{commande.comande.facture.email}}</td>
                   <td>{{commande.comande.facture.mobile}}</td>
                   <td>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</td>
-                  <td :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
+                  <td v-if="commande.comande.etat >= 0" :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
+                  <td v-else :style="{backgroundColor: color[color.length-1]}">{{commande.comande.nometat[commande.comande.nometat.length + commande.comande.etat]}}</td>
                   <td>{{commande.comande.date.substring(0,10)}}</td>
                 </tr>
                 <tr class="visuCommande" v-if="ouvert==index">
@@ -106,7 +107,7 @@ export default {
     return {
       choixetat:"",
       ouvert:-1,
-      color: ["yellow","Aquamarine","LightGreen","lightCoral"],
+      color: ["yellow","Aquamarine","LightGreen","lightCoral","red"],
       ouvertavancer:false,
       rechercheGlobal:"",
       rechercheID:"",

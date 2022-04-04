@@ -16,7 +16,8 @@
                     <tr v-for="(commande) in userInfos.comande" :key="commande">
                         <td><a style="cursor:pointer;color:black;" v-on:click="afficheFacture(commande.id.substr(-6))">{{commande.id.substr(-6)}}</a></td>
                         <!-- <td v-on:click="afficheFacture(userInfos.comande[userInfos.comande.length - 1].id.substr(-6))"> {{userInfos.comande[userInfos.comande.length - 1].id.substr(-6)}}</td> -->
-                        <td>{{commande.nometat[commande.etat]}}</td>
+                        <td v-if="commande.etat >= 0">{{commande.nometat[commande.etat]}}</td>
+                        <td v-else>{{commande.nometat[commande.nometat.length + commande.etat]}}</td>
                         <td>{{commande.date.substring(0,10)}}</td>
                     </tr>
                 </tbody>
