@@ -13,7 +13,7 @@
             <p v-if="!modifier" class="petittext">{{commande.nometat[commande.etat]}}</p>
             <p class="petittext">date de commande : {{commande.date}}</p>
         </div>
-        <div class="infoInput" v-if="modifier">
+        <div class="info" v-if="modifier">
             <p class="title">Information personnel</p>
             <div class="infoPerso">
               <div class="nom">
@@ -22,12 +22,12 @@
                 </div>
               <div class="adresse">
                   <input type="text" placeholder="Numero rue" v-model="testnumrue">
-                  <input type="text" placeholder="Nom rue" v-model="testrue">,
-                  <input type="text" placeholder="Ville" v-model="testville">,
+                  <input type="text" placeholder="Nom rue" v-model="testrue">
+                  <input type="text" placeholder="Ville" v-model="testville">
                   <input type="text" placeholder="Code postal" v-model="testcp">
                 </div>
               <div class="email">
-                  <input type="text" placeholder="email" v-model="testemail">
+                  <input type="text" placeholder="email" id="mail" v-model="testemail">
                 </div>
               <div class="tel">
                   <input type="text" placeholder="Numero mobile" v-model="testtel">
@@ -83,6 +83,11 @@
         <div v-if="!modifier">
             <button @click="modifie()">modifier</button>
         </div>
+      <div>
+
+
+        <a :href="commande.pdf" target="_blank"> Télécharger pdf colissimo </a>
+      </div>
         <div v-if="modifier">
             <span></span>
             <button @click="modifie()">annuler</button>
@@ -131,7 +136,7 @@ export default {
                 this.testcp = this.commande.facture.postCode
                 this.testemail = this.commande.facture.email
                 this.testtel = this.commande.facture.mobile
-                console.log(this.commande)
+                console.log("Facture :",this.commande)
             })
         }
     })
@@ -187,6 +192,9 @@ export default {
 </script>
 
 <style scoped>
+.recappetit:nth-child(1){
+  margin-top: 80px;
+}
   .recappetit{
     width: 80%;
     margin-left: 10%;
@@ -286,5 +294,17 @@ export default {
   }
   tfoot th{
     text-align: right
+  }
+  input{
+    padding: 5px;
+    border: #078A6C solid 2px;
+    border-radius: 10px;
+    margin-right: 10px;
+  }
+  #mail {
+    width: 326px;
+  }
+  a {
+    color: #078A6C;
   }
 </style>

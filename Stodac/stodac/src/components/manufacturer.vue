@@ -1,5 +1,5 @@
 <template>
-  <div id="manufacturer">
+  <div id="manufacturer" v-clickOutside="close">
     <button @click="isClicked()">{{nameMarque}}</button>
     <div v-if="clicked">
       <ul>
@@ -11,6 +11,14 @@
 
 <script>
 const axios = require('axios');
+let clickOutside = function(el, binding) {
+  el.clickOutsideEvent = function (event) {
+    if (!el.contains(event.target)) {
+      binding.value()
+    }
+  };
+  document.body.addEventListener('click', el.clickOutsideEvent)
+}
 export default {
   name:"manufacturer",
   data : function(){
@@ -31,6 +39,9 @@ export default {
       this.nameMarque = this.manufacture[index]
       this.clicked = false;
     },
+    close: function(){
+      this.clicked = false
+    },
     isClicked: function(){
       this.clicked = !this.clicked;
     },
@@ -49,6 +60,9 @@ export default {
         .then((response)=>{
           this.manufacture = response.data;
         })
+  },
+  directives:{
+    clickOutside
   }
 }
 </script>
@@ -73,7 +87,8 @@ button{
 }
 #manufacturer{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
+  background-color: #ffffffA0;
+  backdrop-filter: blur(20px);
   top: 170px;
   right : 280px;
   position: absolute;
@@ -83,6 +98,7 @@ button{
   border-radius: 10px;
   transition: height 0.5s ease-out;
   z-index: 2;
+  user-select: none;
 }
 li{
   padding: 10px;

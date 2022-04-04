@@ -1,12 +1,12 @@
 <template>
-    <div v-if="commande">
+    <div id="facture" v-if="commande">
         <div class="recappetit">
-            <p class="petittext">numero de commande : {{commande.id.substr(-6)}}</p>
+            <p class="petittext">Numéro de commande : {{commande.id.substr(-6)}}</p>
             <p class="petittext">{{commande.nometat[commande.etat]}}</p>
-            <p class="petittext">date de commande : {{commande.date}}</p>
+            <p class="petittext">Date de commande : {{commande.date}}</p>
         </div>
         <div class="info">
-            <p class="title">Information personnel</p>
+            <p class="title">Informations personnelles</p>
             <div class="infoPerso">
               <p class="nom">{{commande.facture.lastname}} {{commande.facture.firstname}}</p>
               <p class="adresse">{{commande.facture.streetNumber}} {{commande.facture.street}}, {{commande.facture.city}}, {{commande.facture.postCode}}</p>
@@ -157,28 +157,48 @@ export default {
   }
   thead th:nth-child(1), tbody td:nth-child(1){
     width: 220px;
-    text-align: center;
   }
   thead th:nth-child(2), tbody td:nth-child(2){
     width: 290px;
-    text-align: left;
   }
   thead th:nth-child(3), tbody td:nth-child(3){
     width: 125px;
-    text-align: right;
   }
   thead th:nth-child(4), tbody td:nth-child(4){
     width: 125px;
-    text-align: right;
   }
   thead th:nth-child(5), tbody td:nth-child(5){
     width: 125px;
-    text-align: right;
   }
   td, thead th{
     border-bottom: 2px solid black;
+    text-align: center;
   }
-  tfoot th{
-    text-align: right
+  tfoot {
+    text-align: right;
+  }
+  #facture{
+    margin: 80px;
+  }
+
+  @media (max-width: 940px) {
+    thead th:nth-child(1), tbody td:nth-child(1){
+      display: none;
+    }
+    thead th:nth-child(2), tbody td:nth-child(2){
+      width: 25vw;
+    }
+    thead th:nth-child(3), tbody td:nth-child(3){
+      width: 20vw;
+    }
+    thead th:nth-child(4), tbody td:nth-child(4){
+      width: 20vw;
+    }
+    thead th:nth-child(5), tbody td:nth-child(5){
+      width: 20vw;
+    }
+    .tel {
+      margin-top: 20px;
+    }
   }
 </style>

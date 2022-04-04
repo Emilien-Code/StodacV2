@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/MentionsLegal.vue')
   },
   {
+    path:"/conditionsGeneralesDeVente",
+    name  : "conditionsGeneralesDeVente",
+    component: () => import('../views/cdv.vue')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
   },
@@ -82,7 +87,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior () {
+    return {  top: 0 };
+  }
 })
 
 export default router

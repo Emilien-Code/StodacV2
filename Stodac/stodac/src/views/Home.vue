@@ -203,11 +203,23 @@ svg{
   align-items: center;
 }
 .product{
-  margin: 25px 25px ;
- cursor: pointer;
-  border-radius: 15px;
- overflow:hidden;
- box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  margin: 10px 10px ;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow:hidden;
+  width: 20%;
+  min-width: 250px;
+  max-width: 300px;
+}
+@media (max-width: 1200px) {
+  .product{
+    margin: 5px 5px ;
+  }
+  #stuff-wrapper{
+    margin: 0;
+    padding: 0;
+  }
 }
 #buttons_wrapper{
   width: 100vw;
@@ -232,6 +244,11 @@ button:hover{
 }
 #search{
   z-index: 1;
+}
+#precisions{
+  width: 100vw;
+  height: 10px;
+  background-color: #000;
 }
 @media (max-width: 950px){
   #stuff-wrapper{

@@ -259,8 +259,7 @@ export default {
     flex-direction:row;
     justify-content: space-between;
     align-items: center;
-    margin: 15px 0 ;
-    margin-left: 10px;
+    margin: 15px 0 15px 10px;
 }
 .qty{
   display: flex;

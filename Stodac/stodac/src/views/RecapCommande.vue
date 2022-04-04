@@ -24,23 +24,35 @@
                     <div class="plus_horizontal"></div>
                   </div>
                 </div>
-                  <span class="product-price" style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}</span>
+                  <span class="product-price">TTC : <span style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}€</span></span>
                 <div class="supr" @click="supr(article.article)">
                   <div></div>
                   <div></div>
                 </div>
           </div>
       </div>
-            <p class="title" style="margin-left: 40%">TOTAL : {{ Math.round(total * 100)/100 }}</p>
+            <p  style="margin-left: 40%">TOTAL TTC : <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span></p>
             <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
 
           </div>
         </div>
-      <div class="inputsContainer">
+
+    MODE DE PAYEMENT ET MODE DE LIVRAISON
+
+
+
+
+        <div class="inputsContainer">
+          <div>
+            <input id="checkbox" type="checkbox" v-model="cdv">
+            <span id="CDV" @click="pushToCDV">J'accepte les cinditions générales de vente</span>
+          </div>
           <button  @click="command()" class="button">Commander</button>
         </div>
 
 </div>
+  <loader v-if="isLoading"/>
+
 </template>
 
 
@@ -49,19 +61,23 @@
 <script>
 import { mapState } from 'vuex'
 //const axios = require('axios');
+import loader from '../components/loader'
 export default {
   name: 'Commande',
   data: function () {
     return {
       panier: '',
+      cdv:false
+      //isLoading : true
     }
   },
+  components:{
+    loader
+  },
   mounted: function(){
-    if(this.$store.state.user.userID === -1){
-      this.$router.push('/login/commande');
-      return;
+    if(this.$store.state.pannier.length === 0){
+      this.$router.push('/');
     }
-    this.$store.dispatch('getUserInfos')
   },
   methods:{
     more : function(i, a){
@@ -84,16 +100,29 @@ export default {
       localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));
     },
     command: function(){
-      this.$store.dispatch('savepanier', this.$store.state.pannier)
-        .then(()=>{
-          this.$router.push("/payement/")
-        })
-        .catch(()=>{
-        console.log("okk c bon")
-        })
+      if(this.cdv){
+        if(this.$store.state.user.userID === -1){
+          this.$router.push("/login/payement")
+        }else{
+          this.$store.dispatch('savepanier', this.$store.state.pannier)
+            .then(()=>{
+              this.$router.push("/payement/")
+            })
+            .catch(()=>{
+            console.log("Error : l'utilisateur semble ne pas être connecté !")
+            })
+        }
+      }
     },
     reset: function(){
       this.$store.dispatch('resetpanier', this.$store.state.pannier)
+    },
+    pushToCDV : function (){
+      let routeData = this.$router.resolve({name: 'conditionsGeneralesDeVente', query: {data: "someData"}});
+      window.open(routeData.href, '_blank');
+
+
+      //this.$router.push("/conditionsGeneralesDeVente");
     }
   },
   computed: {
@@ -152,9 +181,40 @@ export default {
 .inputsContainer, .PContainer{
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.inputsContainer span{
+  margin-left: 15px;
+}
+#checkbox {
+  -webkit-appearance: none;
+  background-color: #acacac;
+  border: none;
+  padding: 7px;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+}
+#checkbox:checked {
+   background-color: #078A6C;
+   color: #99a1a7;
+ }
+
+#checkbox:checked:after {
+  content: '\2714';
+  font-size: 10px;
+  position: absolute;
+  top: 0px;
+  left: 3px;
+  color: #fff;
+}
+#CDV  {
+  cursor: pointer;
+  color: #078A6C;
+}
+
 .PContainer{
   flex-direction: column;
 }

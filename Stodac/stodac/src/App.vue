@@ -1,8 +1,7 @@
 <template>
   <div id="nav">
     <div :class="{'wrapper':windowTop<70, 'moved':windowTop>=70}">
-
-    <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
+      <svg @click="test" id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
       <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
       <circle id="Ellipse_4" data-name="Ellipse 4" cx="42" cy="42" r="42" transform="translate(120.424 53.994) rotate(130)" fill="#078a6c"/>
       <text id="S" transform="translate(36.253 82.171)" fill="#fff" font-size="63" font-family="Poppins" font-weight="700"><tspan x="0" y="0">S</tspan></text>
@@ -18,7 +17,7 @@
         <span id="span2"></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/allCommandes/">
-        Commandes Admin
+        Administration
         <span></span>
       </router-link>
     </div>
@@ -30,7 +29,7 @@
         </svg>
       </button>
       <transition name="nbPannier">
-        <div id="nbPannier" v-if="$store.state.pannier.length!==0"><span>{{$store.state.pannier.length}}</span></div>
+        <div id="nbPannier" v-if="$store.state.pannier.length!==0"><span>{{nbPannier}}</span></div>
       </transition>
 
       <button class="pannier icon" @click="openPannier()">
@@ -64,12 +63,12 @@
       Commandes Admin
       <span></span>
     </router-link>
-    <div class="menu-content" @click="openPannier"> Pannier
+    <div class="menu-content" @click="openPannier"> Panier
       <div id="nbPannier2" v-if="$store.state.pannier.length!==0">
         <span>{{$store.state.pannier.length}}</span>
       </div>
     </div>
-    <div class="menu-content" @click="connection"> Conexion </div>
+    <div class="menu-content" @click="connection"> Connexion </div>
 
   </div>
 
@@ -118,8 +117,7 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
     if(this.$store.state.user.userID !== -1){
       this.$store.dispatch('getUserInfos').then(()=>{
-        console.log("la il y a le userInfo")
-        console.log(this.userInfos)
+        //console.log("la il y a le userInfo")
       })
     }
   },
@@ -158,6 +156,9 @@ export default {
     closeMenu(){
       this.menu = false
     },
+    test: function(){
+      this.$router.push("/")
+    }
   },
   components: {
     Login,
@@ -166,6 +167,14 @@ export default {
   },
   computed: {
     ...mapState(['userInfos']),
+    nbPannier: function (){
+      let sum = 0;
+      this.$store.state.pannier.forEach((e)=>{
+        sum+=e.qty;
+      })
+      return sum;
+
+    }
   },
 }
 </script>
@@ -233,6 +242,7 @@ a{
   top: 0;
   height: 70px;
   width: 70px;
+  cursor: pointer;
 }
 button.icon {
   overflow: hidden;
@@ -309,7 +319,7 @@ button.login {
   backdrop-filter: blur(10px);
   width: 80vw;
   left: 50%;
-  top: 90vh;
+  top: 89vh;
   transform-origin: center;
   transform: translateX(-50%);
   border-radius: 20px;
@@ -382,6 +392,7 @@ animation: bounce-in .5s;
     cursor: pointer;
     width: 50px;
     height: 50px ;
+    user-select: none;
   }
   .line{
     width: 50%;
@@ -431,6 +442,7 @@ animation: bounce-in .5s;
     color: #ffffff;
     animation: 0.5s apearMenu;
     font-size: 1.2rem;
+    user-select: none;
   }
   .menu-content{
     opacity: 0;

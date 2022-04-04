@@ -18,7 +18,7 @@
       <p style="text-align: center" v-else>Votre connexion à éxpirée. Reconnectez vous afin d'acceder a ces informations</p>
       <a href="">Modifier mes informations</a>
       <button @click="logOut()" class="button">
-        <span v-if="userInfos.firstName">Déconexion</span>
+        <span v-if="userInfos.firstName">Déconnexion</span>
         <span v-else>Reconexion</span>
       </button>
   </div>

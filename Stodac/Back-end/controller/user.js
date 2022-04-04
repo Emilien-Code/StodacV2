@@ -168,7 +168,7 @@ exports.getAllCommandes = (req, res) =>{
                     });
                 }
                 else{
-                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre},{$limit:req.body.limit}], (err, docs)=>{
+                    User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
                         console.log(docs)
                         res.send(docs)
                     });
@@ -325,7 +325,7 @@ exports.addpanier = (req, res) => {
                 prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
                 console.log(prix_ttl)
-                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl}}}, (err, docs) =>{
+                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
             } else {
@@ -478,6 +478,140 @@ exports.newCommand = (req, res) => {
             });
             })
         })
+    })
+    let materiels_crea = []
+    const req_id = req.params.id
+    //console.log("ça commence")
+    User.find({_id:req_id}, (err, docs) => {
+        docsancien = docs[0]
+        User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
+            if(err) console.log(err);
+            else{
+                let poids = 0
+                docsancien.pannier.forEach(function(object){
+                    materiel = {
+                        obj:{
+                            id: object.articleID,
+                            reference: object.articleRef,
+                            name: object.articleName,
+                            img: object.articleImg,
+                            price: object.articlePrice,
+                        },
+                        qty: object.qty,
+                        prix_ttl: object.prix_ttl
+                    }
+                    materiels_crea.push(materiel)
+                    console.log(object.poids)
+                    poids += object.poids;
+                })
+                const prix_ttl_crea = docsancien.prix_ttl_panier
+                //console.log("jaifini")
+                const facture_crea = {
+                    lastname: req.body.lastname,
+                    firstname: req.body.firstname,
+                    mobile: req.body.mobile,
+                    email: req.body.email,
+                    street: req.body.street,
+                    city: req.body.city,
+                    streetNumber: req.body.streetNumber,
+                    postCode: req.body.postCode,
+                    moyendepayement: "rien",
+                }
+                ajd = new Date()
+                // console.log(ajd.getDate())
+                //console.log(new Date(ajd.toISOString()))
+                ajd = new Date(ajd.toISOString())
+                numerocommande = String(docsancien.comande.length + 1)
+                for(var i = 0; numerocommande.length <= 5; i++){
+                    numerocommande = "0"+numerocommande
+                }
+
+
+                let lacommande = {
+                    id:docsancien._id+numerocommande,
+                    materiels: materiels_crea,
+                    facture: facture_crea,
+                    prix_ttl: prix_ttl_crea,
+                    date: ajd,
+                    etat: 0,
+                    nometat: ["En préparation", "Envoyée", "Recue", "Annulée"],
+                    fini: false,
+                    pdf: '',
+                    suiviColissimo: ''
+                }
+
+
+                const colissimo  = require('colissimo') ({ contract_number: '895244', password: 'LAPOSTE545483' })
+
+                colissimo.label ({
+                    sender: {
+                        last_name: "Manessier",
+                        first_name: "Clément",
+                        address: "11 Bis Rue de Lorraine",
+                        to_know: '',
+                        zip_code: '54360',
+                        city: 'Damelevières',
+                        phone_number: '0620746637',
+                        mail: 'contact@amc-est.fr'
+                    },
+                    receiver: {
+                        last_name: req.body.lastname,
+                        first_name: req.body.firstname,
+                        address: req.body.streetNumber + ' ' + req.body.street,
+                        to_know: '',
+                        zip_code: req.body.postCode,
+                        city: req.body.city,
+                        phone_number: req.body.mobile.toString().split("33")[1],
+                        mail: req.body.email
+                    },
+                    product: {
+                        identifier: numerocommande,				// used to identify a package when you received it. its displayed before the company_name
+                        insurance_value: 0,			            // the amount to insure
+                        weight: poids						    // in kg, default 1
+                    },
+                    format: {
+                        commercial_name: '895244'               // used for notifications
+                    }
+                }).then (infos => {
+                    console.log (infos)
+                    lacommande.pdf = infos.label
+                    lacommande.suiviColissimo = infos.tracking_number
+                    User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+                        if(err) console.log(err);
+                        //console.log(docs)
+                        //VerifID
+
+                        res.send()
+
+                        console.log(poids)
+
+
+                        async function main() {
+                            let transporter = nodemailer.createTransport({
+                                host: "ssl0.ovh.net",
+                                port: 465,
+                                secure: true,
+                                auth: {
+                                    user: "boutique@stodac.fr",
+                                    pass: "StdcBoo54@",
+                                },
+                            });
+                            let info = await transporter.sendMail({
+                                from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                                to: req.body.email, // list of receivers
+                                subject: "Nouvelle commande", // Subject line
+                                text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                                html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
+                            });
+                            console.log("Message sent: %s", info.messageId);
+                        }
+                        main().catch(console.error);
+                    })
+                }).catch (error => {
+                    console.error ("error : ", error)
+                })
+            }
+        });
     })
 }
 

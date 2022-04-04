@@ -9,7 +9,7 @@
                     <tr>
                         <th>Numero de commande</th>
                         <th>Etat de la commande</th>
-                        <th>date de commande</th>
+                        <th>Date de commande</th>
                     </tr>
                 </thead>
                 <tbody>

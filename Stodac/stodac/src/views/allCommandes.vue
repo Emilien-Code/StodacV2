@@ -50,14 +50,14 @@
                   <td>{{commande.comande.facture.email}}</td>
                   <td>{{commande.comande.facture.mobile}}</td>
                   <td>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</td>
-                  <td>{{commande.comande.nometat[commande.comande.etat]}}</td>
+                  <td :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
                   <td>{{commande.comande.date.substring(0,10)}}</td>
                 </tr>
                 <tr class="visuCommande" v-if="ouvert==index">
                   <td colspan="7">
                     <div class="infoText">
                       <p>adresse de livraison: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}}, {{commande.comande.facture.city}}, {{commande.comande.facture.postCode}}</p>
-                      <p>prix totale commande : {{commande.comande.prix_ttl}}</p>
+                      <p>prix totale commande : {{commande.comande.prix_ttl}}€</p>
                       <div>
                         <p>etat : </p>
                         <select class="selectEtat" v-model="choixetat">
@@ -106,6 +106,7 @@ export default {
     return {
       choixetat:"",
       ouvert:-1,
+      color: ["yellow","Aquamarine","LightGreen","lightCoral"],
       ouvertavancer:false,
       rechercheGlobal:"",
       rechercheID:"",

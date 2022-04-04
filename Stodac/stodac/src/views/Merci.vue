@@ -5,9 +5,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>Numero de commande</th>
+                    <th>Numéro de commande</th>
                     <th>Etat de la commande</th>
-                    <th>date de commande</th>
+                    <th>Date de commande</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,5 +90,19 @@ thead th:nth-child(3), tbody td:nth-child(3){
 td, thead th{
   border-bottom: 2px solid black;
   padding: 30px
+}
+@media (max-width: 840px) {
+  thead th:nth-child(1), tbody td:nth-child(1){
+    width: 33vw;
+    text-align: center;
+  }
+  thead th:nth-child(2), tbody td:nth-child(2){
+    width: 33vw;
+    text-align: center;
+  }
+  thead th:nth-child(3), tbody td:nth-child(3){
+    width: 33vw;
+    text-align: center;
+  }
 }
 </style>
