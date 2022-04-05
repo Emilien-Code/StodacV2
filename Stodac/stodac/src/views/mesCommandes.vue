@@ -14,7 +14,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(commande) in userInfos.comande" :key="commande">
-                        <td><a style="cursor:pointer;color:black;" v-on:click="afficheFacture(commande.id.substr(-6))">{{commande.id.substr(-6)}}</a></td>
+                        <td><a v-on:click="afficheFacture(commande.id.substr(-6))">{{commande.id.substr(-6)}}</a></td>
                         <!-- <td v-on:click="afficheFacture(userInfos.comande[userInfos.comande.length - 1].id.substr(-6))"> {{userInfos.comande[userInfos.comande.length - 1].id.substr(-6)}}</td> -->
                         <td>{{commande.nometat[commande.etat]}}</td>
                         <td>{{commande.date.substring(0,10)}}</td>
@@ -80,5 +80,9 @@ td, thead th{
   padding: 30px;
   text-align: center;
   width : 30vw;
+}
+a{
+  cursor: pointer;
+  color: #078A6C;
 }
 </style>

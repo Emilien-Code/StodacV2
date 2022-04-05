@@ -164,6 +164,7 @@ li:hover{
   background-color: #e3e3e3;
   transition: .5s;
 }
+textarea, select, input, button { outline: none; }
 
 .res-enter-active,
 .res-leave-active {

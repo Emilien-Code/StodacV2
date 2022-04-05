@@ -36,21 +36,21 @@
                   <th>Nom</th>
                   <th>Prix unité</th>
                   <th>Quantité</th>
-                  <th>Prix</th>
+                  <th>Prix TTC</th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                  <th colspan="5">TOTAL : {{userInfos.prix_ttl_panier}}€ </th>
+                  <th colspan="5">TOTAL TTC : {{userInfos.prix_ttl_panier}}€ </th>
                 </tr>
               </tfoot>
               <tbody>
                 <tr v-for="(article) in userInfos.pannier" :key="article">
                   <td><img :src="article.articleImg" alt=""></td>
                   <td>{{article.articleName}}</td>
-                  <td>{{article.articlePrice}}</td>
+                  <td>{{article.articlePrice}}€</td>
                   <td>{{article.qty}}</td>
-                  <td>{{Math.round(article.prix_ttl *100)/100}}</td>
+                  <td>{{Math.round(article.prix_ttl *100)/100}}€</td>
                 </tr>
               </tbody>
             </table>

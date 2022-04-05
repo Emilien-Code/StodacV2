@@ -11,35 +11,53 @@
 </template>
 
 <script>
-//import jQuery from "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"
-//import frameColissimoOpen from "https://ws.colissimo.fr/widget-point-retrait/resources/js/jquery.plugin.colissimo.min.js"
-const jQuery = require('jQuery')
-const axios =  require('axios')
-axios.post('https://ws.colissimo.fr/widget-point-retrait/rest/authenticate.rest', {
- "login": "895244",
- "password": "LAPOSTE545483"
-}).then((response)=>{
-  jQuery('#widget-container').frameColissimoOpen({
-    "ceLang" : "fr",
-    "callBackFrame" : callBackFrame,
-    "URLColissimo" : " https://ws.colissimo.fr",
-    "ceCountryList" : "FR,ES,GB,PT,DE",
-    "ceCountry" : "FR",
-    "dyPreparationTime" : "1",
-    "ceAddress" : "62 RUE CAMILLE DESMOULINS",
-    "ceZipCode" : "92130",
-    "ceTown" : "ISSY LES MOULINEAUX",
-    "token" : response.data.token
-  });
-  console.log(response.data.token)
-}).catch((error)=>{console.log(error)})
+const axios = require("axios")
+export default {
+  data: function (){
+    return{
+      jQ:'',
 
-
-
-
-function callBackFrame(point) {
-console.log('call back frame');
-console.log(point);
+    }
+  },
+  mounted() {
+    const script = document.createElement("script");
+    script.src = "https://ws.colissimo.fr/widget-point-retrait/resources/js/jquery.plugin.colissimo.min.js";
+    script.addEventListener("load", this.jQueryLoad);
+    document.body.appendChild(script);
+  },
+  methods: {
+    jQueryLoad: function(){
+      const jQ = document.createElement("script");
+      jQ.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js";
+      jQ.addEventListener("load", this.setLoaded);
+      document.body.appendChild(jQ);
+      this.jQ = jQ;
+    },
+    setLoaded: function () {
+      console.log(this.jQ)
+      axios.post('https://ws.colissimo.fr/widget-point-retrait/rest/authenticate.rest', {
+        "login": "895244",
+        "password": "LAPOSTE545483"
+      }).then((response) => {
+        this.jQ.jQuery('#widget-container').frameColissimoOpen({
+          "ceLang": "fr",
+          "callBackFrame": this.callBackFrame,
+          "URLColissimo": " https://ws.colissimo.fr",
+          "ceCountryList": "FR,ES,GB,PT,DE",
+          "ceCountry": "FR",
+          "dyPreparationTime": "1",
+          "ceAddress": "62 RUE CAMILLE DESMOULINS",
+          "ceZipCode": "92130",
+          "ceTown": "ISSY LES MOULINEAUX",
+          "token": response.data.token
+        })
+      }).catch((error)=>{console.log(error)})
+    },
+    callBackFrame: function (point) {
+      console.log('call back frame');
+      console.log(point);
+    }
+  }
 }
 
 </script>

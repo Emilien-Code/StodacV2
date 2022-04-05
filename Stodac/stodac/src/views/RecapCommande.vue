@@ -24,14 +24,21 @@
                     <div class="plus_horizontal"></div>
                   </div>
                 </div>
+                <div id="price">
+                  <span class="product-price">HT  : <span style="color:#419D79;font-weight:bold">{{Math.round( article.article.price/1.2* article.qty * 100) / 100}}€</span></span>
                   <span class="product-price">TTC : <span style="color:#419D79;font-weight:bold">{{Math.round( article.article.price* article.qty * 100) / 100}}€</span></span>
+                </div>
+
                 <div class="supr" @click="supr(article.article)">
                   <div></div>
                   <div></div>
                 </div>
           </div>
       </div>
-            <p  style="margin-left: 40%">TOTAL TTC : <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span></p>
+            <div id="totalPrices">
+              <p  style="margin-left: 40%">TOTAL HT : <span style="color:#419D79;font-weight:bold">{{ Math.round(total/1.2 * 100)/100 }}€</span></p>
+              <p  style="margin-left: 40%">TOTAL TTC : <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span></p>
+            </div>
             <p style="text-align:center;" v-if="$store.state.pannier.length === 0">Votre pannier est vide</p>
 
           </div>
@@ -45,7 +52,7 @@
         <div class="inputsContainer">
           <div>
             <input id="checkbox" type="checkbox" v-model="cdv">
-            <span id="CDV" @click="pushToCDV">J'accepte les cinditions générales de vente</span>
+            <span id="CDV" @click="pushToCDV">J'accepte les conditions générales de vente</span>
           </div>
           <button  @click="command()" class="button">Commander</button>
         </div>
@@ -152,6 +159,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+#totalPrices{
+  width: 300px
 }
 .container{
   margin-bottom: 50px;
@@ -339,16 +349,26 @@ ul,li{
   transition: .4s background-color;
 }
 
-
+.product-price:nth-child(1) span{
+margin-left: 9px;
+}
 .button:hover {
   cursor:pointer;
   background: #078A6C;
+}
+#price{
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 685px) {
   .Produit{
     flex-direction: column;
   }
+  .qty{
+    flex-direction: row-reverse;
+  }
+
 }
 
  </style>

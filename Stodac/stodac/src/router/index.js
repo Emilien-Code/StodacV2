@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/MentionsLegal.vue')
   },
   {
+    path:'/pntr/',
+    name: 'pntr',
+    component: () => import('../views/ptnrelais.vue')
+  },
+  {
     path:"/conditionsGeneralesDeVente",
     name  : "conditionsGeneralesDeVente",
     component: () => import('../views/cdv.vue')
