@@ -467,7 +467,7 @@ exports.newCommand = (req, res) => {
                                 secure: true,
                                 auth: {
                                     user: "boutique@stodac.fr",
-                                    pass: "StdcBoo54@",
+                                    pass: "C3ci3stUnMotD3P@ss3Long",
                                 },
                             });
                             let info = await transporter.sendMail({

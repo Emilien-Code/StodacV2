@@ -72,7 +72,7 @@ const routes = [
   {
     path:'/pntr/',
     name: 'pntr',
-    component: () => import('../views/ptnrelais.vue')
+    component: () => import('../components/forms/ptnrelais.vue')
   },
   {
     path:"/conditionsGeneralesDeVente",
