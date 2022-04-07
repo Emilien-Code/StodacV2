@@ -31,7 +31,6 @@
                 <th>&nbsp;</th>
                 <th v-on:click="trieordre('num')">Numero de commande</th>
                 <th v-on:click="trieordre('email')">email</th>
-                <th v-on:click="trieordre('tel')">Téléphone</th>
                 <th v-on:click="trieordre('np')">NOM Prénom</th>
                 <th v-on:click="trieordre('etat')">État commande</th>
                 <th v-on:click="trieordre('date')">Date commande</th>
@@ -43,7 +42,6 @@
                   <td><div class="flechecoteTableau"></div></td>
                   <td><a v-on:click="afficheFacture(commande.comande.id)">{{commande.comande.id}}</a></td>
                   <td>{{commande.comande.facture.email}}</td>
-                  <td>{{commande.comande.facture.mobile}}</td>
                   <td>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</td>
                   <td :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
                   <td>{{commande.comande.date.substring(0,10)}}</td>

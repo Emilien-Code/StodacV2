@@ -157,8 +157,7 @@ export default {
               const order = await actions.order.capture();
               this.data;
               this.paidFor = true;
-              console.log("la c la facture de paypal bg")
-              console.log(order); // + Créer un nouvel élément dans la collection commande
+
               if(this.facture.adresse.street != this.$store.state.userInfos.street || this.facture.adresse.streetNumber != this.$store.state.userInfos.streetNumber || this.facture.adresse.city != this.$store.state.userInfos.city || this.facture.adresse.postCode != this.$store.state.userInfos.postCode){
                 this.saveFacture(true, order.id)
               }
