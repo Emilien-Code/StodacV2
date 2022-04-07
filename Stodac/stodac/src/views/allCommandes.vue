@@ -1,12 +1,8 @@
 <template>
     <div id="AllCommandes">
-        <div>
             <p class="title">COMMANDES</p>
-        </div>
         <div>
           <input type="text" placeholder="recherche general" v-model="rechercheGlobal">
-        </div>
-        <div>
           <button @click="rechercheGlobalFunc()">appliquer global</button>
         </div>
         <div id="advanced">
@@ -29,14 +25,13 @@
           <button @click="choix(4)">annulé</button>
           <button @click="choix(5)">tout</button>
         </div>
-        <div class="tableContainer">
+
           <table id="tableCommandes">
             <thead>
               <tr>
                 <th>&nbsp;</th>
                 <th v-on:click="trieordre('num')">Numero de commande</th>
                 <th v-on:click="trieordre('email')">email</th>
-                <th v-on:click="trieordre('tel')">Téléphone</th>
                 <th v-on:click="trieordre('np')">NOM Prénom</th>
                 <th v-on:click="trieordre('etat')">État commande</th>
                 <th v-on:click="trieordre('date')">Date commande</th>
@@ -46,56 +41,75 @@
               <template v-for="(commande, index) in listCommandes" :key="commande" >
                 <tr v-on:click="ajouteici(index)">
                   <td><div class="flechecoteTableau"></div></td>
-                  <td><a style="cursor:pointer;color:black;" v-on:click="afficheFacture(commande.comande.id)">{{commande.comande.id}}</a></td>
+                  <td><a v-on:click="afficheFacture(commande.comande.id)">{{commande.comande.id}}</a></td>
                   <td>{{commande.comande.facture.email}}</td>
-                  <td>{{commande.comande.facture.mobile}}</td>
                   <td>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</td>
                   <td v-if="commande.comande.etat >= 0" :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
                   <td v-else :style="{backgroundColor: color[color.length-1]}">{{commande.comande.nometat[commande.comande.nometat.length + commande.comande.etat]}}</td>
                   <td>{{commande.comande.date.substring(0,10)}}</td>
                 </tr>
-                <tr class="visuCommande" v-if="ouvert==index">
-                  <td colspan="7">
-                    <div class="infoText">
-                      <p>adresse de livraison: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}}, {{commande.comande.facture.city}}, {{commande.comande.facture.postCode}}</p>
-                      <p>prix totale commande : {{commande.comande.prix_ttl}}€</p>
-                      <div>
-                        <p>etat : </p>
-                        <select class="selectEtat" v-model="choixetat">
-                          <option>{{commande.comande.nometat[0]}}</option>
-                          <option>{{commande.comande.nometat[1]}}</option>
-                          <option>{{commande.comande.nometat[2]}}</option>
-                          <option>{{commande.comande.nometat[3]}}</option>
-                          <option>{{commande.comande.nometat[4]}}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="tableContainer">
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Nom</th>
-                            <th>quantité</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="article in commande.comande.materiels" :key="article.id">
-                            <td>{{article.obj.name}}</td>
-                            <td>{{article.qty}}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div>
-                      <button v-if="commande.comande.nometat[commande.comande.etat] != choixetat" @click="savechangement()">Enregistrer</button>
-                    </div>
-                  </td>
+
+                <!--  Dans un composant -->
+                <tr class="tablesCntr" v-if="ouvert==index">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Adresse</th>
+                        <th>Prix HT</th>
+                        <th>Prix TTC</th>
+                        <th>État commande</th>
+                        <th>PDF</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}}, {{commande.comande.facture.city}}, {{commande.comande.facture.postCode}}</td>
+                        <td>{{Math.round((commande.comande.prix_ttl/1.2)*100)/100}}€</td>
+                        <td>{{commande.comande.prix_ttl}}€</td>
+                        <td>
+                          <select class="selectEtat" v-model="choixetat">
+                            <option>{{commande.comande.nometat[0]}}</option>
+                            <option>{{commande.comande.nometat[1]}}</option>
+                            <option>{{commande.comande.nometat[2]}}</option>
+                            <option>{{commande.comande.nometat[3]}}</option>
+                            <option>{{commande.comande.nometat[4]}}</option>
+                          </select>
+                        </td>
+                        <td><a :href="commande.comande.pdf" target="_blank"> <img style="width:25px;" src="../../public/80942.png" alt=""> </a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                    <table>
+                      <thead>
+                      <tr>
+                        <th>Nom</th>
+                        <th>quantité</th>
+                        <th>prix HT</th>
+                        <th>prix TTC</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="article in commande.comande.materiels" :key="article.id">
+                        <td>{{article.obj.name}}</td>
+                        <td>{{article.qty}}</td>
+                        <td>{{Math.round((article.obj.price/1.2)*100)/100}}€</td>
+                        <td>{{article.obj.price}}€</td>
+                      </tr>
+                      </tbody>
+                    </table>
+
+                    <!--  Dans un composant -->
+
+                  <div>
+                    <button v-if="commande.comande.nometat[commande.comande.etat] != choixetat" @click="savechangement()">Enregistrer</button>
+                  </div>
+
+
                 </tr>
               </template>
             </tbody>
           </table>
         </div>
-    </div>
 </template>
 
 <script>
@@ -480,5 +494,15 @@ th{
   height: 15px;
   background-color: #a3a3a3;
   -webkit-clip-path: polygon(100% 0, 0 0, 50% 100%);
+}
+a{
+  color: #078A6C;
+  cursor: pointer;
+}
+.tablesCntr{
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

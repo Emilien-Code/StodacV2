@@ -66,7 +66,7 @@ img{
 span{
   display: block;
   position: absolute;
-  z-index: 1000;
+  z-index: 10;
   width: 100%;
   height: 250px;
   white-space: normal;
@@ -79,16 +79,6 @@ span{
   opacity: 0;
   overflow: hidden;
 }
-span:after{
-  content: "";
-  position: absolute;
-  bottom: 10px;
-  right: 1rem;
-  width: 100px;
-  height: 1rem;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(249, 249, 249, 1) 75%);
-}
-
 #produit:hover img{
   transition: .5s ease ;
   filter: blur(1000px);
@@ -96,5 +86,9 @@ span:after{
 #produit:hover span{
   transition: .5s ease ;
   opacity: 1;
+}
+#produit:hover button {
+  opacity: 1;
+  transition: .5s ease;
 }
 </style>

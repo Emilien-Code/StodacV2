@@ -1,96 +1,99 @@
 <template>
   <div id="addItem">
-    <div v-if="$store.state.userInfos.admin">
-      <div class="row">
+    <div v-if="$store.state.userInfos.admin" >
+        <div id="left-right-container">
+          <div id="left">
+          <div>
+            <span>Nom :</span>
+            <input type="text" v-model="item.name">
+          </div>
+          <div>
+            <span>Marque :</span>
 
-      <div>
-        <span>Nom :</span>
-        <input type="text" v-model="item.name">
+            <select id="marque" v-model="item.manufacturer">
+              <option v-for="man in manufactureList" :value="man" :key="man">{{ man }}</option>
+            </select>
+
+            <span>OU</span>
+            <input type="text" placeholder="nouvelle marque" v-model="item.manufacturer">
+
+          </div>
+
+
+            <div>
+              <span>Poids :</span>
+              <input type="number" v-model="item.poids"><span>grammes</span>
+            </div>
+
+
+
+          <div>
+            <span>Quantitée :</span>
+            <input type="number" v-model="item.qty">
+          </div>
+
+          <div>
+            <span>Image : </span>
+            <input type="file" id="file" ref="file" name="first" @change="handleFileUploaded()"/>
+          </div>
+
+        </div>
+          <div id="right">
+        <div>
+          <span>Référence : </span>
+          <input type="text" v-model="item.reference">
+        </div>
+
+        <div>
+          <span>Catégorie :</span>
+
+          <select id="category" v-model="item.category">
+            <option v-for="man in categoryList" :value="man" :key="man">{{ man }}</option>
+          </select>
+          <span>OU</span>
+           <input type="text" v-model="item.category" placeholder="nouvelle catégorie"/>
+        </div>
+        <div>
+          <span>État : (neuf ou occasion) :</span>
+          <select id="state" v-model="item.state">
+            <option value="Neuf">neuf</option>
+            <option value="Occasion">Occasion</option>
+          </select>
+        </div>
+
+        <div>
+          <span>Prix :</span>
+          <input type="number" v-model="item.price">
+          <span>€, avec TVA : {{ Math.round(item.price * 1.2 * 100) / 100 }} €</span>
+        </div>
+
       </div>
-      <div>
-        <span>Référence : </span>
-        <input type="text" v-model="item.reference">
-      </div>
-      </div>
-
-      <div class="row">
-        <span>Marque :</span>
-
-        <select id="marque" v-model="item.manufacturer">
-          <option v-for="man in manufactureList" :value="man" :key="man">{{ man }}</option>
-        </select>
-
-        OU
-
-        nouvelle marque :<input type="text" v-model="item.manufacturer">
+        </div>
+      <div id="middle">
+          <div id="cmp">
+            <input class="comps" v-for="(comp, index) in compatibilities" :key="comp" type="text" v-model="item.compatibility[index]" placeholder="Compatibilitées"/>
+            <button id="rond" @click="addComp()">+</button>
+          </div>
+          <div id="desc">
+            <textarea v-model="item.description" placeholder="Description">></textarea>
+          </div>
+          <div >
+            <button id="ajouter" @click="create()">Ajouter</button>
+          </div>
 
       </div>
 
-      <div class="row">
-        <span>Catégorie :</span>
 
-        <select id="category" v-model="item.category">
-          <option v-for="man in categoryList" :value="man" :key="man">{{ man }}</option>
-        </select>
-
-        OU
-
-        nouvelle categorie :<input type="text" v-model="item.category">
-
-      </div>
-
-      <div class="row">
-
-      <div>
-        <span>Poids :</span>
-        <input type="number" v-model="item.poids">
-      </div>
-      <div>
-        <span>État : (neuf ou occasion) :</span>
-        <select id="state" v-model="item.state">
-          <option value="Neuf">neuf</option>
-          <option value="Occasion">Occasion</option>
-        </select>
-      </div>
-      </div>
-      <div class="row">
-
-      <div>
-        <span>Quantitée :</span>
-        <input type="number" v-model="item.qty">
-      </div>
-      <div>
-        <span>Prix :</span>
-        <input type="number" v-model="item.price">
-        <span>avec TVA : {{ Math.round(item.price * 1.2 * 100) / 100 }}</span>
-      </div>
-      </div>
-      <div class="row">
-        <span>Compatibilités :</span>
-        <input class="comps" v-for="(comp, index) in compatibilities" :key="comp" type="text" v-model="item.compatibility[index]"/>
-        <button id="rond" @click="addComp()">+</button>
-      </div><!-- VMODEL compatibility[0] -->
-      <div class="row" id="desc">
-        <span>Description : </span>
-        <textarea v-model="item.description"></textarea>
-      </div>
-      <div class="row">
-        <span>Image : </span>
-        <input type="file" id="file" ref="file" name="first" @change="handleFileUploaded()"/>
-      </div>
-
-
-    <div class="row" >
-      <button id="ajouter" @click="create()">Ajouter</button>
-    </div>
 
 
     </div>
     <div v-else>Niveau d'accès trop bas pour acceder.</div>
+    <fileAdded v-if="isFileAded"/>
   </div>
 </template>
 
 <script>
+import fileAdded from "../components/addFileComponents/fileAdded";
 const axios = require('axios');
 export default {
   name: "addItem",
@@ -108,13 +111,16 @@ export default {
         img: "",
         state: "",
         description: "",
-
       },
       file : '',
       manufactureList : [],
       categoryList : [],
-      compatibilities: 1
+      compatibilities: 1,
+      isFileAded: false
     }
+  },
+  components:{
+    fileAdded
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
@@ -148,10 +154,10 @@ export default {
       fd.append('description', this.item.description)
       fd.append('compatibility', JSON.stringify(this.item.compatibility))
       axios.post('http://localhost:3000/api/stuff/',fd)
-          .then(res=>{
-            console.log(res)
+          .then(()=>{
+            console.log("TEST")
+            this.isFileAded = true
           });
-      console.log(this.item.compatibility)
     },
     addComp : function (){
       this.compatibilities++
@@ -161,30 +167,29 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 #addItem{
   margin-top: 80px;
 }
 input, select, textarea, button{
   padding: 5px;
-  border-radius: 10px;
-  border: solid #078A6C 2px;
+  border-radius: 5px;
+  border: solid #E1E1E1 1px;
+  width: 35%;
+  font-family:  sans-serif;
 }
 textarea{
-  width: 500px;
+  width: 100%;
   height: 200px;
   resize: none;
 }
 #desc{
   height: 200px;
+  width: 80%;
+
 }
-.row{
-  width: 100vw;
-  height: 50px;
-  display: flex;
-  justify-content:center;
-  align-items: center;
+span{
+  margin: 0 10px;
 }
 button  {
   background-color: #078A6C;
@@ -203,5 +208,32 @@ button  {
  }
 .comps  {
   margin-left: 2px;
+  width: 19%;
+}
+#cmp  {
+  width: 80%;
+}
+#right, #left{
+  width: 40%;
+}
+#left-right-container{
+  position: relative;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  left: 50%;
+  transform:translateX(-50%);
+}
+#middle{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#middle > div, #right > div, #left > div {
+  margin-top: 20px;
+}
+#file{
+  width: 50%;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div id="manufacturer" v-clickOutside="close">
-    <button @click="isClicked()">{{nameMarque}}</button>
+    <button @click="isClicked()">{{nameMarque}}
+      <span :class="{selectedArrow: clicked, unselectedArrow:!clicked}"></span>
+    </button>
     <div v-if="clicked">
       <ul>
         <li v-for="(man, index) in manufacture" @click="isSelected(index)" :key="index" :class="{'selected' : selection[index]}">{{man}}</li>
@@ -68,6 +70,33 @@ export default {
 </script>
 
 <style scoped>
+.selectedArrow{
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff00;
+  border-bottom: #2c3e50 solid 2px ;
+  border-right: #2c3e50 solid 2px ;
+  top: 13px;
+  left: 90%;
+  transform-origin: center;
+  transform: translateY(3px) rotateZ(225deg);
+  transition: .5s ease;
+}
+.unselectedArrow{
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-bottom: #2c3e50 solid 2px ;
+  border-right: #2c3e50 solid 2px ;
+  top: 13px;
+  left: 90%;
+  transform-origin: center;
+  transform: rotateZ(45deg);
+  transition: .5s ease;
+}
 @import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
 div{
   max-height: 500px;
@@ -78,18 +107,19 @@ div{
 button{
   text-align: start;
   padding: 10px;
-  width: 200px;
+  width: 100%;
   border: none;
   border-radius: 10px;
   background-color: #ffffff;
   font-size: 1em;
   color: #2c3e50;
+  cursor: pointer;
 }
 #manufacturer{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffffA0;
   backdrop-filter: blur(20px);
-  top: 170px;
+  top: 260px;
   right : 280px;
   position: absolute;
   width: 200px;

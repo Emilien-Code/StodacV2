@@ -36,21 +36,21 @@
                   <th>Nom</th>
                   <th>Prix unité</th>
                   <th>Quantité</th>
-                  <th>Prix</th>
+                  <th>Prix TTC</th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                  <th colspan="5">TOTAL : {{userInfos.prix_ttl_panier}}€ </th>
+                  <th colspan="5">TOTAL TTC : {{userInfos.prix_ttl_panier}}€ </th>
                 </tr>
               </tfoot>
               <tbody>
                 <tr v-for="(article) in userInfos.pannier" :key="article">
                   <td><img :src="article.articleImg" alt=""></td>
                   <td>{{article.articleName}}</td>
-                  <td>{{article.articlePrice}}</td>
+                  <td>{{article.articlePrice}}€</td>
                   <td>{{article.qty}}</td>
-                  <td>{{Math.round(article.prix_ttl *100)/100}}</td>
+                  <td>{{Math.round(article.prix_ttl *100)/100}}€</td>
                 </tr>
               </tbody>
             </table>
@@ -157,8 +157,7 @@ export default {
               const order = await actions.order.capture();
               this.data;
               this.paidFor = true;
-              console.log("la c la facture de paypal bg")
-              console.log(order); // + Créer un nouvel élément dans la collection commande
+
               if(this.facture.adresse.street != this.$store.state.userInfos.street || this.facture.adresse.streetNumber != this.$store.state.userInfos.streetNumber || this.facture.adresse.city != this.$store.state.userInfos.city || this.facture.adresse.postCode != this.$store.state.userInfos.postCode){
                 this.saveFacture(true, order.id)
               }
