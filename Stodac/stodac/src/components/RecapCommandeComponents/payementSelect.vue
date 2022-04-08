@@ -24,7 +24,7 @@
       La commande vous sera aussi tôt le chèque reçu.
     </div>
     <div id="virement " v-if="selected==5">
-      La commande vous sera envoyée aussitôt le virement effectué.
+      La commande vous sera envoyée aussitôt le virement effectué. <br> IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ
     </div>
   </div>
 
@@ -39,7 +39,7 @@ export default {
     return {
       spanPosition : 0,
       selected : 3,
-      spanWidth: 65
+      spanWidth: 58
     }
   },
   mounted() {
@@ -70,7 +70,8 @@ input[type="radio"]{
 label{
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1em;
+  font-weight: bolder ;
 }
 span{
   display: block;
@@ -78,7 +79,7 @@ span{
   height: 2px;
   width: 60px;
   background-color: #078A6C;
-  transition: .5s ease;
+  transition: 1s ease;
   z-index: -1;
 }
 #menu {

@@ -21,10 +21,10 @@
       <adress/>
     </div>
     <div id="lpr " v-if="selectedL==1">
-      component point relais
+      <ptnrelais/>
     </div>
     <div id="sp " v-if="selectedL==2">
-      Vous pouvez retirer votre commande au 11 Bis Rue de Lorraine à Damelevières, 54360.
+      Vous pouvez retirer votre commande dans nos locaux à Damelevières, 54360.
     </div>
   </div>
 
@@ -34,17 +34,19 @@
 </template>
 <script>
 import adress from "../forms/adress";
+import ptnrelais from "../forms/ptnrelais";
 export default {
   name: "payementSelect",
   data: function(){
     return {
       spanPositionL : 0,
       selectedL : 0,
-      spanWidthL: 190
+      spanWidthL: 182
     }
   },
   components:{
-    adress
+    adress,
+    ptnrelais
   },
   mounted() {
     this.spanPositionL = document.querySelectorAll("label")[0].getBoundingClientRect().left
@@ -74,7 +76,8 @@ input[type="radio"]{
 label{
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  font-weight: bolder;
 }
 span{
   display: block;
