@@ -503,7 +503,7 @@ exports.newCommand = (req, res) => {
                                         secure: true,
                                         auth: {
                                             user: "boutique@stodac.fr",
-                                            pass: "StdcBoo54@",
+                                            pass: "C3ci3stUnMotD3P@ss3Long",
                                         },
                                     });
                                     let info = await transporter.sendMail({
@@ -521,45 +521,8 @@ exports.newCommand = (req, res) => {
                             console.error ("error : ", error)
                         })
                     }
-                }).then (infos => {
-                    console.log (infos)
-                    lacommande.pdf = infos.label
-                    lacommande.suiviColissimo = infos.tracking_number
-                    User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
-                        if(err) console.log(err);
-                        //console.log(docs)
-                        //VerifID
-
-                        res.send()
-
-                        console.log(poids)
-
-
-                        async function main() {
-                            let transporter = nodemailer.createTransport({
-                                host: "ssl0.ovh.net",
-                                port: 465,
-                                secure: true,
-                                auth: {
-                                    user: "boutique@stodac.fr",
-                                    pass: "C3ci3stUnMotD3P@ss3Long",
-                                },
-                            });
-                            let info = await transporter.sendMail({
-                                from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                                to: req.body.email, // list of receivers
-                                subject: "Nouvelle commande", // Subject line
-                                text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                                html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
-                            });
-                            console.log("Message sent: %s", info.messageId);
-                        }
-                        main().catch(console.error);
-                    })
-                }).catch (error => {
-                    console.error ("error : ", error)
                 })
-            }
+            })
         });
     })
 }
