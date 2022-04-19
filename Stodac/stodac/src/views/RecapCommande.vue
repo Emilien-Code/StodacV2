@@ -4,7 +4,6 @@
 
         <div class="container">
 
-          <!-- Récapitulatif de la commande ***-->
           <div class="PContainer">
             <recap/>
             <div id="totalPrices">
@@ -19,12 +18,7 @@
         </div>
 
     <p class="title">Choisissez votre mode de livraison</p>
-    <livraison/>
-
-    <p class="title">Choisissez votre mode de payement</p>
-    <payementSelect/>
-
-
+    <livraison :test="change" />
         <div class="inputsContainer">
           <div>
             <input id="checkbox" type="checkbox" v-model="cdv">
@@ -34,7 +28,6 @@
         </div>
 
 </div>
-  <loader v-if="isLoading"/>
 
 </template>
 
@@ -43,23 +36,25 @@
 
 <script>
 import { mapState } from 'vuex'
-import loader from '../components/loader'
 import recap from "../components/RecapCommandeComponents/recap";
-import payementSelect from "../components/RecapCommandeComponents/payementSelect";
 import livraison from "../components/RecapCommandeComponents/livraisonSelect"
+
 export default {
   name: 'Commande',
   data: function () {
     return {
       panier: '',
-      cdv:false
-      //isLoading : true
+      cdv:false,
+      adress: {
+        adress : '',
+        city : '',
+        postCode : '',
+      },
+        modeDeLivraison : 'domicile'
     }
   },
   components:{
-    loader,
     recap,
-    payementSelect,
     livraison
   },
   mounted: function(){
@@ -69,6 +64,27 @@ export default {
   },
   methods:{
     command: function(){
+      if (this.modeDeLivraison==="pointRelais"){
+        this.adress.adress = document.getElementById("pudoWidgetAddress1").value
+        this.adress.city = document.getElementById("pudoWidgetTown").value
+        this.adress.postCode = document.getElementById("pudoWidgetZipCode").value
+      }
+      if(this.modeDeLivraison==="domicile"){
+        this.adress.adress = document.getElementById("num").value + " " + document.getElementById("rue").value
+        this.adress.city = document.getElementById("ville").value
+        this.adress.postCode = document.getElementById("cp").value
+      }
+      if(this.modeDeLivraison=="surPlace"){
+        this.adress.adress = "11 Bis Rue de Lorraine"
+        this.adress.city = "Damelevières"
+        this.adress.postCode = "54360"
+      }
+      this.$store.dispatch('saveAdress', this.adress)
+          .then(()=>{
+            console.log(this.$store.state.adress)
+          })
+      this.$store.dispatch('saveMDL', this.modeDeLivraison)
+          .then(()=>{console.log(this.$store.state.MDL)})
       if(this.cdv){
         if(this.$store.state.user.userID === -1){
           this.$router.push("/login/payement")
@@ -78,10 +94,13 @@ export default {
               this.$router.push("/payement/")
             })
             .catch(()=>{
-            console.log("Error : l'utilisateur semble ne pas être connecté !")
+              console.log("Error : l'utilisateur n'est pas connecté !")
             })
         }
       }
+    },
+    change: function(e){
+      this.modeDeLivraison = e
     },
     reset: function(){
       this.$store.dispatch('resetpanier', this.$store.state.pannier)
@@ -129,6 +148,9 @@ export default {
   color:#007057;
   margin: 60px 0 20px 21.4%;
 }
+.inputsContainer{
+  margin-top: 25px;
+}
 .inputsContainer, .PContainer{
   width: 100%;
   display: flex;
@@ -162,6 +184,7 @@ export default {
   color: #fff;
 }
 #CDV  {
+  margin-top: 10px;
   cursor: pointer;
   color: #078A6C;
 }

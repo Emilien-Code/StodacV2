@@ -7,12 +7,11 @@
           <p>La page demandée n'a pas pu être trouvée</p>
           <div id="button_container">
             <button @click="pushTo()"> Retour à la boutique </button>
-            <a href="http://amc-est.fr/"><button> Visiter AMC-EST </button></a>
           </div>
         </div>
         <div id="bottom">
-          <h2>AMC-EST</h2>
-          <p>AMC Est, spécialiste en maintenance, entretien et dépannage de poêles à granulés en Lorraine</p>
+          <h2>Stodac</h2>
+          <p>Spécialiste des pièces d'entretien et dépannage de poêles à granulés.</p>
           <div id="arrow-container">
             <div @click="previousImg()" :class="{'arrow': true}" id="left_arrow">
               <div :class="{'leftArrowClicked': leftArrow}">
