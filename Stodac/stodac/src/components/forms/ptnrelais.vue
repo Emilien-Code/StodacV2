@@ -11,7 +11,6 @@
 <script>
 const axios = require("axios")
 import $ from 'jQuery'
-
 export default {
   data: function (){
     return{
@@ -33,7 +32,9 @@ export default {
         "login": "895244",
         "password": "LAPOSTE545483",
       }).then((response) => {
+        console.log(response.data.token)
         $('#widget-container').frameColissimoOpen({
+          "ceLang" : "fr",
           "URLColissimo": " https://ws.colissimo.fr",
           "ceCountryList": "FR",
           "callBackFrame": "noCallBack",
