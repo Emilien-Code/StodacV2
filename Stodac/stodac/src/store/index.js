@@ -54,6 +54,7 @@ export default createStore({
       adress:'',
       city:''
     },
+    FDP:0,
     MDL:''
   },
   mutations: {
@@ -80,7 +81,6 @@ export default createStore({
       localStorage.removeItem('userInfos')
     },
     userInfos : function(state, userInfos){
-      console.log('je passe la mtn')
       state.userInfos = userInfos;
     },
     stuffs: function(state, stuffs){
@@ -158,6 +158,9 @@ export default createStore({
     },
     modeDeLivraison: function(state, MDL){
       state.MDL = MDL;
+    },
+    FDP: function(state, FDP){
+      state.FDP = FDP;
     }
   },
   actions: {
@@ -195,7 +198,6 @@ export default createStore({
       instance.get(`/user/getinfos/${state.user.userID}`)
       .then(function(response) {
         commit('userInfos', response.data[0]);
-        console.log('la aussi')
         resolve()
       })
       .catch( function (error) {
@@ -266,10 +268,8 @@ export default createStore({
       return new Promise((resolve, reject) => {
         console.log(state, panier)
         console.log(panier)
-        console.log("lakazdjifozejfiz")
         instance.post(`/user/addpanier/${state.state.user.userID}`,panier)
         .then(function(){
-          console.log('c passer pour le panier')
           resolve()
         })
         .catch(function(error){
@@ -370,6 +370,9 @@ export default createStore({
     },
     saveMDL:({commit},MDL)=>{
       commit('modeDeLivraison', MDL)
+    },
+    saveFDP:({commit},FDP)=>{
+      commit('FDP', FDP)
     },
     saveAdress:({commit}, ad) =>{
       commit('saveAdressM', ad)

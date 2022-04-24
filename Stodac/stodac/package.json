@@ -16,6 +16,7 @@
     "location": "^0.0.1",
     "navigator": "^1.0.1",
     "vue": "^3.2.26",
+    "vue-recaptcha": "^2.0.1",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "xmlhttprequest": "^1.8.0"

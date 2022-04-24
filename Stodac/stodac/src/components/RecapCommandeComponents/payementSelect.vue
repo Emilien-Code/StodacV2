@@ -1,29 +1,32 @@
 <template>
   <div id="menu">
     <input type="radio" id="Paypal" name="payement" checked>
-    <label for="Paypal" @click="setSelected(3)" @mouseenter="enter(3)" @mouseleave="leave()">
+    <label for="Paypal" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
       Paypal
     </label>
 
     <input type="radio" id="cheque" name="payement">
-    <label for="cheque" @click="setSelected(4 )" @mouseenter="enter(4)" @mouseleave="leave()">
+    <label for="cheque" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
       Cheque
     </label>
 
     <input type="radio" id="virement" name="payement">
-    <label for="virement" @click="setSelected(5)" @mouseenter="enter(5)" @mouseleave="leave()">
+    <label for="virement" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
       Virement
     </label>
   </div>
     <span :style="{transform:`translate(${spanPosition}px,-5px)`, width:`${spanWidth}px`}" id="bar"></span>
   <div id="descriptifs">
-    <div id="paypal " v-if="selected==3">
+    <div id="paypal " v-if="selected==0">
+      <div class="Payment">
+        <div ref="paypal" id="paypal-button-container"></div>
+      </div>
       La commande vous sera envoyée aussitôt le payement effectué.
     </div>
-    <div id="Cheque " v-if="selected==4">
+    <div id="Cheque " v-if="selected==1">
       La commande vous sera aussi tôt le chèque reçu.
     </div>
-    <div id="virement " v-if="selected==5">
+    <div id="virement " v-if="selected==2">
       La commande vous sera envoyée aussitôt le virement effectué. <br> IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ
     </div>
   </div>
@@ -38,12 +41,12 @@ export default {
   data: function(){
     return {
       spanPosition : 0,
-      selected : 3,
+      selected : 0,
       spanWidth: 58
     }
   },
   mounted() {
-    this.spanPosition = document.querySelectorAll("label")[3].getBoundingClientRect().left
+    this.spanPosition = document.querySelectorAll("label")[0].getBoundingClientRect().left
     },
   methods: {
     enter: function (i){
@@ -79,7 +82,7 @@ span{
   height: 2px;
   width: 60px;
   background-color: #078A6C;
-  transition: 1s ease;
+  transition: .5s ease;
   z-index: -1;
 }
 #menu {

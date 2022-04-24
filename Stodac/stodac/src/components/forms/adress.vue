@@ -2,7 +2,7 @@
   <div class="container">
     <p class="title">Adresse :</p>
     <div class="inputsContainer">
-      <input class="small" id="num" type="number" placeholder="Numérot" v-model="streetNumber">
+      <input class="small" id="num" type="number" placeholder="Numéro" v-model="streetNumber">
       <input class="big" id="rue" type="text" placeholder="Rue" v-model="street">
     </div>
     <div class="inputsContainer">

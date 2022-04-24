@@ -31,6 +31,11 @@
     <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
       Adresse mail déjà utilisée
     </div>
+
+    <div class="form-row" v-if="mode === 'create'">
+      <div class="g-recaptcha" data-sitekey="6LdZeYgfAAAAADd5PLnefi-NqOh1ffC2Og9MtUqI"></div>
+    </div>
+
     <div class="form-row">
       <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
         <span v-if="status === 'loading'">Connexion en cours...</span>
@@ -45,9 +50,12 @@
 </template>
 
 <script>
-
+function onSubmit(token) {
+  if(token!="test") document.getElementById("demo-form").submit();
+  console.log(token)
+}
+onSubmit("test")
 import { mapState } from 'vuex'
-
 export default {
   name: 'Login',
   data: function () {
@@ -62,6 +70,13 @@ export default {
       closeLogin: false
     }
   },
+
+  mounted() {
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js";
+    document.body.appendChild(script);
+    script.addEventListener("load", this.test)
+  },
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
@@ -73,10 +88,6 @@ export default {
     mailValidation: function(){
       const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regexp.test(String(this.email).toLowerCase());
-    },
-    phoneValidation: function(){
-      const regexp = /^[0-9]{10}$/;
-      return regexp.test(String(this.mobile));
     },
     passwordValidation: function(){
       const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
@@ -109,7 +120,6 @@ export default {
     },
     createAccount: function(){
       if(this.validatedFields) {
-
         const a = this;
         this.$store.dispatch('createAccount', {
           email: this.email,
@@ -126,6 +136,10 @@ export default {
     }
   }
 }
+
+
+
+
 </script>
 
 <style scoped>

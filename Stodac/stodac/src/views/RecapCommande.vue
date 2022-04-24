@@ -7,8 +7,22 @@
           <div class="PContainer">
             <recap/>
             <div id="totalPrices">
-              <p  style="margin-left: 40%">TOTAL HT : <span style="color:#419D79;font-weight:bold">{{ Math.round(total/1.2 * 100)/100 }}€</span></p>
-              <p  style="margin-left: 40%">TOTAL TTC : <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span></p>
+              <div class="info">
+                <p>Frais de port HT :</p>
+                <p style="color:#419D79;font-weight:bold">{{ Math.round(fraisDePort/1.2 * 100)/100 }}€ </p>
+              </div>
+              <div class="info">
+                <p>Frais de port TTC:</p>
+                <p style="color:#419D79;font-weight:bold">{{ fraisDePort }}€ </p>
+              </div>
+              <div class="info">
+                <p>TOTAL HT : </p>
+                <p style="color:#419D79;font-weight:bold">{{ Math.round(total/1.2 * 100)/100 }}€</p>
+              </div>
+              <div class="info">
+                <p>TOTAL TTC : </p>
+                <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span>
+              </div>
             </div>
           </div>
 
@@ -79,23 +93,21 @@ export default {
         this.adress.city = "Damelevières"
         this.adress.postCode = "54360"
       }
+
       this.$store.dispatch('saveAdress', this.adress)
-          .then(()=>{
-            console.log(this.$store.state.adress)
-          })
+          .then(()=>{console.log(this.$store.state.adress)})
       this.$store.dispatch('saveMDL', this.modeDeLivraison)
           .then(()=>{console.log(this.$store.state.MDL)})
+
+
       if(this.cdv){
         if(this.$store.state.user.userID === -1){
           this.$router.push("/login/payement")
         }else{
+
           this.$store.dispatch('savepanier', this.$store.state.pannier)
-            .then(()=>{
-              this.$router.push("/payement/")
-            })
-            .catch(()=>{
-              console.log("Error : l'utilisateur n'est pas connecté !")
-            })
+            .then(()=>{this.$router.push("/payement/")})
+            .catch(()=>{console.log("Error : l'utilisateur n'est pas connecté !")})
         }
       }
     },
@@ -108,15 +120,50 @@ export default {
     pushToCDV : function (){
       let routeData = this.$router.resolve({name: 'conditionsGeneralesDeVente', query: {data: "someData"}});
       window.open(routeData.href, '_blank');
+    },
+    saveFDP : function(prixFraisDePort){
+      this.$store.dispatch('saveFDP', prixFraisDePort).then(()=>console.log("Store : " + this.$store.state.FDP))
     }
   },
   computed: {
     total: function () {
-      let total = 0;
+      let total = this.fraisDePort;
       for(let i = 0; i<this.$store.state.pannier.length; i++){
         total += this.$store.state.pannier[i].article.price * this.$store.state.pannier[i].qty;
       }
       return total
+    },
+    fraisDePort: function(){
+      let poidsFraisDePort = 0
+      let prixFraisDePort;
+
+
+      if(this.modeDeLivraison != "surPlace"){
+
+        this.$store.state.pannier.forEach((article) => {
+          poidsFraisDePort += article.qty * article.article.poids
+        })
+
+        if (poidsFraisDePort < 100 ) prixFraisDePort = 8
+        if (poidsFraisDePort >= 100 && poidsFraisDePort < 500) prixFraisDePort = 10
+        if (poidsFraisDePort >= 500 && poidsFraisDePort < 1000) prixFraisDePort = 12
+        if (poidsFraisDePort >= 1000 && poidsFraisDePort < 1500) prixFraisDePort = 14
+        if (poidsFraisDePort >= 1500 && poidsFraisDePort < 2000) prixFraisDePort = 16
+        if (poidsFraisDePort >= 2000 && poidsFraisDePort < 2500 ) prixFraisDePort = 18
+        if (poidsFraisDePort >= 2500 && poidsFraisDePort < 3000) prixFraisDePort = 20
+        if (poidsFraisDePort >= 3000 && poidsFraisDePort < 3500) prixFraisDePort = 22
+        if (poidsFraisDePort >= 3500 ) prixFraisDePort = 24
+
+        this.saveFDP(Math.round(prixFraisDePort * 1.2 * 100)/100)
+
+        return Math.round(prixFraisDePort * 1.2 * 100)/100
+
+
+
+      }else{
+
+        return 0
+      }
     },
     ...mapState(['userInfos']),
   }
@@ -139,7 +186,7 @@ export default {
   box-sizing: border-box;
 }
 #totalPrices{
-  width: 300px
+  width: 50%
 }
 .container{
   margin-bottom: 50px;
@@ -220,6 +267,11 @@ img{
 .button:hover {
   cursor:pointer;
   background: #078A6C;
+}
+
+.info{
+  display: flex;
+  justify-content: space-between;
 }
 
 @media (max-width: 685px) {

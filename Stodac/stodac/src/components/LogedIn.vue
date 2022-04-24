@@ -47,7 +47,7 @@ export default {
       this.$router.push('/'); // Pq ?
       return;
     }
-    this.$store.dispatch('getUserInfos').then(console.log(this.$store.state.userInfos))
+    this.$store.dispatch('getUserInfos')
   },
   methods: {
     logOut: function(){

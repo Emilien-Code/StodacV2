@@ -1,31 +1,14 @@
 <template>
   <div id="Commande" v-if="userInfos.firstName">
       <div class="container">
-        <p class="title">Commanditaire</p>
-        <div class="inputsContainer">
-          <input class="small" type="text" placeholder="Nom" v-model="userInfos.lastName">
-          <input class="big" type="text" placeholder="Prénom" v-model="userInfos.firstName">
-        </div>
-        <div class="inputsContainer">
-          <input class="big" type="email" placeholder="Email" v-model="userInfos.email">
-          <input class="small" type="tel" placeholder="Numérot de téléphone" v-model="userInfos.mobile">
+        <p class="title">Détails de Livraison</p>
+        <div class="infoLivraison">
+          <p v-if="$store.state.MDL == 'surPlace' ">Retrait dans nos locaux au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
+          <p v-else-if="$store.state.MDL == 'domicile' ">Livraison à domicile au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
+          <p v-else-if="$store.state.MDL == 'pointRelais'">Livraison en point relais au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
         </div>
       </div>
       <MaModale v-bind:popup="popup" v-bind:jaichoisi="jaichoisi"/>
-        <div class="container">
-          <p class="title">Adresse</p>
-          <div class="inputsContainer">
-            <input class="small" type="number" placeholder="Numérot" v-model="userInfos.streetNumber">
-            <input class="big" type="text" placeholder="Rue" v-model="userInfos.street">
-          </div>
-          <div class="inputsContainer">
-            <input class="big" type="text" placeholder="Ville" v-model="userInfos.city">
-            <input class="small" type="number" placeholder="Code postale" v-model="userInfos.postCode">
-          </div>
-          <div class="inputsContainer">
-          <!--<div id="remember_adresse" @click="saveAddress()" class="button">Se souvenir de l'adresse</div>-->
-          </div>
-        </div>
         <div class="container">
           <p class="title">Récapitulatif de la commande</p>
           <div class="PContainer">
@@ -58,7 +41,7 @@
         </div>
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
 
-
+<PayementSelect/>
   <div class="Payment">
         <div ref="paypal" id="paypal-button-container"></div>
   </div>
@@ -81,22 +64,21 @@
 import { mapState } from 'vuex'
 import MaModale from '../components/saveAdresse.vue'
 import loader from "../components/loader";
-//const axios = require('axios');
+import PayementSelect from "../components/RecapCommandeComponents/payementSelect";
 export default {
   name: 'Commande',
   data: function () {
     return {
       facture:{
         adresse: {
-          //id: '',
           street: '',
           streetNumber: '',
           city: '',
           postCode: '',
-          isLoading: true
         },
         panier: [],
       },
+      isLoading: true,
       email: '',
       password: '',
       firstName: '',
@@ -107,6 +89,7 @@ export default {
     }
   },
   components: {
+    PayementSelect,
     MaModale,
     loader
   },
@@ -127,8 +110,8 @@ export default {
       this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
       this.facture.adresse.city = this.$store.state.userInfos.city;
       this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
-
-      this.isLoading = false;
+      this.isLoading = false
+      console.log(this.userInfos)
     })
 
     if(this.$store.state.pannier.length === 0){
@@ -173,7 +156,6 @@ export default {
     },
     saveAddress : function(){
       this.$store.dispatch('changeAddress', this.facture.adresse)
-      //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.facture.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
     },
     reco : function(){
       this.$store.commit('logOut');
@@ -195,7 +177,6 @@ export default {
       this.$store.dispatch('saveFacture', option)
       .then(()=>{
         console.log("jarrivepasla")
-        // this.$store.dispatch('resetpanier', this.$store.state.pannier)
         if(changementadresse){
           this.popup = true
         }else{
@@ -240,6 +221,13 @@ export default {
 #commandelse{
   margin-top: 80px;
 }
+.infoLivraison{
+  display: flex;
+  justify-content: center;
+}
+.infoLivraison > p{
+  width: 50%;
+}
 *{
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -249,23 +237,7 @@ export default {
 .container{
   margin-bottom: 100px;
 }
-.small{
-  width: 350px;
-  margin: 12.5px;
-}
-.big{
-  margin: 12.5px;
-  width : 450px;
-}
-.small,.big{
-  border-radius: 10px;
-  padding:8px;
-  border: solid #007057 2px;
-  background:#fafafa;
-  font-weight: 500;
-  font-size: 16px;
-  color: black;
-}
+
 .inputsContainer, .PContainer{
   width: 100%;
   display: flex;

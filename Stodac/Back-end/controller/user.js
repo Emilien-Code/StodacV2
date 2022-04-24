@@ -384,6 +384,7 @@ exports.newCommand = (req, res) => {
                     id_double = docs[0].comande[0].id
                 }
                 else if (resul.purchase_units[0].amount.value != docsancien.prix_ttl_panier){
+                    console.log("payé : " + resul.purchase_units[0].amount.value + " devait payer " + docsancien.prix_ttl_panier)
                     etat = -1
                     console.log('le prix payer est pas le bon')
                 }
