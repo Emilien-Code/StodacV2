@@ -22,8 +22,8 @@ function callBack(point){
   console.log("callBack");
   console.log("callBack");
   console.log("callBack");
-
 }
+callBack()
 export default {
   data: function (){
     return{
@@ -48,15 +48,23 @@ export default {
         "password": "LAPOSTE545483",
         "SameSite":"Secure"
       }).then((response) => {
+        console.log(response.data.token)
         $('#widget-container').frameColissimoOpen({
+          "ceLang" : "fr",
           "URLColissimo": " https://ws.colissimo.fr",
           "ceCountryList": "FR",
           "ceCountry": "FR",
-          "dyPreparationTime": 1,
+          "dyPreparationTime": "1",
+          "ceAddress" : "62 RUE CAMILLE DESMOULINS",
+          "ceZipCode" : "92130",
+          "ceTown" : "ISSY LES MOULINEAUX",
           "token": response.data.token,
-          "callBackFrame":callBack()
+          "callBackFrame": `$callBack()`
         })
-      }).catch((error)=>{console.log(error)})
+      }).catch((error)=>{
+        console.log("ceci derange")
+        console.log(error)
+        })
     },
     callBackFrame: function (point) {
       console.log('call back frame');
