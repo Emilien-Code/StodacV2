@@ -48,7 +48,13 @@ export default createStore({
     nbStuff:0,
     user : user,
     stuffs:[],
-    pannier: pannier
+    pannier: pannier,
+    adress:{
+      postCode:'',
+      adress:'',
+      city:''
+    },
+    MDL:''
   },
   mutations: {
     setStatus: function(state, status){
@@ -141,12 +147,18 @@ export default createStore({
       localStorage.setItem('pannier', JSON.stringify(state.pannier));
     },
     changeUserID : function(state){
-      console.log('eh oh')
       state.user.token = "dfuahgu"
       state.user.userID = "heehhehez"
-      console.log(state)
       localStorage.setItem('user', JSON.stringify(state.user))
     },
+    saveAdressM: function(state, ad){
+      state.adress.city = ad.city
+      state.adress.adress = ad.adress
+      state.adress.postCode = ad.postCode
+    },
+    modeDeLivraison: function(state, MDL){
+      state.MDL = MDL;
+    }
   },
   actions: {
     login : ({commit}, userInfos) => {
@@ -355,6 +367,12 @@ export default createStore({
           reject()
         })
       })
+    },
+    saveMDL:({commit},MDL)=>{
+      commit('modeDeLivraison', MDL)
+    },
+    saveAdress:({commit}, ad) =>{
+      commit('saveAdressM', ad)
     },
     timeout : ({commit, state}) =>{
       console.log('au moins ça marche')

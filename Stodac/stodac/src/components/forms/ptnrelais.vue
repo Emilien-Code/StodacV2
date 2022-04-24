@@ -2,73 +2,48 @@
   <div id="ptnrelais">
     <div id="widget-container" ></div>
     <input type="hidden" id="pudoWidgetErrorCode">
-
+    <input type="hidden" id="pudoWidgetAddress1">
+    <input type="hidden" id="pudoWidgetTown">
+    <input type="hidden" id="pudoWidgetZipCode">
   </div>
 </template>
 
 <script>
 const axios = require("axios")
 import $ from 'jQuery'
-function callBack(point){
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("point : " + point)
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-  console.log("callBack");
-}
-callBack()
 export default {
   data: function (){
     return{
+      jQ:null
     }
   },
   mounted() {
     const script = document.createElement("script");
     script.src = "https://ws.colissimo.fr/widget-point-retrait/resources/js/jquery.plugin.colissimo.min.js";
-    script.addEventListener("load", this.jQueryLoad);
     document.body.appendChild(script);
+    this.jQ = document.createElement("script");
+    this.jQ.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js";
+    this.jQ.addEventListener("load", this.callColissimo());
+    document.body.appendChild(this.jQ);
   },
-  methods: {
-    jQueryLoad: function(){
-      this.jQ = document.createElement("script");
-      this.jQ.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js";
-      this.jQ.addEventListener("load", this.setLoaded);
-      document.body.appendChild(this.jQ);
-    },
-    setLoaded: function () {
+  methods:{
+    callColissimo: function(){
       axios.post('https://ws.colissimo.fr/widget-point-retrait/rest/authenticate.rest', {
         "login": "895244",
         "password": "LAPOSTE545483",
-        "SameSite":"Secure"
       }).then((response) => {
         console.log(response.data.token)
         $('#widget-container').frameColissimoOpen({
           "ceLang" : "fr",
           "URLColissimo": " https://ws.colissimo.fr",
           "ceCountryList": "FR",
+          "callBackFrame": "noCallBack",
           "ceCountry": "FR",
-          "dyPreparationTime": "1",
-          "ceAddress" : "62 RUE CAMILLE DESMOULINS",
-          "ceZipCode" : "92130",
-          "ceTown" : "ISSY LES MOULINEAUX",
+          "ceLang" : "fr",
+          "dyPreparationTime": 1,
           "token": response.data.token,
-          "callBackFrame": `$callBack()`
         })
-      }).catch((error)=>{
-        console.log("ceci derange")
-        console.log(error)
-        })
-    },
-    callBackFrame: function (point) {
-      console.log('call back frame');
-      console.log(point);
+      }).catch((error)=>{console.log(error)})
     }
   }
 }
@@ -80,10 +55,20 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
+button{
+  position: absolute;
+}
 #widget-container{
-  margin-bottom: 150px;
+  margin-bottom: 200px;
 }
 #ptnrelais{
+    width: 80vw;
+  transform: translateX(-10vw);
 }
+@media (max-width: 772px) {
+  #widget-container{
+     margin-bottom: 600px;
+  }
+}
+
  </style>

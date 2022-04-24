@@ -1,16 +1,16 @@
 <template>
   <div id="menu">
-    <input type="radio" id="domicile" name="livraison" checked>
+    <input type="radio" id="domicile" value="domicile" v-model="selectedRadio" @change="test('domicile')" name="livraison" checked>
     <label for="domicile" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
       Livraison à domicile
     </label>
 
-    <input type="radio" id="pntRelais" name="livraison">
+    <input type="radio" id="pntRelais" value="pnrRelais" v-model="selectedRadio" @change="test('pointRelais')" name="livraison">
     <label for="pntRelais" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
       Point relais
     </label>
 
-    <input type="radio" id="retrait" name="livraison">
+    <input type="radio" id="retrait" value="retrait" v-model="selectedRadio" @change="test('surPlace')" name="livraison">
     <label for="retrait" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
       Retirer sur place
     </label>
@@ -41,7 +41,8 @@ export default {
     return {
       spanPositionL : 0,
       selectedL : 0,
-      spanWidthL: 182
+      spanWidthL: 182,
+      selectedRadio:''
     }
   },
   components:{
@@ -65,6 +66,9 @@ export default {
         this.spanWidthL = labels[this.selectedL].getBoundingClientRect().right - labels[this.selectedL].getBoundingClientRect().left
         this.spanPositionL = labels[this.selectedL].getBoundingClientRect().left;
     }
+  },
+  props:{
+    test:Function
   }
 }
 </script>

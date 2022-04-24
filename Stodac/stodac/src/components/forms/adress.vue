@@ -2,12 +2,12 @@
   <div class="container">
     <p class="title">Adresse :</p>
     <div class="inputsContainer">
-      <input class="small" type="number" placeholder="Numérot" v-model="streetNumber">
-      <input class="big" type="text" placeholder="Rue" v-model="street">
+      <input class="small" id="num" type="number" placeholder="Numérot" v-model="streetNumber">
+      <input class="big" id="rue" type="text" placeholder="Rue" v-model="street">
     </div>
     <div class="inputsContainer">
-      <input class="big" type="text" placeholder="Ville" v-model="city">
-      <input class="small" type="number" placeholder="Code postale" v-model="postCode">
+      <input class="big" id="ville" type="text" placeholder="Ville" v-model="city">
+      <input class="small" id="cp" type="number" placeholder="Code postale" v-model="postCode">
     </div>
   </div>
 </template>
