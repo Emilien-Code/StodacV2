@@ -116,9 +116,10 @@ export default {
           password: this.password
         }).then(function () {
           if(a.redirection==="payement"){
-            a.$store.dispatch('savepanier', a.$store.state.pannier)
+            a.$store.dispatch('savepanier').then(()=>{a.$router.push("/payement/")})
+          }else{
+            a.$router.push(`/${a.redirection}`)
           }
-          a.$router.push(`/${a.redirection}`)
         })
             .catch(function (error) {
               console.log("cannot log", error)

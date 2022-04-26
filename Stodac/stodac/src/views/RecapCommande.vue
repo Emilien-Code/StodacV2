@@ -59,8 +59,8 @@ export default {
     return {
       panier: '',
       cdv:false,
-      adress: {
-        adress : '',
+      adresse: {
+        adresse : '',
         city : '',
         postCode : '',
       },
@@ -78,34 +78,36 @@ export default {
   },
   methods:{
     command: function(){
+      console.log("fjeirjihhhihrejhigrjijirfgjrgjigjigjijigtjigjihgnjhfjnfjnhfjnhfvjnhfvjnhfvjnhfvjnhfvjh")
       if (this.modeDeLivraison==="pointRelais"){
-        this.adress.adress = document.getElementById("pudoWidgetAddress1").value
-        this.adress.city = document.getElementById("pudoWidgetTown").value
-        this.adress.postCode = document.getElementById("pudoWidgetZipCode").value
+        this.adresse.adresse = document.getElementById("pudoWidgetAddress1").value
+        this.adresse.city = document.getElementById("pudoWidgetTown").value
+        this.adresse.postCode = document.getElementById("pudoWidgetZipCode").value
       }
       if(this.modeDeLivraison==="domicile"){
-        this.adress.adress = document.getElementById("num").value + " " + document.getElementById("rue").value
-        this.adress.city = document.getElementById("ville").value
-        this.adress.postCode = document.getElementById("cp").value
+        this.adresse.adresse = document.getElementById("num").value + " " + document.getElementById("rue").value
+        this.adresse.city = document.getElementById("ville").value
+        this.adresse.postCode = document.getElementById("cp").value
       }
       if(this.modeDeLivraison=="surPlace"){
-        this.adress.adress = "11 Bis Rue de Lorraine"
-        this.adress.city = "Damelevières"
-        this.adress.postCode = "54360"
+        this.adresse.adresse = "11 Bis Rue de Lorraine"
+        this.adresse.city = "Damelevières"
+        this.adresse.postCode = "54360"
       }
 
-      this.$store.dispatch('saveAdress', this.adress)
-          .then(()=>{console.log(this.$store.state.adress)})
-      this.$store.dispatch('saveMDL', this.modeDeLivraison)
-          .then(()=>{console.log(this.$store.state.MDL)})
+      // this.$store.dispatch('saveAdress', this.adresse)
+      //     .then(()=>{console.log(this.$store.state.adresse)})
+      // this.$store.dispatch('saveMDL', this.modeDeLivraison)
+      //     .then(()=>{console.log(this.$store.state.MDL)})
 
 
       if(this.cdv){
+        const parametre = [this.$store.state.pannier, this.adresse, this.modeDeLivraison]
+        this.$store.dispatch('saveparametre', parametre)
         if(this.$store.state.user.userID === -1){
           this.$router.push("/login/payement")
         }else{
-
-          this.$store.dispatch('savepanier', this.$store.state.pannier)
+          this.$store.dispatch('savepanier')
             .then(()=>{this.$router.push("/payement/")})
             .catch(()=>{console.log("Error : l'utilisateur n'est pas connecté !")})
         }

@@ -300,15 +300,16 @@ exports.changeAddress = (req, res) => {
 }
 
 exports.addpanier = (req, res) => {
-    console.log(req.body.length)
+    console.log(req.body.panier.length)
     var pasbon = []
     User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
         if(err) console.log(err);
     });
     prix_ttl = 0
-    ttl_a_faire = req.body.length
+    ttl_a_faire = req.body.panier.length
     jensuis = 0
-    req.body.forEach(function(obj){
+    let prix_fdp = 0
+    req.body.panier.forEach(function(obj){
         console.log(obj)
         console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
         Thing.find({_id:obj.article._id}, (err, docs) => {
@@ -321,6 +322,18 @@ exports.addpanier = (req, res) => {
                 pasbon.push(obj.article.name)
             } else if ((docs[0].qty - obj.qty) >= 0){
                 console.log(req.params.id)
+                if (req.body.modeDeLivraison != "surPlace"){
+                    let poids_ttl = obj.article.poids * obj.qty
+                    if (poids_ttl < 100 ) prix_fdp += 8
+                    if (poids_ttl >= 100 && poids_ttl < 500) prix_fdp += 10
+                    if (poids_ttl >= 500 && poids_ttl < 1000) prix_fdp += 12
+                    if (poids_ttl >= 1000 && poids_ttl < 1500) prix_fdp += 14
+                    if (poids_ttl >= 1500 && poids_ttl < 2000) prix_fdp += 16
+                    if (poids_ttl >= 2000 && poids_ttl < 2500 ) prix_fdp += 18
+                    if (poids_ttl >= 2500 && poids_ttl < 3000) prix_fdp += 20
+                    if (poids_ttl >= 3000 && poids_ttl < 3500) prix_fdp += 22
+                    if (poids_ttl >= 3500 ) prix_fdp += 24
+                }
                 prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
                 prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
@@ -344,7 +357,8 @@ exports.addpanier = (req, res) => {
                 // dire que tout est ok !
             }
             console.log("ici par contre...")
-            prix_ttl = Math.round(prix_ttl * 100)/100
+            prix_fdp = (prix_fdp * 1.2 * 100)/100
+            prix_ttl = Math.round((prix_ttl+prix_fdp) * 100)/100
             console.log(prix_ttl)
             User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
                 if(err) console.log(err);
@@ -352,7 +366,10 @@ exports.addpanier = (req, res) => {
                 jensuis += 1
                 if (jensuis == ttl_a_faire){
                     console.log("ditmoiqueçasortmtnlatoutalafin")
-                    res.send()
+                    const saveLivraison = {adresse:req.body.adresseLivraison, modeDeLivraison:req.body.modeDeLivraison}
+                    User.updateOne({_id:req.params.id},{$set: {saveLivraison:saveLivraison}}, (err, docs)=>{if(err) console.log(err);}).then(()=>{
+                        res.send()
+                    })
                 }
             })
         })
@@ -370,13 +387,15 @@ exports.newCommand = (req, res) => {
         docsancien = docs[0]
         // console.log(paypalCtrl.getFacture(id_paypal))
         paypalCtrl.getFacture(id_paypal).then((resul)=>{
+            console.log('lafautquejefassesupergaffecarlerreursembleici')
             console.log(resul)
+            console.log(resul.purchase_units)
             // resul.id = '1M6567226T5919711'
             User.find({"comande":{$elemMatch:{"paypal_info.id":resul.id}}},{"comande":{"$elemMatch":{"paypal_info.id":resul.id}}}, (err, docs)=>{
                 console.log("docs")
                 console.log(docs)
                 let etat = 0
-                resul.purchase_units[0].amount.value = 0
+                // resul.purchase_units[0].amount.value = 0
                 if (docs[0]!=null){
                     console.log("l'idpaypalestpasbon")
                     etat = -2
@@ -440,6 +459,7 @@ exports.newCommand = (req, res) => {
                         let lacommande = {
                             id:docsancien._id+numerocommande,
                             materiels: materiels_crea,
+                            livraison: req.body.saveLivraison,
                             facture: facture_crea,
                             paypal_info: paypal,
                             prix_ttl: prix_ttl_crea,
@@ -468,10 +488,10 @@ exports.newCommand = (req, res) => {
                             receiver: {
                                 last_name: req.body.lastname,
                                 first_name: req.body.firstname,
-                                address: req.body.streetNumber + ' ' + req.body.street,
+                                address: req.body.saveLivraison.adresse.adresse,
                                 to_know: '',
-                                zip_code: req.body.postCode,
-                                city: req.body.city,
+                                zip_code: req.body.saveLivraison.adresse.postCode,
+                                city: req.body.saveLivraison.adresse.city,
                                 phone_number: req.body.mobile.toString().split("33")[1],
                                 mail: req.body.email
                             },
@@ -520,6 +540,34 @@ exports.newCommand = (req, res) => {
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
+                            //c moche mais ca fais le taff :(
+                            lacommande.pdf = ""
+                            lacommande.suiviColissimo = "error"
+                            lacommande.errorColissimo = error
+                            User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
+                                if(err) console.log(err);
+                                res.send()
+                                async function main() {
+                                    let transporter = nodemailer.createTransport({
+                                        host: "ssl0.ovh.net",
+                                        port: 465,
+                                        secure: true,
+                                        auth: {
+                                            user: "boutique@stodac.fr",
+                                            pass: "C3ci3stUnMotD3P@ss3Long",
+                                        },
+                                    });
+                                    let info = await transporter.sendMail({
+                                        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                                        to: req.body.email, // list of receivers
+                                        subject: "Nouvelle commande", // Subject line
+                                        text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                                        html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
+                                    });
+                                    console.log("Message sent: %s", info.messageId);
+                                }
+                                main().catch(console.error);
+                            })
                         })
                     }
                 })
