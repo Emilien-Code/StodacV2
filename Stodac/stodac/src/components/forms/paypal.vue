@@ -67,5 +67,10 @@ export default {
 </script>
 
 <style scoped>
-
+#paypal-button-container{
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  background-color: #fff;
+}
 </style>

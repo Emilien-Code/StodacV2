@@ -242,17 +242,7 @@ ul,li{
 .PContainer li{
   margin-bottom: 15px;
 }
-.Payment{
-  position: relative;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  z-index: 10;
-  background-color: #fff;
-}
-#paypal-button-container{
-  width: 750px;
-}
+
 .button {
   background: #419D79;
   color:white;
