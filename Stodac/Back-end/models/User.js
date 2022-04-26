@@ -16,7 +16,8 @@ const userSchema = mongoose.Schema({
     prix_ttl_panier: {type : Number, required : false },
     comande: {type : Array, required : false },
     admin : {type : Boolean, required : true },
-    mobile : {type : Number, required : false }
+    mobile : {type : Number, required : false },
+    saveLivraison: {type : Object, required : false}
 });
 
 

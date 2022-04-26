@@ -55,7 +55,8 @@ export default createStore({
       city:''
     },
     FDP:0,
-    MDL:''
+    MDL:'',
+    parametrepayement:[]
   },
   mutations: {
     setStatus: function(state, status){
@@ -161,6 +162,10 @@ export default createStore({
     },
     FDP: function(state, FDP){
       state.FDP = FDP;
+    },
+    saveparametrepayement:function(state, parametre){
+      state.parametrepayement = parametre
+      localStorage.setItem('parametrepayement', JSON.stringify(state.parametrepayement));
     }
   },
   actions: {
@@ -264,11 +269,18 @@ export default createStore({
         console.log(error)
       })
     },
-    savepanier: (state, panier) => {
+    saveparametre:({commit}, parametre) =>{
+      commit('saveparametrepayement', parametre)
+    },
+    savepanier: (state) => {
       return new Promise((resolve, reject) => {
-        console.log(state, panier)
-        console.log(panier)
-        instance.post(`/user/addpanier/${state.state.user.userID}`,panier)
+        // console.log(state, panier)
+        // console.log(panier)
+        // console.log(adresseLivraison)
+        // console.log(modeDeLivraison)
+        const envoieca = {panier:state.state.parametrepayement[0],adresseLivraison:state.state.parametrepayement[1],modeDeLivraison:state.state.parametrepayement[2]}
+        console.log(envoieca)
+        instance.post(`/user/addpanier/${state.state.user.userID}`,envoieca)
         .then(function(){
           resolve()
         })

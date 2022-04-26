@@ -39,7 +39,6 @@ export default {
           "ceCountryList": "FR",
           "callBackFrame": "noCallBack",
           "ceCountry": "FR",
-          "ceLang" : "fr",
           "dyPreparationTime": 1,
           "token": response.data.token,
         })

@@ -3,9 +3,9 @@
       <div class="container">
         <p class="title">Détails de Livraison</p>
         <div class="infoLivraison">
-          <p v-if="$store.state.MDL == 'surPlace' ">Retrait dans nos locaux au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
-          <p v-else-if="$store.state.MDL == 'domicile' ">Livraison à domicile au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
-          <p v-else-if="$store.state.MDL == 'pointRelais'">Livraison en point relais au <b>{{ $store.state.adress.adress }} à {{ $store.state.adress.city }}, {{ $store.state.adress.postCode }}</b> </p>
+          <p v-if="userInfos.saveLivraison.modeDeLivraison == 'surPlace' ">Retrait dans nos locaux au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
+          <p v-else-if="userInfos.saveLivraison.modeDeLivraison == 'domicile' ">Livraison à domicile au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
+          <p v-else-if="userInfos.saveLivraison.modeDeLivraison == 'pointRelais'">Livraison en point relais au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
         </div>
       </div>
       <MaModale v-bind:popup="popup" v-bind:jaichoisi="jaichoisi"/>
