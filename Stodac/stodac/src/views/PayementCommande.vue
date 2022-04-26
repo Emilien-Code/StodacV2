@@ -41,10 +41,7 @@
         </div>
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
 
-<PayementSelect/>
-  <div class="Payment">
-        <div ref="paypal" id="paypal-button-container"></div>
-  </div>
+<PayementSelect :test="changeMDP" :saveF="saveFacture"/>
  
 
 </div>
@@ -83,9 +80,8 @@ export default {
       password: '',
       firstName: '',
       lastName: '',
-      loaded: false,
-      paidFor: false,
       popup: false,
+      MDP:'paypal'
     }
   },
   components: {
@@ -94,18 +90,11 @@ export default {
     loader
   },
   mounted: function(){
-    const script = document.createElement("script");
-    // script.src = "https://www.paypal.com/sdk/js?client-id=ASOWp-_1zxWf4EXEzuc47swzhquPSB2XchEHOTMB8Ymv_KwnbQvBXRK9M6BFKqhSMTl90dMSp_qxVQxJ&currency=EUR";
-    script.src = "https://www.paypal.com/sdk/js?client-id=AbLPjKm4VxvJn-pTS_kWd0CFz1Gt0IxfB2FFM2Xfp-8xUT8p8hZ7lT264wZCigRhAQPesyampT4M94ni&currency=EUR";
-    script.addEventListener("load", this.setLoaded);
-    document.body.appendChild(script);
-
     if(this.$store.state.user.userID === -1){
       this.$router.push('/login/');
     }
 
     this.$store.dispatch('getUserInfos').then(() => {
-
       this.facture.adresse.street = this.$store.state.userInfos.street;
       this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
       this.facture.adresse.city = this.$store.state.userInfos.city;
@@ -120,48 +109,19 @@ export default {
 
   },
   methods:{
-    setLoaded: function() {
-      this.loaded = true;
-      window.paypal
-          .Buttons({
-            createOrder: (data, actions) => {
-              return actions.order.create({
-                purchase_units: [
-                  {
-                    description: this.description,
-                    amount: {
-                      value: this.userInfos.prix_ttl_panier
-                    }
-                  }
-                ]
-              });
-            },
-            onApprove: async (data, actions) => {
-              const order = await actions.order.capture();
-              this.data;
-              this.paidFor = true;
-
-              if(this.facture.adresse.street != this.$store.state.userInfos.street || this.facture.adresse.streetNumber != this.$store.state.userInfos.streetNumber || this.facture.adresse.city != this.$store.state.userInfos.city || this.facture.adresse.postCode != this.$store.state.userInfos.postCode){
-                this.saveFacture(true, order.id)
-              }
-              else{
-                this.saveFacture(false, order.id)
-              }
-            },
-            onError: err => {
-              console.log(err);
-            }
-          })
-          .render(this.$refs.paypal);
-    },
     saveAddress : function(){
       this.$store.dispatch('changeAddress', this.facture.adresse)
+    },
+    changeMDP: function(e){
+      this.MDP = e
+      console.log(this.MDP)
     },
     reco : function(){
       this.$store.commit('logOut');
       this.$router.push('/login/payement');
     },
     saveFacture: function(changementadresse, Factureid){
+      console.log(changementadresse)
       let option = {
         lastname:this.userInfos.lastName,
         firstname:this.userInfos.firstName,
@@ -182,6 +142,8 @@ export default {
         }else{
           this.$router.push('/finiCommande/');
         }
+      }).catch(err=>{
+        console.log(err)
       })
     },
     jaichoisi: function(lechoix){

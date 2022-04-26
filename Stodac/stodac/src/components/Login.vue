@@ -25,6 +25,12 @@
     <div class="form-row" v-if="mode === 'create'">
       <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
     </div>
+
+
+    <div class="form-row" id="cap" v-if="mode === 'create'">
+      <VueRecaptcha ref="recaptcha" sitekey="6LdK3p0fAAAAAEqnAuVYJqXnbaO8f8kRs9FqMXUG" @verify="verifyMethod" @expired="expiredMethod" :loadRecaptchaScript="true"></VueRecaptcha>
+    </div>
+
     <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
       Adresse mail et/ou mot de passe invalide
     </div>
@@ -50,6 +56,8 @@
 </template>
 
 <script>
+import {VueRecaptcha} from "vue-recaptcha";
+
 function onSubmit(token) {
   if(token!="test") document.getElementById("demo-form").submit();
   console.log(token)
@@ -67,20 +75,15 @@ export default {
       password: '',
       mobile: '',
       passwordVerif:'',
-      closeLogin: false
+      closeLogin: false,
+      captcha:false
     }
   },
-
-  mounted() {
-    const script = document.createElement("script");
-    script.src = "https://www.google.com/recaptcha/api.js";
-    document.body.appendChild(script);
-    script.addEventListener("load", this.test)
-  },
+  components: { VueRecaptcha },
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
-        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif;
+        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.captcha
       } else {
         return this.mailValidation && this.passwordValidation
       }
@@ -98,6 +101,12 @@ export default {
   methods: {
     switchToCreateAccount: function () {
       this.mode = 'create';
+    },
+    verifyMethod : function(){
+      this.captcha = true
+    },
+    expiredMethod : function(){
+      this.captcha = false
     },
     switchToLogin: function () {
       this.mode = 'login';
@@ -151,7 +160,10 @@ export default {
     gap:16px;
     flex-wrap: wrap;
   }
-
+#cap{
+  display: flex;
+  justify-content: center;
+}
   .form-row__input {
     padding:8px;
     border: none;

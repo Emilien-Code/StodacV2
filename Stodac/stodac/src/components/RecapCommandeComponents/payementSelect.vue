@@ -1,16 +1,16 @@
 <template>
   <div id="menu">
-    <input type="radio" id="Paypal" name="payement" checked>
+    <input type="radio" id="Paypal" @change="test('paypal')" name="payement" checked>
     <label for="Paypal" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
       Paypal
     </label>
 
-    <input type="radio" id="cheque" name="payement">
+    <input type="radio" id="cheque" @change="test('cheque')" name="payement">
     <label for="cheque" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
       Cheque
     </label>
 
-    <input type="radio" id="virement" name="payement">
+    <input type="radio" id="virement" @change="test('virement')" name="payement">
     <label for="virement" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
       Virement
     </label>
@@ -18,10 +18,7 @@
     <span :style="{transform:`translate(${spanPosition}px,-5px)`, width:`${spanWidth}px`}" id="bar"></span>
   <div id="descriptifs">
     <div id="paypal " v-if="selected==0">
-      <div class="Payment">
-        <div ref="paypal" id="paypal-button-container"></div>
-      </div>
-      La commande vous sera envoyée aussitôt le payement effectué.
+      <paypal :saveFacture="saveF"></paypal>
     </div>
     <div id="Cheque " v-if="selected==1">
       La commande vous sera aussi tôt le chèque reçu.
@@ -36,6 +33,7 @@
 
 </template>
 <script>
+import paypal from "../forms/paypal";
 export default {
   name: "payementSelect",
   data: function(){
@@ -45,6 +43,7 @@ export default {
       spanWidth: 58
     }
   },
+  components:{ paypal },
   mounted() {
     this.spanPosition = document.querySelectorAll("label")[0].getBoundingClientRect().left
     },
@@ -62,6 +61,10 @@ export default {
       this.spanWidth = labels[this.selected].getBoundingClientRect().right - labels[this.selected].getBoundingClientRect().left
       this.spanPosition = labels[this.selected].getBoundingClientRect().left;
     }
+  },
+  props:{
+    test:Function,
+    saveF:Function
   }
 }
 </script>

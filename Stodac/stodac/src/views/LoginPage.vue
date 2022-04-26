@@ -20,6 +20,13 @@
       <div class="form-row" v-if="mode === 'create'">
         <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
       </div>
+
+
+      <div class="form-row" id="cap" v-if="mode === 'create'">
+        <VueRecaptcha ref="recaptcha" sitekey="6LdK3p0fAAAAAEqnAuVYJqXnbaO8f8kRs9FqMXUG" @verify="verifyMethod" @expired="expiredMethod" :loadRecaptchaScript="true"></VueRecaptcha>
+      </div>
+
+
       <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
         Adresse mail et/ou mot de passe invalide
       </div>
@@ -50,9 +57,8 @@
 </template>
 
 <script>
-
 import { mapState } from 'vuex'
-
+import  { VueRecaptcha } from 'vue-recaptcha'
 export default {
   name: 'Login',
   data: function () {
@@ -64,13 +70,17 @@ export default {
       password: '',
       mobile: '',
       passwordVerif:'',
-      redirection: this.$route.params.id
+      redirection: this.$route.params.id,
+      captcha:false
     }
+  },
+  components: { VueRecaptcha },
+  mounted() {
   },
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
-        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif;
+        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.captcha;
       } else {
         return this.mailValidation && this.passwordValidation
       }
@@ -78,10 +88,6 @@ export default {
     mailValidation: function(){
       const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return regexp.test(String(this.email).toLowerCase());
-    },
-    phoneValidation: function(){
-      const regexp = /^[0-9]{10}$/;
-      return regexp.test(String(this.mobile));
     },
     passwordValidation: function(){
       const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
@@ -95,6 +101,12 @@ export default {
     },
     switchToLogin: function () {
       this.mode = 'login';
+    },
+    verifyMethod : function(){
+      this.captcha = true
+    },
+    expiredMethod : function(){
+      this.captcha = false
     },
     login: function(){
       if(this.validatedFields) {
@@ -271,6 +283,10 @@ export default {
 }
 .emptyField{
   border: solid 2px #000!important;
+}
+#cap{
+  display: flex;
+  justify-content: center;
 }
 textarea, select, input, button { outline: none; }
 
