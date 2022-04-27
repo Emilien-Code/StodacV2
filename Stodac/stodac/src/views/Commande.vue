@@ -33,7 +33,7 @@
         <div class="container">
           <p class="title">Récapitulatif de la commande</p>
           <div class="PContainer">
-            <div  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
+            <div  v-for="(article, i) in $store.state.pannier" :key="article" ><!--:data-index="index" pour supr le warning remettre en cas de probleme-->
               <div class="Produit">
                 <img :src="article.article.img" alt="">
                 <div class="txts">
