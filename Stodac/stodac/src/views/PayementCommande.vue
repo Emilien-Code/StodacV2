@@ -24,7 +24,10 @@
               </thead>
               <tfoot>
                 <tr>
-                  <th colspan="5">TOTAL TTC : {{userInfos.prix_ttl_panier}}€ </th>
+                  <th> <div class="footContainer"><p>Frais de port TTC </p> <p> {{fdp}}€ </p>  </div></th>
+                </tr>
+                <tr>
+                  <th> <div class="footContainer"><p>TOTAL TTC  </p> <p> {{userInfos.prix_ttl_panier}}€</p></div> </th>
                 </tr>
               </tfoot>
               <tbody>
@@ -100,7 +103,7 @@ export default {
       this.facture.adresse.city = this.$store.state.userInfos.city;
       this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
       this.isLoading = false
-      console.log(this.userInfos)
+      //console.log(this.userInfos)
     })
 
     if(this.$store.state.pannier.length === 0){
@@ -158,6 +161,13 @@ export default {
     }
   },
   computed: {
+    fdp: function(){
+      let sum = 0
+      this.userInfos.pannier.forEach((a)=>{
+        sum += a.prix_ttl
+      })
+      return this.userInfos.prix_ttl_panier - sum
+    },
     total: function () {
       let total = 0;
       for(let i = 0; i<this.$store.state.pannier.length; i++){
@@ -166,7 +176,7 @@ export default {
       return total
     },
     ...mapState(['userInfos']),
-  }
+  },
 }
 
 </script>
@@ -242,17 +252,7 @@ ul,li{
 .PContainer li{
   margin-bottom: 15px;
 }
-.Payment{
-  position: relative;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  z-index: 10;
-  background-color: #fff;
-}
-#paypal-button-container{
-  width: 750px;
-}
+
 .button {
   background: #419D79;
   color:white;
@@ -301,8 +301,14 @@ td, thead th{
   border-bottom: 2px solid black;
   text-align: center;
 }
-tfoot th{
-  text-align: right;
+footer  {
+  margin: 0;
+}
+.footContainer{
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  width: 60vw;
 }
 @media (max-width: 660px) {
   thead th:nth-child(1), tbody td:nth-child(1){
@@ -320,8 +326,9 @@ tfoot th{
   thead th:nth-child(5), tbody td:nth-child(5){
     width: 20vw;
   }
-}
-footer  {
-  margin: 0;
-}
+  .footContainer {
+    width: 80vw;
+  }
+  }
+
  </style>

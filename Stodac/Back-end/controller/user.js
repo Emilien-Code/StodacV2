@@ -385,19 +385,20 @@ exports.newCommand = (req, res) => {
     //console.log("ça commence")
     User.find({_id:req_id}, (err, docs) => {
         docsancien = docs[0]
+        console.log(docs[0])
         // console.log(paypalCtrl.getFacture(id_paypal))
         paypalCtrl.getFacture(id_paypal).then((resul)=>{
-            console.log('lafautquejefassesupergaffecarlerreursembleici')
-            console.log(resul)
-            console.log(resul.purchase_units)
+            //console.log('lafautquejefassesupergaffecarlerreursembleici')
+            //console.log(resul)
+            //console.log(resul.purchase_units)
             // resul.id = '1M6567226T5919711'
             User.find({"comande":{$elemMatch:{"paypal_info.id":resul.id}}},{"comande":{"$elemMatch":{"paypal_info.id":resul.id}}}, (err, docs)=>{
-                console.log("docs")
+                //console.log("docs")
                 console.log(docs)
                 let etat = 0
                 // resul.purchase_units[0].amount.value = 0
                 if (docs[0]!=null){
-                    console.log("l'idpaypalestpasbon")
+                    console.log("l'idpaypal est pas bon")
                     etat = -2
                     console.log(docs[0])
                     id_double = docs[0].comande[0].id
@@ -407,7 +408,7 @@ exports.newCommand = (req, res) => {
                     etat = -1
                     console.log('le prix payer est pas le bon')
                 }
-                console.log(resul.purchase_units[0].amount.value)
+                //console.log(resul.purchase_units[0].amount.value)
                 User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
                     if(err) console.log(err);
                     else{
@@ -472,8 +473,7 @@ exports.newCommand = (req, res) => {
                         }
 
 
-                        const colissimo  = require('colissimo') ({ contract_number: '895244', password: 'LAPOSTE545483' })
-
+                        const colissimo  = require('colissimo') ({ contract_number: '895244', password: 'PWD' })
                         colissimo.label ({
                             sender: {
                                 last_name: "Manessier",
@@ -488,10 +488,10 @@ exports.newCommand = (req, res) => {
                             receiver: {
                                 last_name: req.body.lastname,
                                 first_name: req.body.firstname,
-                                address: req.body.saveLivraison.adresse.adresse,
+                                address: req.body.streetNumber + req.body.street,
                                 to_know: '',
-                                zip_code: req.body.saveLivraison.adresse.postCode,
-                                city: req.body.saveLivraison.adresse.city,
+                                zip_code: req.body.postCode,
+                                city: req.body.city,
                                 phone_number: req.body.mobile.toString().split("33")[1],
                                 mail: req.body.email
                             },
