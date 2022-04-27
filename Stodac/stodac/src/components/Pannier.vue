@@ -5,7 +5,7 @@
       <div></div>
     </button>
     <h1 style="text-align:center">Panier</h1>
-      <li  v-for="(article, i) in $store.state.pannier" :key="article" :data-index="index">
+      <li  v-for="(article, i) in $store.state.pannier" :key="article">
           <div class="Produit">
               <img :src="article.article.img" alt="">
               <div class="txts">
