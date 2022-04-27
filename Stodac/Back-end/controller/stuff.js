@@ -40,10 +40,12 @@ exports.getCategories = (req, res) =>{
 };
 
 exports.getByReference = (req, res) =>{
-    Thing.find({reference:req.params.ref}, (err, docs)=>{
+    console.log(req.params.ref)
+    Thing.find({reference:{ $regex: req.params.ref, $options: 'i' }}, (err, docs)=>{
        if(err) console.log(err);
+       console.log(docs)
        res.send(docs)
-   });
+   }).limit(parseInt(req.params.nb));
 };
 
 exports.getById = (req, res) =>{

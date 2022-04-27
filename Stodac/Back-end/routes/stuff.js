@@ -17,7 +17,7 @@ router.get('/categories/', stuffCtrl.getCategories);
 
 router.get('/category/:category', stuffCtrl.getByCategories);
 
-router.get('/reference/:ref', stuffCtrl.getByReference)
+router.get('/reference/:ref/:nb', stuffCtrl.getByReference)
 
 router.get('/product/:id', stuffCtrl.getById)
 

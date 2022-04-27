@@ -240,12 +240,19 @@ export default createStore({
       })
     },
     getStuffByFirstLetters : ({commit}, word) => {
+      let array;
       instance.get(`/stuff/name/${word}/20`)
       .then(function(response){
-        commit('stuffsBy', response.data)
-      })
-      .catch(function(error){
-        console.log(error)
+        array = response.data
+        //commit('stuffsBy', response.data)
+      }).then(()=>{
+        instance.get(`/stuff/reference/${word}/20`)
+            .then((res)=>{
+              res.data.forEach(e=>{
+                array[array.length] = e
+              })
+              commit('stuffsBy', array)
+            })
       })
     },
     getStuffNb : ({commit}) => {
