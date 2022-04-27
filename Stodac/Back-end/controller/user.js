@@ -401,6 +401,9 @@ exports.newCommand = (req, res) => {
         docsancien = docs[0]
         console.log(docs[0])
         // console.log(paypalCtrl.getFacture(id_paypal))
+        if(id_paypal===-1){
+            console.log("commande passée")
+        }
         paypalCtrl.getFacture(id_paypal).then((resul)=>{
             //console.log('lafautquejefassesupergaffecarlerreursembleici')
             //console.log(resul)
@@ -453,7 +456,7 @@ exports.newCommand = (req, res) => {
                             city: req.body.city,
                             streetNumber: req.body.streetNumber,
                             postCode: req.body.postCode,
-                            moyendepayement: "rien",
+                            moyendepayement: req.body.mdp,
                         }
                         ajd = new Date()
                         // console.log(ajd.getDate())

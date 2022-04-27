@@ -8,19 +8,19 @@
             <recap/>
             <div id="totalPrices">
               <div class="info">
-                <p>Frais de port HT :</p>
+                <p>Frais de port HT </p>
                 <p style="color:#419D79;font-weight:bold">{{ Math.round(fraisDePort/1.2 * 100)/100 }}€ </p>
               </div>
               <div class="info">
-                <p>Frais de port TTC:</p>
+                <p>Frais de port TTC</p>
                 <p style="color:#419D79;font-weight:bold">{{ fraisDePort }}€ </p>
               </div>
               <div class="info">
-                <p>TOTAL HT : </p>
+                <p>TOTAL HT  </p>
                 <p style="color:#419D79;font-weight:bold">{{ Math.round(total/1.2 * 100)/100 }}€</p>
               </div>
               <div class="info">
-                <p>TOTAL TTC : </p>
+                <p>TOTAL TTC  </p>
                 <span style="color:#419D79;font-weight:bold">{{ Math.round(total * 100)/100 }}€</span>
               </div>
             </div>
@@ -32,7 +32,7 @@
         </div>
 
     <p class="title">Choisissez votre mode de livraison</p>
-    <livraison :test="change" />
+    <livraison :test="change" ref="livraison" />
         <div class="inputsContainer">
           <div>
             <input id="checkbox" type="checkbox" v-model="cdv">
@@ -63,6 +63,7 @@ export default {
         adresse : '',
         city : '',
         postCode : '',
+        complement: ''
       },
         modeDeLivraison : 'domicile'
     }
@@ -78,7 +79,6 @@ export default {
   },
   methods:{
     command: function(){
-      console.log("fjeirjihhhihrejhigrjijirfgjrgjigjigjijigtjigjihgnjhfjnfjnhfjnhfvjnhfvjnhfvjnhfvjnhfvjh")
       if (this.modeDeLivraison==="pointRelais"){
         this.adresse.adresse = document.getElementById("pudoWidgetAddress1").value
         this.adresse.city = document.getElementById("pudoWidgetTown").value
@@ -90,6 +90,7 @@ export default {
         this.adresse.street = document.getElementById("rue").value
         this.adresse.city = document.getElementById("ville").value
         this.adresse.postCode = document.getElementById("cp").value
+        this.adresse.complement = document.getElementById("complement").value
       }
       if(this.modeDeLivraison=="surPlace"){
         this.adresse.adresse = "11 Bis Rue de Lorraine"
@@ -102,8 +103,8 @@ export default {
       // this.$store.dispatch('saveMDL', this.modeDeLivraison)
       //     .then(()=>{console.log(this.$store.state.MDL)})
 
-
-      if(this.cdv){
+      console.log(this.adresse)
+      if(this.cdv && this.modeDeLivraison!=="domicile" || this.cdv && this.$refs.livraison.isAdressComplete){
         const parametre = [this.$store.state.pannier, this.adresse, this.modeDeLivraison]
         this.$store.dispatch('saveparametre', parametre)
         if(this.$store.state.user.userID === -1){

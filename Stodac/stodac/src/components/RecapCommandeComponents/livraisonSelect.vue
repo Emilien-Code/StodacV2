@@ -18,7 +18,7 @@
     <span :style="{transform:`translate(${spanPositionL}px,-5px)`, width:`${spanWidthL}px`}"></span>
   <div id="descriptifsLivraison">
     <div id="ld " v-if="selectedL==0">
-      <adress/>
+      <adress ref="adresse"/>
     </div>
     <div id="lpr " v-if="selectedL==1">
       <ptnrelais/>
@@ -65,6 +65,11 @@ export default {
         const labels = document.querySelectorAll("label");
         this.spanWidthL = labels[this.selectedL].getBoundingClientRect().right - labels[this.selectedL].getBoundingClientRect().left
         this.spanPositionL = labels[this.selectedL].getBoundingClientRect().left;
+    }
+  },
+  computed:{
+    isAdressComplete:function(){
+      return this.$refs.adresse.isComplete;
     }
   },
   props:{

@@ -29,8 +29,17 @@
                 </tr>
               </thead>
               <tfoot>
+              <tr>
+                <th colspan="5">Frais de ports HT : {{commande.prix.prix_ttl_fdp_HT}}</th>
+              </tr>
+              <tr>
+                <th colspan="5">Frais de ports TTC : {{commande.prix.prix_ttl_fdp}}</th>
+              </tr>
                 <tr>
-                  <th colspan="5">TOTAL : {{commande.prix_ttl}}</th>
+                  <th colspan="5">TOTAL HT : {{commande.prix.prix_ttl_HT}}</th>
+                </tr>
+                <tr>
+                  <th colspan="5">TOTAL TTC : {{commande.prix.prix_ttl}}</th>
                 </tr>
               </tfoot>
               <tbody>

@@ -42,7 +42,7 @@ export default {
               const order = await actions.order.capture();
               this.data;
               this.paidFor = true;
-
+              this.sc()
               this.saveFacture(order.id)
             },
             onError: err => {
@@ -62,7 +62,10 @@ export default {
     },
     ...mapState(['userInfos']),
   },
-  props:{ saveFacture:Function }
+  props:{
+    saveFacture:Function,
+    sc:Function
+  }
 }
 </script>
 

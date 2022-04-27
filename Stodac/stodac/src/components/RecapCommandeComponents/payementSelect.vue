@@ -18,13 +18,19 @@
     <span :style="{transform:`translate(${spanPosition}px,-5px)`, width:`${spanWidth}px`}" id="bar"></span>
   <div id="descriptifs">
     <div id="paypal " v-if="selected==0">
-      <paypal :saveFacture="saveF"></paypal>
+      <paypal :saveFacture="saveF" :sc="sendingCommand"></paypal>
     </div>
     <div id="Cheque " v-if="selected==1">
       La commande vous sera aussi tôt le chèque reçu.
+      <div class="btn-ctnr">
+        <button @click="saveF(-1); sendingCommand();"> Commander </button>
+      </div>
     </div>
     <div id="virement " v-if="selected==2">
       La commande vous sera envoyée aussitôt le virement effectué. <br> IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ
+      <div class="btn-ctnr">
+        <button @click="saveF(-1); sendingCommand();"> Commander </button>
+      </div>
     </div>
   </div>
 
@@ -34,6 +40,7 @@
 </template>
 <script>
 import paypal from "../forms/paypal";
+
 export default {
   name: "payementSelect",
   data: function(){
@@ -64,12 +71,34 @@ export default {
   },
   props:{
     test:Function,
-    saveF:Function
+    saveF:Function,
+    sendingCommand:Function
   }
 }
 </script>
 
 <style scoped>
+.btn-ctnr{
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+button {
+  background: #419D79;
+  color:white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 15px;
+  border: none;
+  width: 400px;
+  padding: 12px;
+  transition: .4s background-color;
+}
+
+button:hover {
+  background: #078A6C;
+}
 input[type="radio"]{
   display: none;
 }

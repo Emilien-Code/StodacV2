@@ -42,11 +42,13 @@
             </table>
           </div>
         </div>
-        <p class="title" style="margin-bottom:50px">adresse de facturation</p>
-        <adress/>
-        <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
+      <p class="title" >Adresse de facturation</p>
+    <div id="box">
 
-<PayementSelect :test="changeMDP" :saveF="saveFacture"/>
+        <adress ref="test"/>
+    </div>
+      <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
+<PayementSelect :test="changeMDP" :saveF="saveFacture" :sendingCommand="sc"/>
  
 
 </div>
@@ -109,15 +111,16 @@ export default {
       // this.facture.adresse.city = this.$store.state.userInfos.city;
       // this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
       if(this.$store.state.userInfos.streetNumber){
-      document.getElementById("num").value = this.$store.state.userInfos.streetNumber
-      document.getElementById("rue").value = this.$store.state.userInfos.street
-      document.getElementById("ville").value = this.$store.state.userInfos.city
-      document.getElementById("cp").value = this.$store.state.userInfos.postCode
+      this.$refs.test.streetNumber  = this.$store.state.userInfos.streetNumber
+        this.$refs.test.street = this.$store.state.userInfos.street
+        this.$refs.test.city  = this.$store.state.userInfos.city
+        this.$refs.test.postCode  = this.$store.state.userInfos.postCode
       }else if(this.$store.state.userInfos.saveLivraison.modeDeLivraison === "domicile"){
-        document.getElementById("num").value = this.$store.state.userInfos.saveLivraison.streetNumber
-        document.getElementById("rue").value = this.$store.state.userInfos.saveLivraison.street
-        document.getElementById("ville").value = this.$store.state.userInfos.saveLivraison.city
-        document.getElementById("cp").value = this.$store.state.userInfos.saveLivraison.postCode
+        this.$refs.test.streetNumber = this.$store.state.userInfos.saveLivraison.streetNumber
+        this.$refs.test.street = this.$store.state.userInfos.saveLivraison.street
+        this.$refs.test.city = this.$store.state.userInfos.saveLivraison.city
+        this.$refs.test.postCode = this.$store.state.userInfos.saveLivraison.postCode
+        document.getElementById("complement").value = this.$store.state.userInfos.saveLivraison.complement
       }
       this.isLoading = false
       //console.log(this.userInfos)
@@ -147,16 +150,16 @@ export default {
         firstname:this.userInfos.firstName,
         mobile:this.userInfos.mobile,
         email:this.userInfos.email,
+        mdp: this.MDP,
         street:document.getElementById("rue").value,
         city:document.getElementById("ville").value,
         streetNumber:document.getElementById("num").value,
         postCode:document.getElementById("cp").value,
         idp:Factureid
       }
-      console.log(option)
+      //console.log(option)
       this.$store.dispatch('saveFacture', option)
       .then(()=>{
-        console.log("jarrivepasla")
         if(document.getElementById("num").value != this.$store.state.userInfos.streetNumber || document.getElementById("rue").value != this.$store.state.userInfos.street || document.getElementById("ville").value != this.$store.state.userInfos.city || document.getElementById("cp").value != this.$store.state.userInfos.postCode){
           this.popup = true
         }else{
@@ -165,6 +168,10 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
+    },
+    sc : function(){
+      console.log("OnEnvoies : print loader")
+      this.isLoading = true
     },
     jaichoisi: function(lechoix){
       if(lechoix){
@@ -222,6 +229,12 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+#box{
+  width: 60%;
+  position: relative;
+  left: 50%;
+  transform:translateX(-50%);
 }
 .container{
   margin-bottom: 100px;

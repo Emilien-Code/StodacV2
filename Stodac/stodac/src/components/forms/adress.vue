@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <p class="title">Adresse :</p>
     <div class="inputsContainer">
-      <input class="small" id="num" type="number" placeholder="Numéro" v-model="streetNumber">
-      <input class="big" id="rue" type="text" placeholder="Rue" v-model="street">
+      <input :class="{'small':true, 'unvalid':!verifNum}" id="num" type="number" placeholder="Numéro" v-model="streetNumber">
+      <input :class="{'big':true, 'unvalid': !verifRue}" id="rue" type="text" placeholder="Rue" v-model="street">
     </div>
     <div class="inputsContainer">
-      <input class="big" id="ville" type="text" placeholder="Ville" v-model="city">
-      <input class="small" id="cp" type="number" placeholder="Code postale" v-model="postCode">
+      <input :class="{'big':true, 'unvalid':!verifVille}" id="ville" type="text" placeholder="Ville" v-model="city">
+      <input :class="{'small':true, 'unvalid': !verifPostCode}" id="cp" type="number" placeholder="Code postale" v-model="postCode">
     </div>
+    <input type="text" id="complement" placeholder="Complement (Optionnel)">
   </div>
 </template>
 
@@ -22,6 +22,25 @@ export default {
           city: '',
           postCode: '',
           isLoading: true
+    }
+  },
+  computed : {
+    verifNum: function(){
+      const regex = /^[0-9]{1,}/
+      return regex.test(String(this.streetNumber))
+    },
+    verifRue:function(){
+      return this.street != ''
+    },
+    verifVille: function (){
+      return this.city != ''
+    },
+    verifPostCode: function() {
+      const regex = /^[0-9]{5}$/
+      return regex.test(String(this.postCode))
+    },
+    isComplete : function(){
+      return this.verifNum && this.verifRue && this.verifVille && this.verifPostCode
     }
   },
 }
@@ -45,7 +64,11 @@ export default {
   margin: 12.5px;
   width : 450px;
 }
-.small,.big{
+#complement  {
+  margin: 12.5px;
+  width: calc(100% - 25px);
+}
+#complement,.small,.big{
   border-radius: 10px;
   padding:8px;
   border: solid #007057 2px;
@@ -54,14 +77,14 @@ export default {
   font-size: 16px;
   color: black;
 }
-
-.title{
-  color:#007057;
-  margin-left: 8px;
+.unvalid{
+  border-color: #F18F01;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+textarea, select, input, button { outline: none; }
+
 </style>
