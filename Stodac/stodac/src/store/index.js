@@ -245,19 +245,15 @@ export default createStore({
       .then(function(response){
         array = response.data
         //commit('stuffsBy', response.data)
+      }).then(()=>{
+        instance.get(`/stuff/reference/${word}/20`)
+            .then((res)=>{
+              res.data.forEach(e=>{
+                array[array.length] = e
+              })
+              commit('stuffsBy', array)
+            })
       })
-          .catch(function(error){
-            console.log(error)
-          })
-      instance.get(`/stuff/reference/${word}/20`).then((res)=>{
-          res.data.forEach(e=>{
-            array[array.length] = e
-          })
-        commit('stuffsBy', array)
-
-      })
-
-
     },
     getStuffNb : ({commit}) => {
       instance.get(`/stuff/count/`)

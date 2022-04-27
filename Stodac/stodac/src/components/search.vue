@@ -144,20 +144,21 @@ export default {
             .then((response)=>{
               this.resultArray =  response.data
              // console.log(this.resultArray)
-            })
+            }).then(()=>{
+          axios.get(`http://localhost:3000/api/stuff/reference/${this.word}/4`)
+              .then((response)=>{
+                response.data.forEach(el=>{
+                  this.resultArray[this.resultArray.length]=el
+                })
+                console.log(response.data)
+              })
+              .catch((error)=>{
+                console.log(error)
+              })
+        })
             .catch((error)=>{
               console.log(error)
             })
-      axios.get(`http://localhost:3000/api/stuff/reference/${this.word}/4`)
-          .then((response)=>{
-            response.data.forEach(el=>{
-              this.resultArray[this.resultArray.length]=el
-            })
-            console.log(response.data)
-          })
-          .catch((error)=>{
-            console.log(error)
-          })
       }
 
     },
