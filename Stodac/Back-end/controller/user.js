@@ -308,7 +308,7 @@ exports.addpanier = (req, res) => {
     prix_ttl = 0
     ttl_a_faire = req.body.panier.length
     jensuis = 0
-    let prix_fdp = 0
+    let poids_ttl = 0
     req.body.panier.forEach(function(obj){
         console.log(obj)
         console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
@@ -323,22 +323,13 @@ exports.addpanier = (req, res) => {
             } else if ((docs[0].qty - obj.qty) >= 0){
                 console.log(req.params.id)
                 if (req.body.modeDeLivraison != "surPlace"){
-                    let poids_ttl = obj.article.poids * obj.qty
-                    if (poids_ttl < 100 ) prix_fdp += 8
-                    if (poids_ttl >= 100 && poids_ttl < 500) prix_fdp += 10
-                    if (poids_ttl >= 500 && poids_ttl < 1000) prix_fdp += 12
-                    if (poids_ttl >= 1000 && poids_ttl < 1500) prix_fdp += 14
-                    if (poids_ttl >= 1500 && poids_ttl < 2000) prix_fdp += 16
-                    if (poids_ttl >= 2000 && poids_ttl < 2500 ) prix_fdp += 18
-                    if (poids_ttl >= 2500 && poids_ttl < 3000) prix_fdp += 20
-                    if (poids_ttl >= 3000 && poids_ttl < 3500) prix_fdp += 22
-                    if (poids_ttl >= 3500 ) prix_fdp += 24
+                    poids_ttl += obj.article.poids * obj.qty
                 }
                 prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
                 prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
                 console.log(prix_ttl)
-                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
+                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price,articlePriceHT:Math.round((obj.article.price/1.2)*100)/100, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
             } else {
@@ -357,21 +348,44 @@ exports.addpanier = (req, res) => {
                 // dire que tout est ok !
             }
             console.log("ici par contre...")
-            prix_fdp = (prix_fdp * 1.2 * 100)/100
-            prix_ttl = Math.round((prix_ttl+prix_fdp) * 100)/100
             console.log(prix_ttl)
-            User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
-                if(err) console.log(err);
-            }).then(()=>{
-                jensuis += 1
-                if (jensuis == ttl_a_faire){
-                    console.log("ditmoiqueçasortmtnlatoutalafin")
-                    const saveLivraison = {adresse:req.body.adresseLivraison, modeDeLivraison:req.body.modeDeLivraison}
-                    User.updateOne({_id:req.params.id},{$set: {saveLivraison:saveLivraison}}, (err, docs)=>{if(err) console.log(err);}).then(()=>{
-                        res.send()
-                    })
+            // User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
+            //     if(err) console.log(err);
+            // }).then(()=>{
+            jensuis += 1
+            if (jensuis == ttl_a_faire){
+                let prix_fdp = 0
+                if (req.body.modeDeLivraison != "surPlace"){
+                    let poids_ttl = obj.article.poids * obj.qty
+                    if (poids_ttl < 100 ) prix_fdp = 8
+                    if (poids_ttl >= 100 && poids_ttl < 500) prix_fdp = 10
+                    if (poids_ttl >= 500 && poids_ttl < 1000) prix_fdp = 12
+                    if (poids_ttl >= 1000 && poids_ttl < 1500) prix_fdp = 14
+                    if (poids_ttl >= 1500 && poids_ttl < 2000) prix_fdp = 16
+                    if (poids_ttl >= 2000 && poids_ttl < 2500 ) prix_fdp = 18
+                    if (poids_ttl >= 2500 && poids_ttl < 3000) prix_fdp = 20
+                    if (poids_ttl >= 3000 && poids_ttl < 3500) prix_fdp = 22
+                    if (poids_ttl >= 3500 ) prix_fdp += 24
                 }
-            })
+                prix_fdp_AT = (prix_fdp * 1.2 * 100)/100
+                prix_ttl_panier_horsfdp = prix_ttl
+                prix_ttl = Math.round((prix_ttl+prix_fdp_AT) * 100)/100
+                prix_panier_HT = Math.round((prix_ttl_panier_horsfdp/1.2)*100)/100
+                const prix={
+                    prix_ttl_panier_HT:prix_panier_HT,
+                    prix_ttl_panier:prix_ttl_panier_horsfdp,
+                    prix_ttl_fdp_HT:prix_fdp,
+                    prix_ttl_fdp:prix_fdp_AT,
+                    prix_ttl_HT:prix_panier_HT+prix_fdp,
+                    prix_ttl:prix_ttl
+                }
+                console.log("ditmoiqueçasortmtnlatoutalafin")
+                const saveLivraison = {adresse:req.body.adresseLivraison, modeDeLivraison:req.body.modeDeLivraison}
+                User.updateOne({_id:req.params.id},{$set: {saveLivraison:saveLivraison, savePrix:prix}}, (err, docs)=>{if(err) console.log(err);}).then(()=>{
+                    res.send()
+                })
+            }
+            // })
         })
         .then(() => {console.log("mais pas ici par contre...")
         })
@@ -403,13 +417,13 @@ exports.newCommand = (req, res) => {
                     console.log(docs[0])
                     id_double = docs[0].comande[0].id
                 }
-                else if (resul.purchase_units[0].amount.value != docsancien.prix_ttl_panier){
-                    console.log("payé : " + resul.purchase_units[0].amount.value + " devait payer " + docsancien.prix_ttl_panier)
+                else if (resul.purchase_units[0].amount.value != docsancien.savePrix.prix_ttl){
+                    console.log("payé : " + resul.purchase_units[0].amount.value + " devait payer " + docsancien.savePrix.prix_ttl)
                     etat = -1
                     console.log('le prix payer est pas le bon')
                 }
                 //console.log(resul.purchase_units[0].amount.value)
-                User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
+                User.updateOne({_id:req.params.id}, {$set: {pannier: []}}, (err, docs) =>{
                     if(err) console.log(err);
                     else{
                         let poids = 0
@@ -429,7 +443,6 @@ exports.newCommand = (req, res) => {
                             console.log(object.poids)
                             poids += object.poids;
                         })
-                        const prix_ttl_crea = docsancien.prix_ttl_panier
                         //console.log("jaifini")
                         const facture_crea = {
                             lastname: req.body.lastname,
@@ -457,13 +470,28 @@ exports.newCommand = (req, res) => {
                         if(etat == -2){
                             paypal.doublon = id_double
                         }
+                        let livraison
+                        console.log("c la que ca pose pb enfaite ca casse les couilles la !")
+                        console.log(docsancien)
+                        if(docsancien.saveLivraison.modeDeLivraison === "domicile"){
+                            livraison = {
+                                adresse:{
+                                    adresse:docsancien.saveLivraison.adresse.streetNumber + " " + docsancien.saveLivraison.adresse.street,
+                                    city:docsancien.saveLivraison.adresse.city,
+                                    postCode:docsancien.saveLivraison.adresse.postCode
+                                },
+                                modeDeLivraison:docsancien.saveLivraison.modeDeLivraison
+                            }
+                        }else{
+                            livraison = docsancien.saveLivraison
+                        }
                         let lacommande = {
                             id:docsancien._id+numerocommande,
                             materiels: materiels_crea,
-                            livraison: req.body.saveLivraison,
+                            livraison: livraison,
                             facture: facture_crea,
                             paypal_info: paypal,
-                            prix_ttl: prix_ttl_crea,
+                            prix: docsancien.savePrix,
                             date: ajd,
                             etat: etat,
                             nometat: ["Traitement en cours", "En préparation", "Envoyée", "Recue", "Annulée", "erreur payement (100)", "erreur payement (101)"],
@@ -488,10 +516,10 @@ exports.newCommand = (req, res) => {
                             receiver: {
                                 last_name: req.body.lastname,
                                 first_name: req.body.firstname,
-                                address: req.body.streetNumber + req.body.street,
+                                address: livraison.adresse.adresse,
                                 to_know: '',
-                                zip_code: req.body.postCode,
-                                city: req.body.city,
+                                zip_code: livraison.adresse.postCode,
+                                city: livraison.adresse.city,
                                 phone_number: req.body.mobile.toString().split("33")[1],
                                 mail: req.body.email
                             },
@@ -579,7 +607,7 @@ exports.newCommand = (req, res) => {
 exports.resetpanier = (req, res) => {
     console.log("ça passe")
     //console.log(req.body.length)
-    User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
+    User.updateOne({_id:req.params.id}, {$set: {pannier: []}}, (err, docs) =>{
         if(err) console.log(err);
     });
     res.send();

@@ -85,7 +85,9 @@ export default {
         this.adresse.postCode = document.getElementById("pudoWidgetZipCode").value
       }
       if(this.modeDeLivraison==="domicile"){
-        this.adresse.adresse = document.getElementById("num").value + " " + document.getElementById("rue").value
+        // this.adresse.adresse = document.getElementById("num").value + " " + document.getElementById("rue").value
+        this.adresse.streetNumber = document.getElementById("num").value
+        this.adresse.street = document.getElementById("rue").value
         this.adresse.city = document.getElementById("ville").value
         this.adresse.postCode = document.getElementById("cp").value
       }
@@ -109,7 +111,7 @@ export default {
         }else{
           this.$store.dispatch('savepanier')
             .then(()=>{this.$router.push("/payement/")})
-            .catch(()=>{console.log("Error : l'utilisateur n'est pas connecté !")})
+            .catch(()=>{console.log("Error : l'utilisateur n'est pas connecté !");this.$router.push("/login/payement")})
         }
       }
     },

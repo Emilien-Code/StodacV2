@@ -27,7 +27,7 @@
                   <th> <div class="footContainer"><p>Frais de port TTC </p> <p> {{fdp}}€ </p>  </div></th>
                 </tr>
                 <tr>
-                  <th> <div class="footContainer"><p>TOTAL TTC  </p> <p> {{userInfos.prix_ttl_panier}}€</p></div> </th>
+                  <th> <div class="footContainer"><p>TOTAL TTC  </p> <p> {{userInfos.savePrix.prix_ttl}}€</p></div> </th>
                 </tr>
               </tfoot>
               <tbody>
@@ -42,6 +42,8 @@
             </table>
           </div>
         </div>
+        <p class="title" style="margin-bottom:50px">adresse de facturation</p>
+        <adress/>
         <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
 
 <PayementSelect :test="changeMDP" :saveF="saveFacture"/>
@@ -65,6 +67,8 @@ import { mapState } from 'vuex'
 import MaModale from '../components/saveAdresse.vue'
 import loader from "../components/loader";
 import PayementSelect from "../components/RecapCommandeComponents/payementSelect";
+import adress from "../components/forms/adress";
+import Adress from '../components/forms/adress.vue';
 export default {
   name: 'Commande',
   data: function () {
@@ -90,7 +94,9 @@ export default {
   components: {
     PayementSelect,
     MaModale,
-    loader
+    loader,
+    adress,
+    Adress
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
@@ -98,10 +104,21 @@ export default {
     }
 
     this.$store.dispatch('getUserInfos').then(() => {
-      this.facture.adresse.street = this.$store.state.userInfos.street;
-      this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
-      this.facture.adresse.city = this.$store.state.userInfos.city;
-      this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+      // this.facture.adresse.street = this.$store.state.userInfos.street;
+      // this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
+      // this.facture.adresse.city = this.$store.state.userInfos.city;
+      // this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+      if(this.$store.state.userInfos.streetNumber){
+      document.getElementById("num").value = this.$store.state.userInfos.streetNumber
+      document.getElementById("rue").value = this.$store.state.userInfos.street
+      document.getElementById("ville").value = this.$store.state.userInfos.city
+      document.getElementById("cp").value = this.$store.state.userInfos.postCode
+      }else if(this.$store.state.userInfos.saveLivraison.modeDeLivraison === "domicile"){
+        document.getElementById("num").value = this.$store.state.userInfos.saveLivraison.streetNumber
+        document.getElementById("rue").value = this.$store.state.userInfos.saveLivraison.street
+        document.getElementById("ville").value = this.$store.state.userInfos.saveLivraison.city
+        document.getElementById("cp").value = this.$store.state.userInfos.saveLivraison.postCode
+      }
       this.isLoading = false
       //console.log(this.userInfos)
     })
@@ -123,24 +140,24 @@ export default {
       this.$store.commit('logOut');
       this.$router.push('/login/payement');
     },
-    saveFacture: function(changementadresse, Factureid){
-      console.log(changementadresse)
+    saveFacture: function(Factureid){
+      // console.log(changementadresse)
       let option = {
         lastname:this.userInfos.lastName,
         firstname:this.userInfos.firstName,
         mobile:this.userInfos.mobile,
         email:this.userInfos.email,
-        street:this.userInfos.street,
-        city:this.userInfos.city,
-        streetNumber:this.userInfos.streetNumber,
-        postCode:this.userInfos.postCode,
+        street:document.getElementById("rue").value,
+        city:document.getElementById("ville").value,
+        streetNumber:document.getElementById("num").value,
+        postCode:document.getElementById("cp").value,
         idp:Factureid
       }
       console.log(option)
       this.$store.dispatch('saveFacture', option)
       .then(()=>{
         console.log("jarrivepasla")
-        if(changementadresse){
+        if(document.getElementById("num").value != this.$store.state.userInfos.streetNumber || document.getElementById("rue").value != this.$store.state.userInfos.street || document.getElementById("ville").value != this.$store.state.userInfos.city || document.getElementById("cp").value != this.$store.state.userInfos.postCode){
           this.popup = true
         }else{
           this.$router.push('/finiCommande/');
@@ -151,10 +168,10 @@ export default {
     },
     jaichoisi: function(lechoix){
       if(lechoix){
-        this.facture.adresse.street = this.$store.state.userInfos.street;
-        this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
-        this.facture.adresse.city = this.$store.state.userInfos.city;
-        this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
+        this.facture.adresse.street = document.getElementById("rue").value;
+        this.facture.adresse.streetNumber = document.getElementById("num").value;
+        this.facture.adresse.city = document.getElementById("ville").value;
+        this.facture.adresse.postCode = document.getElementById("cp").value;
         this.$store.dispatch('changeAddress', this.facture.adresse)
       }
       this.$router.push('/finiCommande/')
@@ -166,7 +183,7 @@ export default {
       this.userInfos.pannier.forEach((a)=>{
         sum += a.prix_ttl
       })
-      return this.userInfos.prix_ttl_panier - sum
+      return this.userInfos.savePrix.prix_ttl - sum
     },
     total: function () {
       let total = 0;

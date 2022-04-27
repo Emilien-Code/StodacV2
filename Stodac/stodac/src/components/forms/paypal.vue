@@ -32,7 +32,7 @@ export default {
                   {
                     description: this.description,
                     amount: {
-                      value: this.userInfos.prix_ttl_panier
+                      value: this.userInfos.savePrix.prix_ttl
                     }
                   }
                 ]
@@ -43,7 +43,7 @@ export default {
               this.data;
               this.paidFor = true;
 
-              this.saveFacture(false, order.id)
+              this.saveFacture(order.id)
             },
             onError: err => {
               console.log(err);
