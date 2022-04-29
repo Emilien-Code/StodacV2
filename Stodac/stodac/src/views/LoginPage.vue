@@ -216,7 +216,7 @@ export default {
   margin-right: auto;
   max-width: 100%;
   width: 800px;
-  height: 64vh;
+  height: calc(100vh - 150px ) ;
   background:white;
 }
 
