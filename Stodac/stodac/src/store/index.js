@@ -52,7 +52,8 @@ export default createStore({
     adress:{
       postCode:'',
       adress:'',
-      city:''
+      city:'',
+      complement:''
     },
     FDP:0,
     MDL:'',
@@ -361,6 +362,17 @@ export default createStore({
           console.log(error)
           reject(null)
         })
+      })
+    },
+    removeProduct:(state, parameter) =>{
+      return new Promise((resolve,reject)=>{
+        instance.delete(`/stuff/${parameter}`)
+            .then(()=>{
+              resolve(null)
+            })
+            .catch(()=>{
+              reject(null)
+            })
       })
     },
     changeEtat:(state, parametre) => {

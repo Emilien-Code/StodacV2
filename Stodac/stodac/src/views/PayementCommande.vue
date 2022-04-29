@@ -110,17 +110,17 @@ export default {
       // this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
       // this.facture.adresse.city = this.$store.state.userInfos.city;
       // this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
-      if(this.$store.state.userInfos.streetNumber){
+      if(this.$store.state.userInfos.streetNumber != -1){
       this.$refs.test.streetNumber  = this.$store.state.userInfos.streetNumber
         this.$refs.test.street = this.$store.state.userInfos.street
         this.$refs.test.city  = this.$store.state.userInfos.city
         this.$refs.test.postCode  = this.$store.state.userInfos.postCode
       }else if(this.$store.state.userInfos.saveLivraison.modeDeLivraison === "domicile"){
-        this.$refs.test.streetNumber = this.$store.state.userInfos.saveLivraison.streetNumber
-        this.$refs.test.street = this.$store.state.userInfos.saveLivraison.street
-        this.$refs.test.city = this.$store.state.userInfos.saveLivraison.city
-        this.$refs.test.postCode = this.$store.state.userInfos.saveLivraison.postCode
-        document.getElementById("complement").value = this.$store.state.userInfos.saveLivraison.complement
+        this.$refs.test.streetNumber = this.$store.state.userInfos.saveLivraison.adresse.streetNumber
+        this.$refs.test.street = this.$store.state.userInfos.saveLivraison.adresse.street
+        this.$refs.test.city = this.$store.state.userInfos.saveLivraison.adresse.city
+        this.$refs.test.postCode = this.$store.state.userInfos.saveLivraison.adresse.postCode
+        document.getElementById("complement").value = this.$store.state.userInfos.saveLivraison.adresse.complement
       }
       this.isLoading = false
       //console.log(this.userInfos)
@@ -190,7 +190,7 @@ export default {
       this.userInfos.pannier.forEach((a)=>{
         sum += a.prix_ttl
       })
-      return this.userInfos.savePrix.prix_ttl - sum
+      return Math.round((this.userInfos.savePrix.prix_ttl - sum)*100)/100
     },
     total: function () {
       let total = 0;

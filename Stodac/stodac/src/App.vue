@@ -17,7 +17,15 @@
         <span id="span2"></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/allCommandes/">
-        Administration
+        Gestion commandes
+        <span></span>
+      </router-link>
+      <router-link v-if="userInfos.admin" to="/add/">
+        Ajouter
+        <span></span>
+      </router-link>
+      <router-link v-if="userInfos.admin" to="/gestionstocks/">
+        Gestion stocks
         <span></span>
       </router-link>
     </div>

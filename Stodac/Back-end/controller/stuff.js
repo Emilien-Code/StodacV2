@@ -73,7 +73,7 @@ exports.getByName = (req, res) => {
 /**CREATE Controller */
 
 exports.createNewStuff = (req, res)=>{
-    console.log(req.body);
+    console.log(req);
 
     const thing = new Thing({
         name: req.body.name,
