@@ -70,9 +70,9 @@ const routes = [
     component: () => import('../views/MentionsLegal.vue')
   },
   {
-    path:'/pntr/',
-    name: 'pntr',
-    component: () => import('../components/forms/ptnrelais.vue')
+    path:'/gestionstocks/',
+    name: 'StocksAdmin',
+    component: () => import('../views/GestionStocks.vue')
   },
   {
     path:"/conditionsGeneralesDeVente",

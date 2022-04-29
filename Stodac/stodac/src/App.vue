@@ -17,7 +17,15 @@
         <span id="span2"></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/allCommandes/">
-        Administration
+        Gestion commandes
+        <span></span>
+      </router-link>
+      <router-link v-if="userInfos.admin" to="/add/">
+        Ajouter
+        <span></span>
+      </router-link>
+      <router-link v-if="userInfos.admin" to="/gestionstocks/">
+        Gestion stocks
         <span></span>
       </router-link>
     </div>
@@ -86,10 +94,14 @@
   <Pannier v-if="pannier"/>
   <footer>
 
-    <router-link to="/MentionsLegales/">
+    <router-link to="/MentionsLegales/" class="footerLink">
       Mention légales
-      <span id="span3"></span>
     </router-link>
+    <router-link to="/MentionsLegales/" class="footerLink">
+      Nous Contacter
+    </router-link>
+
+
 
   </footer>
 
@@ -219,16 +231,20 @@ export default {
   transform: translate(-15%, -50%);
 }
 footer{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0px;
   margin-top: 50px;
   height: 100px;
   background-color: #007057;
   color: white;
   text-align: center;
-  position: relative;
   z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+.footerLink{
+  padding: 10px;
 }
 a{
   text-decoration: none;
@@ -245,8 +261,7 @@ a{
   cursor: pointer;
 }
 button.icon {
-  overflow: hidden;
-  background-color: #007057;
+  background-color: #00705700;
   border-radius: 50%;
   border: #007057;
   width: 50px;
