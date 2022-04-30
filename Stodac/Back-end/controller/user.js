@@ -81,9 +81,9 @@ exports.getInfos = (req, res) =>{
 };
 
 exports.getAllCommandes = (req, res) =>{
-    console.log(req.body)
+    //console.log(req.body)
     User.find({_id:req.params.id},{admin:1},(err,docs)=>{
-        console.log(docs)
+        //console.log(docs)
         if(docs[0].admin){ 
             let ordre = null
             let trie = null
@@ -132,44 +132,47 @@ exports.getAllCommandes = (req, res) =>{
             else{
                 trie = { $and: [{"comande.id":{$regex:"",$options:'i'}}, {$or:[]}]}
             }
-            console.log("c bug ici bro")
-            console.log(req.body.recherche)
+            // console.log("c bug ici bro")
+            // console.log(req.body.recherche)
             let etatrecherche = []
-            if (req.body.recherche.etat[0] || req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[0] || req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":0})
             }
-            if (req.body.recherche.etat[1] || req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[1] || req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":1})
             }
-            if (req.body.recherche.etat[2] || req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[2] || req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":2})
             }
-            if (req.body.recherche.etat[3] || req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[3] || req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":3})
             }
-            if (req.body.recherche.etat[4] || req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[4] || req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":4})
             }
-            if (req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[5] || req.body.recherche.etat[6]){
+                etatrecherche.push({"comande.etat":5})
+            }
+            if (req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":-1})
             }
-            if (req.body.recherche.etat[5]){
+            if (req.body.recherche.etat[6]){
                 etatrecherche.push({"comande.etat":-2})
             }
-            console.log(etatrecherche)
+            // console.log(etatrecherche)
             trie.$and[1].$or = etatrecherche
-            console.log(ordre)
-            console.log(trie)
+            // console.log(ordre)
+            // console.log(trie)
             if (ordre != null){
                 if (req.body.limit == ""){
                     User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
-                        console.log(docs)
+                        // console.log(docs)
                         res.send(docs)
                     });
                 }
                 else{
                     User.aggregate([{$unwind: "$comande"},{$addFields:{"strdate":{$dateToString:{format: "%Y-%m-%d", date: "$comande.date"}},"strmobile":{$toString:{$toLong:"$comande.facture.mobile"}},"np":{$concat:["$comande.facture.lastname"," ","$comande.facture.firstname"]}}},{$match:trie},{$project:{_id:0, comande:1}},{$sort:ordre}], (err, docs)=>{
-                        console.log(docs)
+                        // console.log(docs)
                         res.send(docs)
                     });
                 }
@@ -396,6 +399,7 @@ exports.newCommand = (req, res) => {
     let materiels_crea = []
     const req_id = req.params.id
     const id_paypal = req.body.idp
+    const mdp = req.body.mdp
     //console.log("ça commence")
     User.find({_id:req_id}, (err, docs) => {
         docsancien = docs[0]
@@ -404,26 +408,29 @@ exports.newCommand = (req, res) => {
         if(id_paypal===-1){
             console.log("commande passée")
         }
-        paypalCtrl.getFacture(id_paypal).then((resul)=>{
+        paypalCtrl.getFacture(mdp,id_paypal).then((resul)=>{
             //console.log('lafautquejefassesupergaffecarlerreursembleici')
             //console.log(resul)
             //console.log(resul.purchase_units)
             // resul.id = '1M6567226T5919711'
             User.find({"comande":{$elemMatch:{"paypal_info.id":resul.id}}},{"comande":{"$elemMatch":{"paypal_info.id":resul.id}}}, (err, docs)=>{
                 //console.log("docs")
-                console.log(docs)
                 let etat = 0
-                // resul.purchase_units[0].amount.value = 0
-                if (docs[0]!=null){
-                    console.log("l'idpaypal est pas bon")
-                    etat = -2
-                    console.log(docs[0])
-                    id_double = docs[0].comande[0].id
-                }
-                else if (resul.purchase_units[0].amount.value != docsancien.savePrix.prix_ttl){
-                    console.log("payé : " + resul.purchase_units[0].amount.value + " devait payer " + docsancien.savePrix.prix_ttl)
-                    etat = -1
-                    console.log('le prix payer est pas le bon')
+                if (mdp==="paypal"){
+                    console.log(docs)
+                    etat = 1
+                    // resul.purchase_units[0].amount.value = 0
+                    if (docs[0]!=null){
+                        console.log("l'idpaypal est pas bon")
+                        etat = -2
+                        console.log(docs[0])
+                        id_double = docs[0].comande[0].id
+                    }
+                    else if (resul.purchase_units[0].amount.value != docsancien.savePrix.prix_ttl){
+                        console.log("payé : " + resul.purchase_units[0].amount.value + " devait payer " + docsancien.savePrix.prix_ttl)
+                        etat = -1
+                        console.log('le prix payer est pas le bon')
+                    }
                 }
                 //console.log(resul.purchase_units[0].amount.value)
                 User.updateOne({_id:req.params.id}, {$set: {pannier: []}}, (err, docs) =>{
@@ -466,13 +473,6 @@ exports.newCommand = (req, res) => {
                         for(var i = 0; numerocommande.length <= 5; i++){
                             numerocommande = "0"+numerocommande
                         }
-                        const paypal = {
-                            id:resul.id,
-                            prix_payer:resul.purchase_units[0].amount.value,
-                        }
-                        if(etat == -2){
-                            paypal.doublon = id_double
-                        }
                         let livraison
                         console.log("c la que ca pose pb enfaite ca casse les couilles la !")
                         console.log(docsancien)
@@ -493,14 +493,23 @@ exports.newCommand = (req, res) => {
                             materiels: materiels_crea,
                             livraison: livraison,
                             facture: facture_crea,
-                            paypal_info: paypal,
                             prix: docsancien.savePrix,
                             date: ajd,
                             etat: etat,
-                            nometat: ["Traitement en cours", "En préparation", "Envoyée", "Recue", "Annulée", "erreur payement (100)", "erreur payement (101)"],
+                            nometat: ["En attente de paiement","Traitement en cours", "En préparation", "Envoyée", "Recue", "Annulée", "erreur payement (100)", "erreur payement (101)"],
                             fini: false,
                             pdf: '',
                             suiviColissimo: ''
+                        }
+                        if(mdp==="paypal"){
+                            const paypal = {
+                                id:resul.id,
+                                prix_payer:resul.purchase_units[0].amount.value,
+                            }
+                            if(etat == -2){
+                                paypal.doublon = id_double
+                            }
+                            lacommande.paypal_info=paypal
                         }
 
 
@@ -546,28 +555,30 @@ exports.newCommand = (req, res) => {
                                 res.send()
 
                                 console.log(poids)
+                                
+                                sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl}, req.body.email)
 
-
-                                async function main() {
-                                    let transporter = nodemailer.createTransport({
-                                        host: "ssl0.ovh.net",
-                                        port: 465,
-                                        secure: true,
-                                        auth: {
-                                            user: "boutique@stodac.fr",
-                                            pass: "C3ci3stUnMotD3P@ss3Long",
-                                        },
-                                    });
-                                    let info = await transporter.sendMail({
-                                        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                                        to: req.body.email, // list of receivers
-                                        subject: "Nouvelle commande", // Subject line
-                                        text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                                        html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
-                                    });
-                                    console.log("Message sent: %s", info.messageId);
-                                }
-                                main().catch(console.error);
+                                // async function main() {
+                                //     let transporter = nodemailer.createTransport({
+                                //         host: "ssl0.ovh.net",
+                                //         port: 465,
+                                //         secure: true,
+                                //         auth: {
+                                //             user: "boutique@stodac.fr",
+                                //             pass: "C3ci3stUnMotD3P@ss3Long",
+                                //         },
+                                //     });
+                                //     if
+                                //     let info = await transporter.sendMail({
+                                //         from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                                //         to: req.body.email, // list of receivers
+                                //         subject: "Nouvelle commande", // Subject line
+                                //         text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                                //         html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
+                                //     });
+                                //     console.log("Message sent: %s", info.messageId);
+                                // }
+                                // main().catch(console.error);
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
@@ -578,26 +589,27 @@ exports.newCommand = (req, res) => {
                             User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
                                 if(err) console.log(err);
                                 res.send()
-                                async function main() {
-                                    let transporter = nodemailer.createTransport({
-                                        host: "ssl0.ovh.net",
-                                        port: 465,
-                                        secure: true,
-                                        auth: {
-                                            user: "boutique@stodac.fr",
-                                            pass: "C3ci3stUnMotD3P@ss3Long",
-                                        },
-                                    });
-                                    let info = await transporter.sendMail({
-                                        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                                        to: req.body.email, // list of receivers
-                                        subject: "Nouvelle commande", // Subject line
-                                        text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                                        html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
-                                    });
-                                    console.log("Message sent: %s", info.messageId);
-                                }
-                                main().catch(console.error);
+                                // async function main() {
+                                //     let transporter = nodemailer.createTransport({
+                                //         host: "ssl0.ovh.net",
+                                //         port: 465,
+                                //         secure: true,
+                                //         auth: {
+                                //             user: "boutique@stodac.fr",
+                                //             pass: "C3ci3stUnMotD3P@ss3Long",
+                                //         },
+                                //     });
+                                //     let info = await transporter.sendMail({
+                                //         from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+                                //         to: req.body.email, // list of receivers
+                                //         subject: "Nouvelle commande", // Subject line
+                                //         text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
+                                //         html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
+                                //     });
+                                //     console.log("Message sent: %s", info.messageId);
+                                // }
+                                // main().catch(console.error);
+                                sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl},req.body.email)
                             })
                         })
                     }
@@ -605,6 +617,52 @@ exports.newCommand = (req, res) => {
             })
         });
     })
+}
+
+function sendEmail(etat, options, adressemail){
+    async function main() {
+        let transporter = nodemailer.createTransport({
+            host: "ssl0.ovh.net",
+            port: 465,
+            secure: true,
+            auth: {
+                user: "boutique@stodac.fr",
+                pass: "C3ci3stUnMotD3P@ss3Long",
+            },
+        });
+        let email = {
+            from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+            to: adressemail, // list of receivers
+        }
+        if(etat===0){ //options = {mdp}
+            email.subject="Nouvelle commande"
+            if (options.mdp === "paypal"){                
+            email.text =  "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !" // plain text body
+            email.html = `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+            }else if (options.mdp === "cheque"){
+                email.text = `Bonjour, votre commande à bien étée prise en compte. Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360. \n Merci de votre confiance !`
+                email.html = `<b>Bonjour, votre commande à bien étée prise en compte.<br> Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360.<br> Votre commande estz disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>`
+            }else{
+                email.text = `Bonjour, votre commande à bien étée prise en compte. Pour passer a l'étape suivante vous devez effectuer un virement de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ). \n Merci de votre confiance !`
+                email.html = `<b>Bonjour, votre commande à bien étée prise en compte.<br> Pour passer a l'étape suivante vous devez effectuer un virement de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ).<br> Votre commande estz disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>`
+            }
+        }else if (etat===1){
+            email.subject = "Payement effectué" // Subject line
+            email.text =  "Bonjour, votre payement a bien été effectué. Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible. \n Merci de votre confiance !" // plain text body
+            email.html = `<b>Bonjour, votre payement a bien été effectué.<br> Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+        }else if (etat === 2){ //options = {suiviColissimo}
+            email.subject = "Votre commande est en preparation"
+            email.text = "Bonjour, votre commande est en preparation. Nous faisons de notre mieux afin de l'envoyé le plus rapidement possible. \n Merci de votre confiance !" // plain text body
+            email.html = `<b>Bonjour, votre payement a bien été effectué.<br> Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible.<br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.<br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+        }else if (etat === 3){ //options = {suiviColissimo}
+            email.subject = "Votre commande est envoyée"
+            email.text = "Bonjour votre commande est envoyée. Nous esperons qu'elle arrivera le plus rapidement possible. \n Merci de votre confiance !"
+            email.html = `<b>Bonjour votre commande est envoyée.<br> Nous esperons qu'elle arrivera le plus rapidement possible.<br>Nous vous rapelons que vous pouvez suivre ce coli avec le numero de suivi suivant : ${options.suiviColissimo}.<br>Merci de votre confiance !</b>`
+        }
+        let info = await transporter.sendMail(email);
+        console.log("Message sent: %s", info.messageId);
+    }
+    main().catch(console.error);
 }
 
 exports.resetpanier = (req, res) => {
@@ -620,10 +678,18 @@ exports.setEtat = (req, res) => {
     User.find({_id:req.params.id},{admin:1},(err,docs)=>{
         console.log(docs)
         if(docs[0].admin){
-            console.log(req.body)
-            User.updateOne({"comande":{$elemMatch:{"id":req.body.id}}}, {$set:{"comande.$.etat":req.body.etat}}, (err, docs)=>{
+            User.findOne({"comande":{$elemMatch:{"id":req.body.id}}},{"comande":{"$elemMatch":{"id":req.body.id}}}, (err, docs) =>{
+                console.log(req.body)
                 console.log(docs)
-                res.send()
+                User.updateOne({"comande":{$elemMatch:{"id":req.body.id}}}, {$set:{"comande.$.etat":req.body.etat}}, (err, docsapres)=>{
+                    console.log(docsapres)
+                    console.log(docs.comande[0].etat)
+                    console.log(req.body.etat)
+                    if(docs.comande[0].etat < req.body.etat){
+                        sendEmail(req.body.etat,{suiviColissimo:docs.comande[0].suiviColissimo},docs.comande[0].facture.email)
+                    }
+                    res.send()
+                })
             })
         }
         else{

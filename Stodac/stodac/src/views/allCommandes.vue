@@ -18,12 +18,13 @@
           </div>
         </div>
         <div>
-          <button @click="choix(0)">traitement en cours</button>
-          <button @click="choix(1)">en preparation</button>
-          <button @click="choix(2)">envoyer</button>
-          <button @click="choix(3)">recu</button>
-          <button @click="choix(4)">annulé</button>
-          <button @click="choix(5)">tout</button>
+          <button @click="choix(0)">en attente de payement</button>
+          <button @click="choix(1)">traitement en cours</button>
+          <button @click="choix(2)">en preparation</button>
+          <button @click="choix(3)">envoyer</button>
+          <button @click="choix(4)">recu</button>
+          <button @click="choix(5)">annulé</button>
+          <button @click="choix(6)">tout</button>
         </div>
 
           <table id="tableCommandes">
@@ -73,6 +74,7 @@
                             <option>{{commande.comande.nometat[2]}}</option>
                             <option>{{commande.comande.nometat[3]}}</option>
                             <option>{{commande.comande.nometat[4]}}</option>
+                            <option>{{commande.comande.nometat[5]}}</option>
                           </select>
                         </td>
                         <td><a :href="commande.comande.pdf" target="_blank"> <img style="width:25px;" src="../../public/80942.png" alt=""> </a></td>
@@ -146,7 +148,7 @@ export default {
           email:"",
           tel:"",
           np:"",
-          etat:[0,0,0,0,0,1],
+          etat:[0,0,0,0,0,0,1],
           date:"",
         },
         listCommandes: "",
@@ -409,11 +411,11 @@ export default {
     },
     choix:function(num){
       this.parametre.recherche.etat[num] =  !this.parametre.recherche.etat[num]
-      if (num === 4){
-        this.parametre.recherche.etat = [0,0,0,0,0,1]
+      if (num === 6){
+        this.parametre.recherche.etat = [0,0,0,0,0,0,1]
       }
       else{
-        this.parametre.recherche.etat[5] = 0
+        this.parametre.recherche.etat[6] = 0
       }
       const parametre = {
         parametre: this.parametre.type,

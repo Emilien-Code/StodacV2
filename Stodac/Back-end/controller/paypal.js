@@ -83,10 +83,20 @@ exports.demandeToken = () => {
     })
 }
 
-exports.getFacture =(id) => {
+exports.getFacture =(mdp,id) => {
     return new Promise((resolve, reject) => {
-        if(Date.now()>=expire){
-            demandeToken().then(()=>{
+        if (mdp==="paypal"){
+            if(Date.now()>=expire){
+                demandeToken().then(()=>{
+                    requetePaypal.get(`/v2/checkout/orders/${id}`).then(function (response){
+                        console.log(response.data.purchase_units)
+                        resolve(response.data)
+                    }).catch(function (error) {
+                        console.log(error)
+                        reject()
+                    })
+                })
+            }else{
                 requetePaypal.get(`/v2/checkout/orders/${id}`).then(function (response){
                     console.log(response.data.purchase_units)
                     resolve(response.data)
@@ -94,15 +104,9 @@ exports.getFacture =(id) => {
                     console.log(error)
                     reject()
                 })
-            })
+            }
         }else{
-            requetePaypal.get(`/v2/checkout/orders/${id}`).then(function (response){
-                console.log(response.data.purchase_units)
-                resolve(response.data)
-            }).catch(function (error) {
-                console.log(error)
-                reject()
-            })
+            resolve({id:0000})
         }
     })
 }
