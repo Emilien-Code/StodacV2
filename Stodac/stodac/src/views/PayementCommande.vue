@@ -4,7 +4,7 @@
         <p class="title">Détails de Livraison</p>
         <div class="infoLivraison">
           <p v-if="userInfos.saveLivraison.modeDeLivraison == 'surPlace' ">Retrait dans nos locaux au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
-          <p v-else-if="userInfos.saveLivraison.modeDeLivraison == 'domicile' ">Livraison à domicile au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
+          <p v-else-if="userInfos.saveLivraison.modeDeLivraison == 'domicile' ">Livraison à domicile au <b>{{ userInfos.saveLivraison.adresse.streetNumber + " " +  userInfos.saveLivraison.adresse.street }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
           <p v-else-if="userInfos.saveLivraison.modeDeLivraison == 'pointRelais'">Livraison en point relais au <b>{{ userInfos.saveLivraison.adresse.adresse }} à {{ userInfos.saveLivraison.adresse.city }}, {{ userInfos.saveLivraison.adresse.postCode }}</b> </p>
         </div>
       </div>
@@ -123,7 +123,7 @@ export default {
         document.getElementById("complement").value = this.$store.state.userInfos.saveLivraison.adresse.complement
       }
       this.isLoading = false
-      //console.log(this.userInfos)
+      console.log(this.userInfos)
     })
 
     if(this.$store.state.pannier.length === 0){
