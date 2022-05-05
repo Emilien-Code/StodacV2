@@ -38,10 +38,6 @@
       Adresse mail déjà utilisée
     </div>
 
-    <div class="form-row" v-if="mode === 'create'">
-      <div class="g-recaptcha" data-sitekey="6LdZeYgfAAAAADd5PLnefi-NqOh1ffC2Og9MtUqI"></div>
-    </div>
-
     <div class="form-row">
       <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
         <span v-if="status === 'loading'">Connexion en cours...</span>
@@ -57,12 +53,6 @@
 
 <script>
 import {VueRecaptcha} from "vue-recaptcha";
-
-function onSubmit(token) {
-  if(token!="test") document.getElementById("demo-form").submit();
-  console.log(token)
-}
-onSubmit("test")
 import { mapState } from 'vuex'
 export default {
   name: 'Login',

@@ -104,12 +104,13 @@
 
 
   </footer>
-
+  <contact></contact>
 </template>
 <script>
 import Login from '@/components/Login.vue'
 import LogedIn from '@/components/LogedIn.vue'
 import Pannier from './components/Pannier.vue'
+import contact from './components/Contact.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -176,6 +177,7 @@ export default {
     Login,
     LogedIn,
     Pannier,
+    contact
   },
   computed: {
     ...mapState(['userInfos']),
