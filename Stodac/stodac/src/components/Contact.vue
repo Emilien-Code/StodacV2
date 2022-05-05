@@ -126,7 +126,7 @@ export default {
     transition: .5s ease-out;
     top: 89vh;
     right: 20px;
-    z-index: 15;
+    z-index: 5;
     border-radius: 20px;
     background-color: #fff;
     box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
