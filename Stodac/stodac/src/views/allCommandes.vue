@@ -484,6 +484,7 @@ td{
 th{
   padding: 10px;
   text-align: center;
+  cursor: pointer;
 }
 .flechecoteTableau, .flechecote{
   width: 15px;

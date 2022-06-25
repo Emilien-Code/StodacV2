@@ -12,7 +12,7 @@
         Boutique
         <span id="span1"></span>
       </router-link>
-      <router-link to="/mesCommandes/">
+      <router-link to="/mesCommandes/" v-if="!userInfos.admin">
         Mes commandes
         <span id="span2"></span>
       </router-link>
@@ -63,7 +63,7 @@
       Boutique
       <span id="hovered"></span>
     </router-link>
-    <router-link @click="closeMenu" class="menu-content" to="/mesCommandes/">
+    <router-link @click="closeMenu" class="menu-content" to="/mesCommandes/" v-if="!userInfos.admin">
       Mes commandes
       <span></span>
     </router-link>
@@ -94,12 +94,14 @@
   <Pannier v-if="pannier"/>
   <footer>
 
+
     <router-link to="/MentionsLegales/" class="footerLink">
       Mention légales
     </router-link>
-    <router-link to="/MentionsLegales/" class="footerLink">
-      Nous Contacter
+    <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
+      Conditions générales de vente
     </router-link>
+
 
 
 

@@ -8,7 +8,9 @@
       <input :class="{'big':true, 'unvalid':!verifVille}" id="ville" type="text" placeholder="Ville" v-model="city">
       <input :class="{'small':true, 'unvalid': !verifPostCode}" id="cp" type="number" placeholder="Code postale" v-model="postCode">
     </div>
-    <input type="text" id="complement" placeholder="Complement (Optionnel)">
+    <div class="inputsContainer">
+      <input type="text" id="complement" placeholder="Complement (Optionnel)">
+    </div>
   </div>
 </template>
 

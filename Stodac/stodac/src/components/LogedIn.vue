@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card"  v-clickOutside="croix">
     <button id="close" @click="croix()">
       <div></div>
       <div></div>
@@ -25,6 +25,14 @@
 </template>
 
 <script>
+let clickOutside = function(el, binding) {
+  el.clickOutsideEvent = function (event) {
+    if (!el.contains(event.target)) {
+      binding.value()
+    }
+  };
+  document.body.addEventListener('click', el.clickOutsideEvent)
+}
 
 import { mapState } from 'vuex'
 
@@ -37,12 +45,20 @@ export default {
       firstName: '',
       lastName: '',
       password: '',
+      isOpen: false
     }
   },
   computed: {
     ...mapState(['userInfos'])
   },
+  directives:{
+    clickOutside
+  },
   mounted: function(){
+    setTimeout(()=>{
+      console.log("text")
+      this.isOpen = true;
+    }, 500)
     if(this.$store.state.user.userID === -1){
       this.$router.push('/'); // Pq ?
       return;
@@ -54,8 +70,11 @@ export default {
       this.$store.commit('logOut');
     },
     croix: function(){
-      this.$parent.logCloseLogin();
-    },
+        if(this.isOpen){
+          this.$parent.logCloseLogin();
+          this.isOpen = false
+        }
+      },
   }
 }
 </script>

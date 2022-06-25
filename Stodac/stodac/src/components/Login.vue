@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-clickOutside="croix">
     <button id="close" @click="croix()">
       <span></span>
       <span></span>
@@ -52,6 +52,15 @@
 </template>
 
 <script>
+let clickOutside = function(el, binding) {
+  el.clickOutsideEvent = function (event) {
+    if (!el.contains(event.target)) {
+      binding.value()
+    }
+  };
+  document.body.addEventListener('click', el.clickOutsideEvent)
+}
+
 import {VueRecaptcha} from "vue-recaptcha";
 import { mapState } from 'vuex'
 export default {
@@ -66,8 +75,15 @@ export default {
       mobile: '',
       passwordVerif:'',
       closeLogin: false,
-      captcha:false
+      captcha:false,
+      isOpen: false
     }
+  },
+  mounted() {
+    setTimeout(()=>{
+      console.log("text")
+      this.isOpen = true;
+    }, 500)
   },
   components: { VueRecaptcha },
   computed: {
@@ -88,6 +104,9 @@ export default {
     },
     ...mapState(['status'])
   },
+  directives:{
+    clickOutside
+  },
   methods: {
     switchToCreateAccount: function () {
       this.mode = 'create';
@@ -102,7 +121,10 @@ export default {
       this.mode = 'login';
     },
     croix: function(){
-      this.$parent.logCloseLogin();
+      if(this.isOpen){
+        this.$parent.logCloseLogin();
+        this.isOpen = false
+      }
     },
     login: function(){
       if(this.validatedFields) {
