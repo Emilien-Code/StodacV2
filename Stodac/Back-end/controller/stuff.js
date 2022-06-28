@@ -97,7 +97,7 @@ exports.createNewStuff = (req, res)=>{
 /**PUT Controller */
 
 exports.updateStuff = (req, res) => {
-            console.log(JSON.parse(req.body.compatibility))
+    console.log(req.body.image)
    const thingObject = {
            name: req.body.name,
            manufacturer: req.body.manufacturer,
@@ -109,7 +109,7 @@ exports.updateStuff = (req, res) => {
            state: req.body.state,
            description: req.body.description,
            compatibility: JSON.parse(req.body.compatibility),
-           img: req.body.img,
+           img: req.body.image,
        }
         /*?{
             //...JSON.parse(req.body.thing),

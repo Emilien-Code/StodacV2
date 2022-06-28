@@ -146,6 +146,7 @@ export default {
           })
           this.item.description =  response.data[0].description
           this.item.img =  response.data[0].img
+          console.log(response.data[0].img)
           this.item.manufacturer =  response.data[0].manufacturer
           this.item.poids =  response.data[0].poids
           this.item.price =  response.data[0].price / 1.20
@@ -178,7 +179,7 @@ export default {
       console.log(fd)*/
 
       axios.put(`http://localhost:3000/api/stuff/${this.articleId}`,{
-        image: this.file,
+        image: this.item.img,
         name: this.item.name,
         manufacturer: this.item.manufacturer,
         qty: this.item.qty,
