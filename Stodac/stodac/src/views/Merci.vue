@@ -61,6 +61,7 @@ export default {
 <style scoped>
 #merci  {
   margin-top: 80px;
+  height: calc(100vh - 320px);
 }
 .title{
     margin-top: 20px;;

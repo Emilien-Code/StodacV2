@@ -56,7 +56,6 @@ export default {
   },
   mounted: function(){
     setTimeout(()=>{
-      console.log("text")
       this.isOpen = true;
     }, 500)
     if(this.$store.state.user.userID === -1){

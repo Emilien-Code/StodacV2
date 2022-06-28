@@ -95,14 +95,30 @@
   <footer>
 
 
-    <router-link to="/MentionsLegales/" class="footerLink">
-      Mention légales
-    </router-link>
-    <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
-      Conditions générales de vente
-    </router-link>
+    <ul>
+      <li>
+        <router-link to="/MentionsLegales/" class="footerLink">
+          Mention légales
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
+          Conditions générales de vente
+        </router-link>
+      </li>
+    </ul>
 
-
+    <ul>
+      <li>
+        Paypal
+      </li>
+      <li>
+        Cheque
+      </li>
+      <li>
+        Virements
+      </li>
+    </ul>
 
 
   </footer>
@@ -234,6 +250,12 @@ export default {
   top: 50%;
   transform: translate(-15%, -50%);
 }
+footer ul{
+  margin: 10px;
+  text-decoration: none;
+  list-style: none;
+}
+
 footer{
   position: relative;
   display: flex;
@@ -244,7 +266,6 @@ footer{
   height: 100px;
   background-color: #007057;
   color: white;
-  text-align: center;
   z-index: 5;
 }
 .footerLink{

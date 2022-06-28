@@ -18,7 +18,9 @@
       <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
       <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
     </div>
-
+    <div class="form-row" v-if="mode === 'create'">
+    <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
+    </div>
     <div class="form-row">
       <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
     </div>
@@ -81,7 +83,6 @@ export default {
   },
   mounted() {
     setTimeout(()=>{
-      console.log("text")
       this.isOpen = true;
     }, 500)
   },
@@ -89,7 +90,7 @@ export default {
   computed: {
     validatedFields: function () {
       if (this.mode === 'create') {
-        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.captcha
+        return this.mailValidation && this.firstName !== "" && this.lastName !== "" && this.passwordValidation && this.password===this.passwordVerif && this.captcha && this.phoneValidation
       } else {
         return this.mailValidation && this.passwordValidation
       }
@@ -99,8 +100,12 @@ export default {
       return regexp.test(String(this.email).toLowerCase());
     },
     passwordValidation: function(){
-      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
+      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
       return regexp.test(String(this.password));
+    },
+    phoneValidation: function(){
+      const regexp = /^[0-9]{10}$/;
+      return regexp.test(String(this.mobile));
     },
     ...mapState(['status'])
   },
@@ -109,7 +114,9 @@ export default {
   },
   methods: {
     switchToCreateAccount: function () {
-      this.mode = 'create';
+      setTimeout(()=>{
+       this.mode = 'create';
+      },50)
     },
     verifyMethod : function(){
       this.captcha = true
@@ -118,9 +125,12 @@ export default {
       this.captcha = false
     },
     switchToLogin: function () {
-      this.mode = 'login';
+      setTimeout(()=>{
+            this.mode = 'login';
+            },50)
     },
     croix: function(){
+      console.log('zizi')
       if(this.isOpen){
         this.$parent.logCloseLogin();
         this.isOpen = false

@@ -69,6 +69,7 @@ export default {
 #complement  {
   margin: 12.5px;
   width: calc(100% - 25px);
+  max-width: 824px;
 }
 #complement,.small,.big{
   border-radius: 10px;
