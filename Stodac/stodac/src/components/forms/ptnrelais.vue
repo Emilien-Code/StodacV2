@@ -28,10 +28,7 @@ export default {
   },
   methods:{
     callColissimo: function(){
-      axios.post('https://ws.colissimo.fr/widget-point-retrait/rest/authenticate.rest', {
-        "login": "895244",
-        "password": "LAPOSTE545483",
-      }).then((response) => {
+      axios.get('http://localhost:3000/api/utils/token').then((response) => {
         console.log(response.data.token)
         $('#widget-container').frameColissimoOpen({
           "ceLang" : "fr",
