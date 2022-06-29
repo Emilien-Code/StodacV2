@@ -59,7 +59,16 @@
               </thead>
               <tfoot>
                 <tr>
-                  <th colspan="5">TOTAL : {{commande.prix_ttl}}</th>
+                  <th colspan="5">PRIX Pannier TTC : {{commande.prix.prix_ttl_panier}} €</th>
+                </tr>
+                <tr>
+                  <th colspan="5">PRIX FDP TTC : {{commande.prix.prix_ttl_fdp}} €</th>
+                </tr>
+                <tr>
+                  <th colspan="5">TOTAL HT : {{commande.prix.prix_ttl_HT}} €</th>
+                </tr>
+                <tr>
+                  <th colspan="5">TOTAL TTC : {{commande.prix.prix_ttl}} €</th>
                 </tr>
               </tfoot>
               <tbody>
@@ -75,7 +84,7 @@
           </div>
         </div>
         <div>
-            <p class="payement">Payé : {{commande.paypal_info.prix_payer}}</p>
+            <p class="payement">Payé : {{commande.paypal_info.prix_payer}} €</p>
         </div>
         <div v-if="commande.etat == 5 || commande.etat == 6" class="err">
           <p v-if="commande.etat == 5">L'id paypal est le meme que la commande {{commande.paypal_info.doublon}}</p>
@@ -141,6 +150,7 @@ export default {
             })
         }
     })
+    console.log(this.commande.prix)
   },
   methods:{
     afficheArticle:function(id){
@@ -165,7 +175,6 @@ export default {
                 this.testcp = this.commande.facture.postCode
                 this.testemail = this.commande.facture.email
                 this.testtel = this.commande.facture.mobile
-                console.log(this.commande)
             })
         })
     },
@@ -183,7 +192,6 @@ export default {
             this.testtel = this.commande.facture.mobile
         }
         console.log(this.modifier)
-        console.log("ca me soul ça race la !")
     },
   },
   computed: {

@@ -97,12 +97,28 @@ exports.createNewStuff = (req, res)=>{
 /**PUT Controller */
 
 exports.updateStuff = (req, res) => {
-    const thingObject = req.file ?
-        { 
-            ...JSON.parse(req.body.thing),
-            img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    console.log(req.body.image)
+   const thingObject = {
+           name: req.body.name,
+           manufacturer: req.body.manufacturer,
+           qty: req.body.qty,
+           price: req.body.price,
+           poids: req.body.poids,
+           reference: req.body.reference,
+           category: req.body.category,
+           state: req.body.state,
+           description: req.body.description,
+           compatibility: JSON.parse(req.body.compatibility),
+           img: req.body.image,
+       }
+        /*?{
+            //...JSON.parse(req.body.thing),
+            //img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            compatibility: JSON.parse(req.body.compatibility)
+        } : { ...req.body.parse }*/
 
-        } : { ...req.body }
+
+
     Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id})
         .then(() => res.status(200).json({ message: "l'artiche à bien été modifié"}))
         .catch((error) => res.status(400).json(error));

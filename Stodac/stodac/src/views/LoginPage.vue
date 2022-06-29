@@ -14,6 +14,9 @@
         <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
         <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
       </div>
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
+      </div>
       <div class="form-row">
         <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
       </div>
@@ -90,8 +93,12 @@ export default {
       return regexp.test(String(this.email).toLowerCase());
     },
     passwordValidation: function(){
-      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/; // Lacks optional characters
+      const regexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
       return regexp.test(String(this.password));
+    },
+    phoneValidation: function(){
+      const regexp = /^[0-9]{10}$/;
+      return regexp.test(String(this.mobile));
     },
     ...mapState(['status'])
   },

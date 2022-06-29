@@ -80,6 +80,11 @@ const routes = [
     component: () => import('../views/cdv.vue')
   },
   {
+    path:"/modifier/:id",
+    name  : "modifier",
+    component: () => import('../views/ModifierArticle')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
   },

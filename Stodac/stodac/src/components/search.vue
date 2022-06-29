@@ -1,6 +1,6 @@
 <template>
   <div id="search" v-clickOutside="close">
-    <svg
+    <svg @click="search"
         xmlns:dc="http://purl.org/dc/elements/1.1/"
         xmlns:cc="http://creativecommons.org/ns#"
         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -187,9 +187,10 @@ svg{
   width: 25px;
   height: 25px;
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: 92%;
   transform: translateY(-50%);
+  cursor : pointer  ;
 }
 .product-price{
   color: #007057;

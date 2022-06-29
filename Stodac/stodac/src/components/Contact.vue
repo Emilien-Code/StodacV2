@@ -37,6 +37,7 @@ export default {
     return {
       isMinimized : true,
       captcha:false,
+      alreadyClicked: false,
       email:'',
       msg:'',
       error: '',
@@ -52,6 +53,7 @@ export default {
     close: function(){
       this.isMinimized = true;
       this.error = ''
+      this.result = ""
     },
     verifyMethod : function(){
       this.captcha = true
@@ -60,12 +62,20 @@ export default {
       this.captcha = false
     },
     send: function (){
-      if (this.captcha && this.msg != '' && this.email != ''){
+      if (this.captcha && this.msg != '' && this.email != '' && !this.alreadyClicked){
         console.log("LETSGO");
+        this.alreadyClicked = true
+        this.error =  ""
         this.result = "Votre message à vien été envoyé. Une réponse vous sera transmise a l'adresse indiquée."
       } else{
-        this.error =  "L'intégralité des champs doit être saisis."
+        if(this.alreadyClicked){
+          this.error =  ""
+        }else{
+          this.error =  "L'intégralité des champs doit être saisis."
+
+        }
       }
+
     }
   },
   directives:{

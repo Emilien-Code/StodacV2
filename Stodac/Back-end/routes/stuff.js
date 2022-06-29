@@ -35,7 +35,7 @@ router.post('/', multer, stuffCtrl.createNewStuff);
 // PATCH 
 
 //router.put('/:id', authAdmin, multer, stuffCtrl.updateStuff);
-router.put('/:id', multer, stuffCtrl.updateStuff);
+router.put('/:id', /*multer,*/ stuffCtrl.updateStuff);
 
 // DELETE
 

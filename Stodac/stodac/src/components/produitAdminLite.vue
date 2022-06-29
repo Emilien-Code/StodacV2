@@ -17,7 +17,7 @@
       <button @click="remove">Supprimer</button>
     </div>
     <div v-if="isDelete" class="del"> <p> l'article à été suprimé</p></div>
-    <div v-if="isDelete" class="del"> <p> Une erreur est survenue</p></div>
+    <!--<div v-if="isDelete" class="del"> <p> Une erreur est survenue</p></div>-->
   </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
   },
   methods:{
     change : function (){
-      this.$router.push("/modifier")
+      this.$router.push(`/modifier/${this.produit._id}`)
     },
     remove : function(){
       this.$store.dispatch('removeProduct', this.produit._id)

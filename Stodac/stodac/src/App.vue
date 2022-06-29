@@ -12,7 +12,7 @@
         Boutique
         <span id="span1"></span>
       </router-link>
-      <router-link to="/mesCommandes/">
+      <router-link to="/mesCommandes/" v-if="!userInfos.admin">
         Mes commandes
         <span id="span2"></span>
       </router-link>
@@ -63,7 +63,7 @@
       Boutique
       <span id="hovered"></span>
     </router-link>
-    <router-link @click="closeMenu" class="menu-content" to="/mesCommandes/">
+    <router-link @click="closeMenu" class="menu-content" to="/mesCommandes/" v-if="!userInfos.admin">
       Mes commandes
       <span></span>
     </router-link>
@@ -94,13 +94,31 @@
   <Pannier v-if="pannier"/>
   <footer>
 
-    <router-link to="/MentionsLegales/" class="footerLink">
-      Mention légales
-    </router-link>
-    <router-link to="/MentionsLegales/" class="footerLink">
-      Nous Contacter
-    </router-link>
 
+    <ul>
+      <li>
+        <router-link to="/MentionsLegales/" class="footerLink">
+          Mention légales
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
+          Conditions générales de vente
+        </router-link>
+      </li>
+    </ul>
+
+    <ul>
+      <li>
+        Paypal
+      </li>
+      <li>
+        Cheque
+      </li>
+      <li>
+        Virements
+      </li>
+    </ul>
 
 
   </footer>
@@ -232,6 +250,12 @@ export default {
   top: 50%;
   transform: translate(-15%, -50%);
 }
+footer ul{
+  margin: 10px;
+  text-decoration: none;
+  list-style: none;
+}
+
 footer{
   position: relative;
   display: flex;
@@ -242,7 +266,6 @@ footer{
   height: 100px;
   background-color: #007057;
   color: white;
-  text-align: center;
   z-index: 5;
 }
 .footerLink{

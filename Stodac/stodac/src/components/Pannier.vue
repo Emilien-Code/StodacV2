@@ -28,6 +28,14 @@
                 </button>
           </div>
       </li>
+    <div id="total">
+      <div>
+        Sous total :
+      </div>
+      <div>
+       {{ countTTL }} €
+      </div>
+    </div>
     <div id="actions" v-if="$store.state.pannier.length !== 0">
           <a href="/">Continuer mes achats</a>
           <button class="button" @click="push()">Commander</button>
@@ -44,6 +52,7 @@ export default {
     return {
       articles: [],
       qty: [],
+      ttl: 0
     }
   },
   methods: {
@@ -73,12 +82,27 @@ export default {
       this.$parent.closePannier();
     }
   },
+  computed : {
+    countTTL: function() {
+      let buffer = 0;
+      this.$store.state.pannier.forEach(e => {
+        buffer += e.article.price * e.qty
+      })
+      return Math.round(buffer * 100) / 100
+    }
+  }
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
-
+#total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 10px 0;
+}
 #actions .button{
   width: 40%;
 }

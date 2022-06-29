@@ -6,7 +6,8 @@ const cors = require('cors')
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
 const factureRoutes = require('./routes/facture');
-const paypalRoute=require('./routes/paypalroute');
+const paypalRoute=require('./routes/paypalroute')
+const utilsRoutes = require('./routes/utils')
 require('dotenv').config()
 
 
@@ -38,6 +39,8 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/facture', factureRoutes);
-app.use('/api/paypal/', paypalRoute)
+app.use('/api/paypal/', paypalRoute);
+app.use('/api/utils/', utilsRoutes)
+
 
 module.exports = app;
