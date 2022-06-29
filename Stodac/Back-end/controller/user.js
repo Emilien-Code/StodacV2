@@ -538,7 +538,7 @@ exports.newCommand = (req, res) => {
                             product: {
                                 identifier: numerocommande,				// used to identify a package when you received it. its displayed before the company_name
                                 insurance_value: 0,			            // the amount to insure
-                                weight: poids						    // in kg, default 1
+                                weight: poids/1000					    // in kg, default 1
                             },
                             format: {
                                 commercial_name: process.env.COLISSIMO_USER               // used for notifications
@@ -582,6 +582,7 @@ exports.newCommand = (req, res) => {
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
+                            console.log(poids)
                             //c moche mais ca fais le taff :(
                             lacommande.pdf = ""
                             lacommande.suiviColissimo = "error"

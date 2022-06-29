@@ -84,7 +84,9 @@
           </div>
         </div>
         <div>
-            <p class="payement">Payé : {{commande.paypal_info.prix_payer}} €</p>
+            <p v-if="commande.facture.moyendepayement=='paypal'" class="payement">Payé : {{commande.paypal_info.prix_payer}} € par {{commande.facture.moyendepayement}}</p>
+            <p  v-else-if="commande.etat==0" class="payement">Pas encore payé : {{commande.prix.prix_ttl}} € par {{commande.facture.moyendepayement}}</p>
+            <p  v-else class="payement">Payé : {{commande.prix.prix_ttl}} € par {{commande.facture.moyendepayement}}</p>
         </div>
         <div v-if="commande.etat == 5 || commande.etat == 6" class="err">
           <p v-if="commande.etat == 5">L'id paypal est le meme que la commande {{commande.paypal_info.doublon}}</p>
@@ -96,7 +98,8 @@
       <div>
 
 
-        <a :href="commande.pdf" target="_blank"> Télécharger pdf colissimo </a>
+        <a v-if="commande.pdf" :href="commande.pdf" target="_blank"> Télécharger pdf colissimo </a>
+        <p v-else>erreur colissimo : {{commande.errorColissimo}}</p>
       </div>
         <div v-if="modifier">
             <span></span>
