@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Thing = require('../models/Thing');
 const paypalCtrl = require('../controller/paypal');
 const nodemailer = require("nodemailer");
+//require('dotenv').config();
 const { rawListeners } = require('../models/User');
 
 exports.signup = (req, res, next) => {
@@ -34,8 +35,8 @@ exports.signup = (req, res, next) => {
                         port: 465,
                         secure: true, // true for 465, false for other ports
                         auth: {
-                            user: "boutique@stodac.fr", // generated ethereal user
-                            pass: "StdcBoo54@", // generated ethereal password
+                            user: process.env.MAIL_USER, // generated ethereal user
+                            pass: process.env.MAIL_MDP, // generated ethereal password
                         },
                     });
 
@@ -512,8 +513,7 @@ exports.newCommand = (req, res) => {
                             lacommande.paypal_info=paypal
                         }
 
-
-                        const colissimo  = require('colissimo') ({ contract_number: '895244', password: 'PWD' })
+                        const colissimo  = require('colissimo') ({ contract_number: process.env.COLISSIMO_USER, password: process.env.COLISSIMO_MDP })
                         colissimo.label ({
                             sender: {
                                 last_name: "Manessier",
@@ -541,7 +541,7 @@ exports.newCommand = (req, res) => {
                                 weight: poids						    // in kg, default 1
                             },
                             format: {
-                                commercial_name: '895244'               // used for notifications
+                                commercial_name: process.env.COLISSIMO_USER               // used for notifications
                             }
                         }).then (infos => {
                             console.log (infos)
@@ -626,8 +626,8 @@ function sendEmail(etat, options, adressemail){
             port: 465,
             secure: true,
             auth: {
-                user: "boutique@stodac.fr",
-                pass: "C3ci3stUnMotD3P@ss3Long",
+                user: process.env.MAIL_USER, // generated ethereal user
+                pass: process.env.MAIL_MDP,
             },
         });
         let email = {

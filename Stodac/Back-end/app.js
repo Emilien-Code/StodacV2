@@ -6,11 +6,12 @@ const cors = require('cors')
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
 const factureRoutes = require('./routes/facture');
-const paypalRoute=require('./routes/paypalroute')
+const paypalRoute=require('./routes/paypalroute');
+require('dotenv').config()
 
 
 mongoose.connect(
-    "mongodb+srv://stodacuser:h5zHJuAt4Tf1pWUl@cluster0.loqnp.mongodb.net/stodac?retryWrites=true&w=majority",
+    "mongodb+srv://"+process.env.BDD_USER+":"+process.env.BDD_MDP+"@"+process.env.BDD_NAME+"/stodac?retryWrites=true&w=majority",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,

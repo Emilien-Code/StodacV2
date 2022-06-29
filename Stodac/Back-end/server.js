@@ -1,6 +1,7 @@
 const http = require('http');
 const app = require('./app');
 const paypalCtrl = require('./controller/paypal')
+require('dotenv').config()
 
 const normalizePort = val => {
     const port = parseInt(val, 10);

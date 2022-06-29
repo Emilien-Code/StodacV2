@@ -1,5 +1,6 @@
 const axios = require('axios');
 const querystring = require('querystring');
+//require('dotenv').config();
 
 let expire = null
 let token = null
@@ -23,8 +24,8 @@ function demandeToken(){
             },
             withCredentials: true,
             auth: {
-                username:'AbLPjKm4VxvJn-pTS_kWd0CFz1Gt0IxfB2FFM2Xfp-8xUT8p8hZ7lT264wZCigRhAQPesyampT4M94ni',
-                password:'EJNWLVRuugN2C_mkbXucI8DymKiDTBtAMLKMr8lNZm5lPDti4j3icn9Y8rP5X_YiAWMeGcOSMBuujtti',
+                username:process.env.PAYPAL_USER,
+                password:process.env.PAYPAL_MDP,
             },
         })
         demandedetoken.post("https://api.sandbox.paypal.com/v1/oauth2/token", 'grant_type=client_credentials').then(function (response){
@@ -77,8 +78,8 @@ exports.demandeToken = () => {
         },
         withCredentials: true,
         auth: {
-            username:'AbLPjKm4VxvJn-pTS_kWd0CFz1Gt0IxfB2FFM2Xfp-8xUT8p8hZ7lT264wZCigRhAQPesyampT4M94ni',
-            password:'EJNWLVRuugN2C_mkbXucI8DymKiDTBtAMLKMr8lNZm5lPDti4j3icn9Y8rP5X_YiAWMeGcOSMBuujtti',
+            username:process.env.PAYPAL_USER,
+            password:process.env.PAYPAL_MDP,
         },
     })
 }
