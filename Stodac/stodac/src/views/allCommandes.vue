@@ -27,96 +27,21 @@
           <button @click="choix(6)">tout</button>
         </div>
 
-          <table id="tableCommandes">
-            <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th v-on:click="trieordre('num')">Numero de commande</th>
-                <th v-on:click="trieordre('email')">email</th>
-                <th v-on:click="trieordre('np')">NOM Prénom</th>
-                <th v-on:click="trieordre('etat')">État commande</th>
-                <th v-on:click="trieordre('date')">Date commande</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="(commande, index) in listCommandes" :key="commande" >
-                <tr v-on:click="ajouteici(index)">
-                  <td><div class="flechecoteTableau"></div></td>
-                  <td><a v-on:click="afficheFacture(commande.comande.id)">{{commande.comande.id}}</a></td>
-                  <td>{{commande.comande.facture.email}}</td>
-                  <td>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</td>
-                  <td v-if="commande.comande.etat >= 0" :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</td>
-                  <td v-else :style="{backgroundColor: color[color.length-1]}">{{commande.comande.nometat[commande.comande.nometat.length + commande.comande.etat]}}</td>
-                  <td>{{commande.comande.date.substring(0,10)}}</td>
-                </tr>
-
-                <!--  Dans un composant -->
-                <tr class="tablesCntr" v-if="ouvert==index">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Adresse</th>
-                        <th>Prix HT</th>
-                        <th>Prix TTC</th>
-                        <th>État commande</th>
-                        <th>PDF</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}}, {{commande.comande.facture.city}}, {{commande.comande.facture.postCode}}</td>
-                        <td>{{Math.round((commande.comande.prix_ttl/1.2)*100)/100}}€</td>
-                        <td>{{commande.comande.prix_ttl}}€</td>
-                        <td>
-                          <select class="selectEtat" v-model="choixetat">
-                            <option>{{commande.comande.nometat[0]}}</option>
-                            <option>{{commande.comande.nometat[1]}}</option>
-                            <option>{{commande.comande.nometat[2]}}</option>
-                            <option>{{commande.comande.nometat[3]}}</option>
-                            <option>{{commande.comande.nometat[4]}}</option>
-                            <option>{{commande.comande.nometat[5]}}</option>
-                          </select>
-                        </td>
-                        <td><a :href="commande.comande.pdf" target="_blank"> <img style="width:25px;" src="../../public/80942.png" alt=""> </a></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                    <table>
-                      <thead>
-                      <tr>
-                        <th>Nom</th>
-                        <th>quantité</th>
-                        <th>prix HT</th>
-                        <th>prix TTC</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-for="article in commande.comande.materiels" :key="article.id">
-                        <td>{{article.obj.name}}</td>
-                        <td>{{article.qty}}</td>
-                        <td>{{Math.round((article.obj.price/1.2)*100)/100}}€</td>
-                        <td>{{article.obj.price}}€</td>
-                      </tr>
-                      </tbody>
-                    </table>
-
-                    <!--  Dans un composant -->
-
-                  <div>
-                    <button v-if="commande.comande.nometat[commande.comande.etat] != choixetat" @click="savechangement()">Enregistrer</button>
-                  </div>
+<div id="container">
+            <ul id="commandes" >
+              <li v-for="commande in listCommandes" :key="commande">
+                <commandeMin :commande="commande"/>
+              </li>
+            </ul>
+</div>
 
 
-                </tr>
-              </template>
-            </tbody>
-          </table>
         </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-//const axios = require('axios');
+import commandeMin from "../components/infoCommande/commandeInfoMin";
 export default {
   name: 'allCommande',
   data: function () {
@@ -160,7 +85,6 @@ export default {
       this.$router.push('/login/allCommandes');
     }
     this.$store.dispatch('getUserInfos').then(()=>{
-        console.log("etape1")
         if(!this.userInfos.admin){
             this.$router.push('/')
         }
@@ -170,7 +94,6 @@ export default {
             limit:this.parametre.limit,
             recherche:this.parametre.recherche
           }
-          console.log(parametre)
           this.$store.dispatch('getAllCommande', parametre).then((resul)=>{
             this.listCommandes = resul
             this.choixetat=""
@@ -329,7 +252,6 @@ export default {
         parametre.parametre.push("")
         parametre.recherche = this.parametre.recherche
       }
-      console.log(parametre)
       this.$store.dispatch('getAllCommande', parametre).then((resul)=>{
         this.listCommandes = resul
         this.choixetat=""
@@ -428,24 +350,20 @@ export default {
         this.ouvert=-1
       })
     },
-    savechangement:function(){
-      let parametre = {
-        id:this.listCommandes[this.ouvert].comande.id,
-        etat:this.listCommandes[this.ouvert].comande.nometat.indexOf(this.choixetat)
-      }
-      this.$store.dispatch('changeEtat', parametre).then(()=>{
-        parametre = {
+    actualize:function(){
+      console.log("ttte")
+        const parametre = {
           parametre: this.parametre.type,
           limit:this.parametre.limit,
           recherche:this.parametre.recherche
         }
         this.$store.dispatch('getAllCommande', parametre).then((resul)=>{
           this.listCommandes = resul
-          this.choixetat=""
-          this.ouvert=-1
         })
-      })
     }
+  },
+  components:{
+    commandeMin
   },
   computed: {
     ...mapState(['userInfos']),
@@ -508,4 +426,27 @@ a{
   flex-direction: column;
   align-items: center;
 }
+li{
+  height: 300px;
+}
+#commandes {
+  list-style: none;
+  margin: 0 20px;
+  width: 1530px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+#container{
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+@media (max-width: 1570px) {
+  #commandes{
+    width: 1020px;
+  }
+}
+
 </style>

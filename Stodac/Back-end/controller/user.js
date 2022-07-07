@@ -675,12 +675,14 @@ exports.resetpanier = (req, res) => {
 }
 
 exports.setEtat = (req, res) => {
+    console.log("----------")
+    console.log(req.body)
+    console.log("----------")
     User.find({_id:req.params.id},{admin:1},(err,docs)=>{
         console.log(docs)
         if(docs[0].admin){
             User.findOne({"comande":{$elemMatch:{"id":req.body.id}}},{"comande":{"$elemMatch":{"id":req.body.id}}}, (err, docs) =>{
                 console.log(req.body)
-                console.log(docs)
                 User.updateOne({"comande":{$elemMatch:{"id":req.body.id}}}, {$set:{"comande.$.etat":req.body.etat}}, (err, docsapres)=>{
                     console.log(docsapres)
                     console.log(docs.comande[0].etat)

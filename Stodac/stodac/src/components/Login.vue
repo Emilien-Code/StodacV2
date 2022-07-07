@@ -130,7 +130,6 @@ export default {
             },50)
     },
     croix: function(){
-      console.log('zizi')
       if(this.isOpen){
         this.$parent.logCloseLogin();
         this.isOpen = false

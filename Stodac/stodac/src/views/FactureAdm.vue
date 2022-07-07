@@ -84,7 +84,7 @@
           </div>
         </div>
         <div>
-            <p class="payement">Payé : {{commande.paypal_info.prix_payer}} €</p>
+            <!--<p class="payement">Payé : {{commande.paypal_info.prix_payer}} €</p>-->
         </div>
         <div v-if="commande.etat == 5 || commande.etat == 6" class="err">
           <p v-if="commande.etat == 5">L'id paypal est le meme que la commande {{commande.paypal_info.doublon}}</p>
