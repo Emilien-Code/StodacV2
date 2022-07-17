@@ -50,7 +50,9 @@ export default {
     ptnrelais
   },
   mounted() {
+    const labels = document.querySelectorAll("label");
     this.spanPositionL = document.querySelectorAll("label")[0].getBoundingClientRect().left
+    this.spanWidthL = labels[0].getBoundingClientRect().right - labels[0].getBoundingClientRect().left
     },
   methods: {
     enter: function (i){
@@ -113,5 +115,16 @@ span{
 }
 #descriptifsLivraison > div{
   padding: 15px 0;
+}
+@media (max-width: 685px) {
+  label{
+    font-size: 12px;
+  }
+  #menu{
+    width: 80vw;
+  }
+  #descriptifsLivraison{
+  left: 35vw;
+  }
 }
 </style>

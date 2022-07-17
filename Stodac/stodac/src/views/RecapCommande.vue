@@ -104,7 +104,9 @@ export default {
       //     .then(()=>{console.log(this.$store.state.MDL)})
 
       console.log(this.adresse)
-      if(this.cdv && this.modeDeLivraison!=="domicile" || this.cdv && this.$refs.livraison.isAdressComplete){
+      if(this.cdv && this.modeDeLivraison=="domicile" && this.$refs.livraison.isAdressComplete
+          || this.cdv && this.modeDeLivraison=="pointRelais" &&  document.getElementById("pudoWidgetAddress1").value
+          || this.cdv && this.modeDeLivraison=="surPlace"){
         const parametre = [this.$store.state.pannier, this.adresse, this.modeDeLivraison]
         this.$store.dispatch('saveparametre', parametre)
         if(this.$store.state.user.userID === -1){

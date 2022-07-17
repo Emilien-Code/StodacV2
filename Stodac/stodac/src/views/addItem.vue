@@ -146,7 +146,7 @@ export default {
       fd.append('name', this.item.name)
       fd.append('manufacturer', this.item.manufacturer)
       fd.append('qty', this.item.qty)
-      fd.append('price', this.item.price * 1.2)
+      fd.append('price', Math.round(this.item.price * 1.2 * 100) / 100)
       fd.append('poids', this.item.poids)
       fd.append('reference', this.item.reference)
       fd.append('category', this.item.category)
@@ -161,8 +161,6 @@ export default {
     },
     addComp : function (){
       this.compatibilities++
-      console.log(this.compatibilities)
-      console.log(this.item.compatibility)
     }
   }
 }

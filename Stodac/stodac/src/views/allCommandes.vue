@@ -375,57 +375,55 @@ export default {
 #AllCommandes{
   margin-top: 80px;
 }
+
 #advanced{
   display: flex;
   width: 100vw;
 }
+
 #textAdvanced{
   width: 80vw;
   display: flex;
   justify-content: space-between;
 }
+
 input, button  {
   padding: 5px;
   border-radius: 5px;
   border: solid 2px #a3a3a3;
+}
 
-}
-.tableContainer{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 td{
   padding: 10px;
   text-align: center;
 }
+
 th{
   padding: 10px;
   text-align: center;
   cursor: pointer;
 }
+
 .flechecoteTableau, .flechecote{
   width: 15px;
   height: 20px;
   background-color: #a3a3a3;
   -webkit-clip-path: polygon(0 0, 0 100%, 100% 50%);
 }
-.flechebasTableau, .flechebas{
+
+.flechebasTableau {
   width: 20px;
   height: 15px;
   background-color: #a3a3a3;
   -webkit-clip-path: polygon(100% 0, 0 0, 50% 100%);
 }
+
 a{
   color: #078A6C;
   cursor: pointer;
 }
-.tablesCntr{
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 li{
   height: 300px;
 }
@@ -443,10 +441,12 @@ li{
   justify-content: center;
   width: 100vw;
 }
+
 @media (max-width: 1570px) {
-  #commandes{
+  #commandes {
     width: 1020px;
   }
+
 }
 
 </style>

@@ -46,7 +46,16 @@ exports.signup = (req, res, next) => {
                         to: req.body.email, // list of receivers
                         subject: "Création de compte", // Subject line
                         text: "Bonjour, vous venez de créer un compte sur la boutique en ligne Stodac.fr, merci de votre confiance !", // plain text body
-                        html: "<b>Bonjour, bous venez de créer un compte sur la boutique en ligne Stodac.fr, merci de votre confiance !</b>", // html body
+                        html: "    <body style='width:100%; display: flex; justify-content: center;'>\n" +
+                            "       <div width='300px'>\n" +
+                            "           <div style='width: 300px; height: 100px; text-align: center; background-color: #078A6C; color: white; padding: 5%;'>\n" +
+                            "               <h1 >Stodac</h1>\n" +
+                            "           </div> \n" +
+                            "           <p>Bonjour,</p>\n" +
+                            "           <p>Vous venez de créer un compte sur la boutique en ligne <a href='https://www.stodac.fr' target=\"_blank\">Stodac.fr</a>.</p>\n" +
+                            "           <p>Merci de votre confiance !</p>\n" +
+                            "       </div>\n" +
+                            "   </body>"
                     });
 
                     console.log("Message sent: %s", info.messageId);
