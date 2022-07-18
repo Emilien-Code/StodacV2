@@ -89,16 +89,21 @@
     </div>
     <div v-else>Niveau d'accès trop bas pour acceder.</div>
     <fileAdded v-if="isFileAded"/>
+    <validation-popup :message="msg" :yes="yes" :no="no" v-if="validationPopup"/>
+
   </div>
 </template>
 
 <script>
 import fileAdded from "../components/addFileComponents/fileAdded";
+import ValidationPopup from "../components/addFileComponents/validationPopup";
 const axios = require('axios');
 export default {
   name: "addItem",
   data : function(){
     return{
+      msg: "Voulez vous modifier cet article",
+      validationPopup:false,
       articleId: this.$route.params.id,
       item : {
         compatibility: [],
@@ -121,6 +126,7 @@ export default {
     }
   },
   components:{
+    ValidationPopup,
     fileAdded
   },
   mounted: function(){
@@ -164,20 +170,10 @@ export default {
       this.file = this.$refs.file.files[0]
     },
     create : function(){
-      /*const fd = new FormData()
-      fd.append('image', this.file)
-      fd.append('name', this.item.name)
-      fd.append('manufacturer', this.item.manufacturer)
-      fd.append('qty', this.item.qty)
-      fd.append('price', this.item.price * 1.2)
-      fd.append('poids', this.item.poids)
-      fd.append('reference', this.item.reference)
-      fd.append('category', this.item.category)
-      fd.append('state', this.item.state)
-      fd.append('description', this.item.description)
-      fd.append('compatibility', JSON.stringify(this.item.compatibility))
-      console.log(fd)*/
-
+      this.validationPopup = true
+    },
+    yes: function(){
+      this.validationPopup = false
       axios.put(`http://localhost:3000/api/stuff/${this.articleId}`,{
         image: this.item.img,
         name: this.item.name,
@@ -196,10 +192,11 @@ export default {
 
           });
     },
+    no : function (){
+      this.validationPopup = false
+    },
     addComp : function (){
       this.compatibilities++
-      console.log(this.compatibilities)
-      console.log(this.item.compatibility)
     }
   }
 }

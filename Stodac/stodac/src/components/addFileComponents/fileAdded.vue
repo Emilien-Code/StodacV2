@@ -13,7 +13,6 @@ export default {
   name: "fileAdded",
   methods:{
     push: function (){
-      console.log("efjslkdj")
       this.$parent.$data.isFileAded=false
     }
   }

@@ -89,16 +89,20 @@
     </div>
     <div v-else>Niveau d'accès trop bas pour acceder.</div>
     <fileAdded v-if="isFileAded"/>
+    <validation-popup :message="msg" :yes="yes" :no="no" v-if="validationPopup"/>
   </div>
 </template>
 
 <script>
 import fileAdded from "../components/addFileComponents/fileAdded";
+import ValidationPopup from "../components/addFileComponents/validationPopup";
+
 const axios = require('axios');
 export default {
   name: "addItem",
   data : function(){
     return{
+      validationPopup: false,
       item : {
         compatibility: [],
         name: "",
@@ -116,11 +120,14 @@ export default {
       manufactureList : [],
       categoryList : [],
       compatibilities: 1,
-      isFileAded: false
+      isFileAded: false,
+      fd: null,
+      msg: "Souhaitez vous ajouter l'article ?"
     }
   },
   components:{
-    fileAdded
+    fileAdded,
+    ValidationPopup,
   },
   mounted: function(){
     if(this.$store.state.user.userID === -1){
@@ -153,15 +160,27 @@ export default {
       fd.append('state', this.item.state)
       fd.append('description', this.item.description)
       fd.append('compatibility', JSON.stringify(this.item.compatibility))
-      axios.post('http://localhost:3000/api/stuff/',fd)
-          .then(()=>{
-            console.log("TEST")
-            this.isFileAded = true
-          });
+      this.fd = fd;
+      this.validationPopup = true;
     },
     addComp : function (){
       this.compatibilities++
+    },
+    no: function (){
+      this.validationPopup=false
+    },
+    yes: function (){
+      this.validationPopup=false
+
+      axios.post('http://localhost:3000/api/stuff/',this.fd)
+          .then(()=>{
+            this.isFileAded=true
+          });
+
+
+
     }
+
   }
 }
 </script>
