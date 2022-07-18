@@ -453,6 +453,12 @@ exports.newCommand = (req, res) => {
                             materiels_crea.push(materiel)
                             console.log(object.poids)
                             poids += object.poids;
+                            let retire = -1 * object.qty
+                            Thing.updateOne({_id:object.articleID},{$inc:{qty:retire}}, (err, docs) =>{
+                                console.log("ceci est l'update")
+                                if(err) console.log(err);
+                                else{console.log(docs)}
+                            })
                         })
                         //console.log("jaifini")
                         const facture_crea = {
@@ -475,8 +481,8 @@ exports.newCommand = (req, res) => {
                             numerocommande = "0"+numerocommande
                         }
                         let livraison
-                        console.log("c la que ca pose pb enfaite ca casse les couilles la !")
-                        console.log(docsancien)
+                        //console.log("c la que ca pose pb enfaite ca casse les couilles la !")
+                        //console.log(docsancien)
                         if(docsancien.saveLivraison.modeDeLivraison === "domicile"){
                             livraison = {
                                 adresse:{
@@ -544,7 +550,7 @@ exports.newCommand = (req, res) => {
                                 commercial_name: process.env.COLISSIMO_USER               // used for notifications
                             }
                         }).then (infos => {
-                            console.log (infos)
+                            //console.log (infos)
                             lacommande.pdf = infos.label
                             lacommande.suiviColissimo = infos.tracking_number
                             User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
@@ -554,7 +560,7 @@ exports.newCommand = (req, res) => {
 
                                 res.send()
 
-                                console.log(poids)
+                                //console.log(poids)
                                 
                                 sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl}, req.body.email)
 
@@ -582,7 +588,7 @@ exports.newCommand = (req, res) => {
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
-                            console.log(poids)
+                            //console.log(poids)
                             //c moche mais ca fais le taff :(
                             lacommande.pdf = ""
                             lacommande.suiviColissimo = "error"
