@@ -17,17 +17,21 @@
       <button @click="remove">Supprimer</button>
     </div>
     <div v-if="isDelete" class="del"> <p> l'article à été suprimé</p></div>
+    <validation-popup :message="msg" :yes="yes" :no="no" v-if="validationPopup"/>
     <!--<div v-if="isDelete" class="del"> <p> Une erreur est survenue</p></div>-->
   </div>
 </template>
 
 <script>
+import ValidationPopup from "../components/addFileComponents/validationPopup";
 export default {
   name: "produitAdminLite",
   data:()=>{
     return{
+      validationPopup:false,
       isDelete : false,
-      error: false
+      error: false,
+      msg: "Voulez vous supprimer cet article"
     }
   },
   props : {
@@ -38,16 +42,25 @@ export default {
       this.$router.push(`/modifier/${this.produit._id}`)
     },
     remove : function(){
+      this.validationPopup = true
+    },
+    yes : function (){
       this.$store.dispatch('removeProduct', this.produit._id)
           .then(()=>{
             this.isDelete = true
+            this.validationPopup=false
           })
           .catch(()=>{
             this.error = true
           })
-
+    },
+    no: function (){
+      this.validationPopup=false
     }
-  }
+  },
+  components:{
+    ValidationPopup,
+  },
 }
 </script>
 

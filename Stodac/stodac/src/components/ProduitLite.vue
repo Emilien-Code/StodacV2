@@ -8,9 +8,14 @@
         <p class="product-name">{{produit.name}}</p>
         <p class="product-category">{{produit.category}}</p>
       <div class="product-price">
-        <p v-if="produit.qty>0">En stock</p>
-        <p v-else style="color: #F18F01">Rupture de stock</p>
+        <div>
 
+        <p v-if="produit.qty>0">En stock</p>
+        <p v-else style="color: #F18F01">Rupture de stock </p>
+
+        <p v-if="produit.qty<=0" class="disponibility" style="color: #F18F01; font-weight: normal ;">Disponible sur commande (délais 7 - 10 jours)</p>
+
+        </div>
         <p>{{produit.price}}€</p>
       </div>
       </div>
@@ -90,5 +95,10 @@ span{
 #produit:hover button {
   opacity: 1;
   transition: .5s ease;
+}
+.disponibility{
+  position: absolute;
+  bottom: -10px;
+  font-size: .7em;
 }
 </style>

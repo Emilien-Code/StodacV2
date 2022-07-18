@@ -90,4 +90,16 @@ input::-webkit-inner-spin-button {
 }
 textarea, select, input, button { outline: none; }
 
+@media (max-width: 685px) {
+  /*Add some code here*/
+  .small  {
+    width : 100px
+  }
+  #complement{
+    width   : 100vw
+  }
+  .container{
+    width: 80vw;
+  }
+}
 </style>

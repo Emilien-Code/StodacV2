@@ -27,7 +27,8 @@
       </div>
     </div>
     <div id="virement " v-if="selected==2">
-      La commande vous sera envoyée aussitôt le virement effectué. <br> IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ
+      La commande vous sera envoyée aussitôt le virement effectué. <br> IBAN : FR7614707090263112192565018
+      <br>BIC : CCBPFRPPMTZ
       <div class="btn-ctnr">
         <button @click="saveF(-1); sendingCommand();"> Commander </button>
       </div>

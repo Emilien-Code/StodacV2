@@ -65,6 +65,10 @@ button{
   #widget-container{
      margin-bottom: 600px;
   }
+  #ptnrelais{
+    width: 80vw;
+    transform: translateX(2vw);
+  }
 }
 
  </style>

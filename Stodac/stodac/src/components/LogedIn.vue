@@ -186,4 +186,10 @@ a{
 #close div:nth-child(2){
   transform:rotate(-45deg);
 }
+@media (max-width: 650px) {
+  .card{
+    right:0;
+    width: 100vw;
+  }
+}
 </style>

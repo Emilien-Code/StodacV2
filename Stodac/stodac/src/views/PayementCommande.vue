@@ -341,24 +341,27 @@ footer  {
   width: 60vw;
 }
 @media (max-width: 660px) {
-  thead th:nth-child(1), tbody td:nth-child(1){
-    display: none;
-  }
-  thead th:nth-child(2), tbody td:nth-child(2){
-    width: 20vw;
-  }
-  thead th:nth-child(3), tbody td:nth-child(3){
-    width: 20vw;
-  }
-  thead th:nth-child(4), tbody td:nth-child(4){
-    width: 20vw;
-  }
-  thead th:nth-child(5), tbody td:nth-child(5){
-    width: 20vw;
-  }
-  .footContainer {
-    width: 80vw;
-  }
+    thead th:nth-child(1), tbody td:nth-child(1){
+      display: none;
+    }
+    thead th:nth-child(2), tbody td:nth-child(2){
+      width: 20vw;
+    }
+    thead th:nth-child(3), tbody td:nth-child(3){
+      width: 20vw;
+    }
+    thead th:nth-child(4), tbody td:nth-child(4){
+      width: 20vw;
+    }
+    thead th:nth-child(5), tbody td:nth-child(5){
+      width: 20vw;
+    }
+    .footContainer {
+      width: 80vw;
+    }
+    #box{
+      left: 40%;
+    }
   }
 
  </style>
