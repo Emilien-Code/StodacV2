@@ -66,13 +66,12 @@ export default {
         console.log("LETSGO");
         this.alreadyClicked = true
         this.error =  ""
-        this.result = "Votre message à vien été envoyé. Une réponse vous sera transmise a l'adresse indiquée."
+        this.result = "Votre message à bien été envoyé. Une réponse vous sera transmise a l'adresse indiquée."
       } else{
         if(this.alreadyClicked){
           this.error =  ""
         }else{
           this.error =  "L'intégralité des champs doit être saisis."
-
         }
       }
 

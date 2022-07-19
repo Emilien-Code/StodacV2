@@ -16,6 +16,10 @@
         Mes commandes
         <span id="span2"></span>
       </router-link>
+      <router-link to="/assistance/" v-if="!userInfos.admin">
+        Assistance
+        <span id="span3"></span>
+      </router-link>
       <router-link v-if="userInfos.admin" to="/allCommandes/">
         Gestion commandes
         <span></span>
@@ -67,6 +71,10 @@
       Mes commandes
       <span></span>
     </router-link>
+    <router-link to="/assistance/"  @click="closeMenu" class="menu-content" v-if="!userInfos.admin">
+      Assistance
+      <span></span>
+    </router-link>
     <router-link @click="closeMenu" class="menu-content" v-if="userInfos.admin" to="/allCommandes/">
       Commandes Admin
       <span></span>
@@ -94,14 +102,14 @@
   <Pannier v-if="pannier"/>
   <footer>
 
-    <div id="top">
+    <div id="top_footer">
       <div id="payements">
         <img class="img" src="./assets/footerImages/pay-pal-png.webp" alt="Paypal">
         <img class="img" src="./assets/footerImages/virement-bancaire-logo.png" alt="Virements">
-        <img class="img" src="./assets/footerImages/téléchargement.png" alt="Chèques">
+        <img class="img" src="./assets/footerImages/images.jpg" alt="Chèques">
       </div>
     </div>
-    <div id="bottom">
+    <div id="bottom_footer">
         <ul style="text-align: center">
           <li>
             <router-link to="/MentionsLegales/" class="footerLink">
@@ -267,7 +275,7 @@ footer{
 footer .img{
   height: 40px;
 }
-#top{
+#top_footer{
   height:50px ;
   display: flex;
   justify-content: center;
@@ -279,7 +287,7 @@ footer .img{
   display: flex;
   justify-content: space-around;
 }
-#bottom {
+#bottom_footer {
   background-color: #007057;
   height: 100px;
   display: flex;
@@ -566,6 +574,10 @@ a:hover span{
 #span2{
   left: 265px;
   width:140px;
+}
+#span3{
+  left: 475px;
+  width:85px;
 }
 .router-link-active span {
   color: #F18F01;

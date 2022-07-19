@@ -49,6 +49,7 @@ export default {
   justify-content: space-between;
   color: #007057;
   font-weight : bold;
+  padding-right: 17px;
 }
 p{
   padding: 5px 0;
@@ -57,16 +58,19 @@ p{
   font-family: 'Segoe UI', sans-serif;
 }
 .contain-img{
-  height: 250px;
   overflow:hidden;
   margin-bottom: 20px;
 }
 img{
-  width: 250px;
+  width: 100%;
   height: 250px;
   object-fit: cover;
   display: inline;
   transition: .5s ease ;
+}
+#produit{
+  width: 270px;
+  height: 380px;
 }
 span{
   display: block;
@@ -98,7 +102,7 @@ span{
 }
 .disponibility{
   position: absolute;
-  bottom: -10px;
+  bottom: 10px;
   font-size: .7em;
 }
 </style>

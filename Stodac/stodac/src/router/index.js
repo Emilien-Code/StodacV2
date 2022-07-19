@@ -85,6 +85,11 @@ const routes = [
     component: () => import('../views/ModifierArticle')
   },
   {
+    path:"/assistance/",
+    name  : "assistance",
+    component: () => import('../views/assistance')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
   },
