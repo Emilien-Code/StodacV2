@@ -332,8 +332,8 @@ exports.addpanier = (req, res) => {
             console.log(obj.qty)
             if(err){
                 console.log(err)
-                pasbon.push(obj.article.name)
-            } else if ((docs[0].qty - obj.qty) >= 0){
+                // pasbon.push(obj.article.name)
+            } else {
                 console.log(req.params.id)
                 if (req.body.modeDeLivraison != "surPlace"){
                     poids_ttl += obj.article.poids * obj.qty
@@ -345,21 +345,18 @@ exports.addpanier = (req, res) => {
                 User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price,articlePriceHT:Math.round((obj.article.price/1.2)*100)/100, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
-            } else {
-                console.log("ifjeifehfoiehiofh")
-                pasbon.push(obj.article._id)
             }
-            if (pasbon.length > 0){
-                console.log("azazazeezzeezzeezezee")
-                prix_obj_ttl = 0
-                User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
-                    if(err) console.log(err);
-                });
-                // envoyer un petit message pour dire que la liste la des composant n'est pu disponible dans c quantité.
-            } else {
-                console.log("opp")
-                // dire que tout est ok !
-            }
+            // if (pasbon.length > 0){
+            //     console.log("azazazeezzeezzeezezee")
+            //     prix_obj_ttl = 0
+            //     User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
+            //         if(err) console.log(err);
+            //     });
+            //     // envoyer un petit message pour dire que la liste la des composant n'est pu disponible dans c quantité.
+            // } else {
+            //     console.log("opp")
+            //     // dire que tout est ok !
+            // }
             console.log("ici par contre...")
             console.log(prix_ttl)
             // User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
@@ -462,6 +459,12 @@ exports.newCommand = (req, res) => {
                             materiels_crea.push(materiel)
                             console.log(object.poids)
                             poids += object.poids;
+                            let retire = -1 * object.qty
+                            Thing.updateOne({_id:object.articleID},{$inc:{qty:retire}}, (err, docs) =>{
+                                console.log("ceci est l'update")
+                                if(err) console.log(err);
+                                else{console.log(docs)}
+                            })
                         })
                         //console.log("jaifini")
                         const facture_crea = {
@@ -484,8 +487,8 @@ exports.newCommand = (req, res) => {
                             numerocommande = "0"+numerocommande
                         }
                         let livraison
-                        console.log("c la que ca pose pb enfaite ca casse les couilles la !")
-                        console.log(docsancien)
+                        //console.log("c la que ca pose pb enfaite ca casse les couilles la !")
+                        //console.log(docsancien)
                         if(docsancien.saveLivraison.modeDeLivraison === "domicile"){
                             livraison = {
                                 adresse:{
@@ -553,7 +556,7 @@ exports.newCommand = (req, res) => {
                                 commercial_name: process.env.COLISSIMO_USER               // used for notifications
                             }
                         }).then (infos => {
-                            console.log (infos)
+                            //console.log (infos)
                             lacommande.pdf = infos.label
                             lacommande.suiviColissimo = infos.tracking_number
                             User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
@@ -563,7 +566,7 @@ exports.newCommand = (req, res) => {
 
                                 res.send()
 
-                                console.log(poids)
+                                //console.log(poids)
                                 
                                 sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl}, req.body.email)
 
@@ -591,7 +594,7 @@ exports.newCommand = (req, res) => {
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
-                            console.log(poids)
+                            //console.log(poids)
                             //c moche mais ca fais le taff :(
                             lacommande.pdf = ""
                             lacommande.suiviColissimo = "error"
