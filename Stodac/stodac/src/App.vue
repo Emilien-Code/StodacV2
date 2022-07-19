@@ -82,7 +82,7 @@
 
   <div class="banner">
     <h1 class="titre">Stodac.</h1>
-    <p class="slogan">Vente de poêles à granulés et assistance technique.</p>
+    <p class="slogan">Vente d'accessoires et pièces détachées pour poêles à granulés de bois.</p>
   </div>
 
 
@@ -94,31 +94,31 @@
   <Pannier v-if="pannier"/>
   <footer>
 
+    <div id="top">
+      <div id="payements">
+        <img class="img" src="./assets/footerImages/pay-pal-png.webp" alt="Paypal">
+        <img class="img" src="./assets/footerImages/virement-bancaire-logo.png" alt="Virements">
+        <img class="img" src="./assets/footerImages/téléchargement.png" alt="Chèques">
+      </div>
+    </div>
+    <div id="bottom">
+        <ul style="text-align: center">
+          <li>
+            <router-link to="/MentionsLegales/" class="footerLink">
+              Mention légales
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
+              Conditions générales de vente
+            </router-link>
+          </li>
+          <li>
+            © Stodac tous droits réservés
+          </li>
+        </ul>
 
-    <ul>
-      <li>
-        <router-link to="/MentionsLegales/" class="footerLink">
-          Mention légales
-        </router-link>
-      </li>
-      <li>
-        <router-link to="/conditionsGeneralesDeVente/" class="footerLink">
-          Conditions générales de vente
-        </router-link>
-      </li>
-    </ul>
-
-    <ul>
-      <li>
-        Paypal
-      </li>
-      <li>
-        Cheque
-      </li>
-      <li>
-        Virements
-      </li>
-    </ul>
+    </div>
 
 
   </footer>
@@ -258,15 +258,33 @@ footer ul{
 
 footer{
   position: relative;
+  bottom: 0px;
+  margin-top: 50px;
+  height: 150px;
+  color: white;
+  z-index: 5;
+}
+footer .img{
+  height: 40px;
+}
+#top{
+  height:50px ;
   display: flex;
   justify-content: center;
   align-items: center;
-  bottom: 0px;
-  margin-top: 50px;
-  height: 100px;
+  background-color: #FFFFFF;
+}
+#payements{
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+#bottom {
   background-color: #007057;
-  color: white;
-  z-index: 5;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .footerLink{
   padding: 10px;

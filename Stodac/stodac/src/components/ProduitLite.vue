@@ -62,9 +62,9 @@ p{
   margin-bottom: 20px;
 }
 img{
-  width: 100%;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
-  height: 100%;
   display: inline;
   transition: .5s ease ;
 }

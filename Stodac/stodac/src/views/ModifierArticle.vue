@@ -159,6 +159,7 @@ export default {
           this.item.qty =  response.data[0].qty
           this.item.reference =  response.data[0].reference
           this.item.state =  response.data[0].state
+          this.compatibilities = response.data[0].compatibility.length
         })
         .catch((error)=>{
           console.log(error)
