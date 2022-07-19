@@ -332,8 +332,8 @@ exports.addpanier = (req, res) => {
             console.log(obj.qty)
             if(err){
                 console.log(err)
-                pasbon.push(obj.article.name)
-            } else if ((docs[0].qty - obj.qty) >= 0){
+                // pasbon.push(obj.article.name)
+            } else {
                 console.log(req.params.id)
                 if (req.body.modeDeLivraison != "surPlace"){
                     poids_ttl += obj.article.poids * obj.qty
@@ -345,21 +345,18 @@ exports.addpanier = (req, res) => {
                 User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price,articlePriceHT:Math.round((obj.article.price/1.2)*100)/100, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
-            } else {
-                console.log("ifjeifehfoiehiofh")
-                pasbon.push(obj.article._id)
             }
-            if (pasbon.length > 0){
-                console.log("azazazeezzeezzeezezee")
-                prix_obj_ttl = 0
-                User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
-                    if(err) console.log(err);
-                });
-                // envoyer un petit message pour dire que la liste la des composant n'est pu disponible dans c quantité.
-            } else {
-                console.log("opp")
-                // dire que tout est ok !
-            }
+            // if (pasbon.length > 0){
+            //     console.log("azazazeezzeezzeezezee")
+            //     prix_obj_ttl = 0
+            //     User.updateOne({_id:req.params.id}, {$set: {panier: []}}, (err, docs) =>{
+            //         if(err) console.log(err);
+            //     });
+            //     // envoyer un petit message pour dire que la liste la des composant n'est pu disponible dans c quantité.
+            // } else {
+            //     console.log("opp")
+            //     // dire que tout est ok !
+            // }
             console.log("ici par contre...")
             console.log(prix_ttl)
             // User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
