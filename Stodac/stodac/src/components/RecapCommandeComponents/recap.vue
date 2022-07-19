@@ -38,11 +38,7 @@ export default {
   name: "recap",
   methods: {
     more: function (i, a) {
-      console.log(i, a)
-      if (this.$store.state.pannier[i].qty < this.$store.state.pannier[i].article.qty) {
         this.$store.dispatch("addOne", a);
-        console.log(this.total);
-      }
     },
     less: function (i, a) {
       if (this.$store.state.pannier[i].qty > 1) {

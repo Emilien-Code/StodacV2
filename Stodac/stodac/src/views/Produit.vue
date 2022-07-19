@@ -21,6 +21,8 @@
           <button class="button" @click="addToPannier()">Ajouter au pannier</button>
         </div>
             <p v-if="this.qty > this.article.qty">{{article.qty}} article(s) en stock</p>
+            <p v-if="this.qty > this.article.qty" class="disponibility" style="color: #F18F01; font-weight: normal ;">Disponible sur commande (délais 7 - 10 jours)</p>
+
       </div>
     </section>
     <section id="deux">
@@ -68,9 +70,7 @@ export default {
   },
   methods:{
     more : function(){
-      if(this.qty<this.article.qty){
         this.qty+=1;
-      }
     },
     less : function(){
       if(this.qty>1){

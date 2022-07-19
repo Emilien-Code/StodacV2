@@ -60,10 +60,8 @@ export default {
       this.$parent.closePannier();
     },
     more : function(i, a){
-      console.log(i, a)
-      if(this.$store.state.pannier[i].qty<this.$store.state.pannier[i].article.qty){
         this.$store.dispatch("addOne",a)
-      }
+
     },
     less : function(i, a){
       if(this.$store.state.pannier[i].qty>1){
