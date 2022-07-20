@@ -7,6 +7,7 @@ const instance = axios.create({
 
 let user = localStorage.getItem('user');
 let pannier = localStorage.getItem('pannier');
+let adresseRetenu = localStorage.getItem('adresseRetenu');
 
 if(!pannier){
   pannier = []
@@ -36,6 +37,16 @@ if(!user){
     }
 }
 
+if(!adresseRetenu){
+  adresseRetenu = ''
+}else{
+  try{
+    adresseRetenu = JSON.parse(adresseRetenu);
+  }catch{
+    adresseRetenu = ''
+  }
+}
+
 export default createStore({
   state: {
     status:'',
@@ -57,7 +68,8 @@ export default createStore({
     },
     FDP:0,
     MDL:'',
-    parametrepayement:[]
+    parametrepayement:[],
+    retient_adresse:adresseRetenu
   },
   mutations: {
     setStatus: function(state, status){
@@ -167,13 +179,19 @@ export default createStore({
     saveparametrepayement:function(state, parametre){
       state.parametrepayement = parametre
       localStorage.setItem('parametrepayement', JSON.stringify(state.parametrepayement));
+    },
+    setRetientAdresse:function(state, adresse){
+      state.retient_adresse = adresse
+      localStorage.setItem('adresseRetenu', JSON.stringify(state.retient_adresse))
     }
   },
   actions: {
-    login : ({commit}, userInfos) => {
+    login : ({commit}, parametre) => {
       commit('setStatus', 'loading');
+      //userInfos = parametre[0]
+      commit('setRetientAdresse',parametre[1])
       return new Promise((resolve, reject) =>{
-        instance.post('/user/login/mail', userInfos)
+        instance.post('/user/login/mail', parametre[0])
         .then(function (response) {
           commit('setStatus', 'Connecté');
           commit('logUser', response.data);
@@ -424,6 +442,9 @@ export default createStore({
     lessOne : ({commit}, a) =>{
       commit('lessOneQty', a)
     },
+    setAdresse : ({commit}, adresse) => {
+      commit('setRetientAdresse',adresse)
+    }
   },
   modules: {
   }
