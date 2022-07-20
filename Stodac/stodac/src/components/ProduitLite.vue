@@ -43,11 +43,15 @@ export default {
 }
 .product-name{
   font-size: 1.2em;
+  padding-right: 17px;
 }
 .product-price{
+  position: absolute ;
   display: flex;
   justify-content: space-between;
   color: #007057;
+  width: 260px;
+  bottom: 40px;
   font-weight : bold;
   padding-right: 17px;
 }
@@ -69,8 +73,8 @@ img{
   transition: .5s ease ;
 }
 #produit{
-  width: 270px;
-  height: 380px;
+  width: 260px;
+  height: 400px;
 }
 span{
   display: block;
@@ -102,7 +106,7 @@ span{
 }
 .disponibility{
   position: absolute;
-  bottom: 10px;
+  bottom: -15px;
   font-size: .7em;
 }
 </style>
