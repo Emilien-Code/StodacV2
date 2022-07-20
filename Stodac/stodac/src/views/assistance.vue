@@ -46,14 +46,10 @@ export default {
   name: "assistance",
   methods:{
     clicked : function(el){
-      console.log(el)
       this.$router.push("/").then(()=>{
-        console.log("pushed")
-
         setTimeout(()=>{
-          //Modifier avec promesse pour avoir l'exec dès que c'est chargé mais jsp encore comment fair. En fait si j'ai une idée
           this.$store.dispatch('getStufsCategory', el)
-        },1000)
+        },100)
 
       })
     }
