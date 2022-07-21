@@ -28,6 +28,10 @@
       <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
     </div>
 
+    <div v-if="mode === 'login'">
+      <input id="checkbox" type="checkbox" v-model="check">
+      <span id="CDV">Se souvenir de moi</span>
+    </div>
 
     <div class="form-row" id="cap" v-if="mode === 'create'">
       <VueRecaptcha ref="recaptcha" sitekey="6LdK3p0fAAAAAEqnAuVYJqXnbaO8f8kRs9FqMXUG" @verify="verifyMethod" @expired="expiredMethod" :loadRecaptchaScript="true"></VueRecaptcha>
@@ -78,13 +82,18 @@ export default {
       passwordVerif:'',
       closeLogin: false,
       captcha:false,
-      isOpen: false
+      isOpen: false,
+      check:false
     }
   },
   mounted() {
     setTimeout(()=>{
       this.isOpen = true;
     }, 500)
+    if(this.$store.state.retient_adresse != ''){
+      this.email = this.$store.state.retient_adresse
+      this.check = true
+    }
   },
   components: { VueRecaptcha },
   computed: {
@@ -137,10 +146,14 @@ export default {
     },
     login: function(){
       if(this.validatedFields) {
-        this.$store.dispatch('login', {
+        let retient_adresse = ''
+        if(this.check){
+          retient_adresse = this.email
+        }
+        this.$store.dispatch('login', [{
           email: this.email,
           password: this.password
-        }).then(function () {
+        },retient_adresse]).then(function () {
           console.log("user loggedIn")
         })
             .catch(function (error) {
@@ -175,6 +188,12 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 
+.SSDM{
+    display: flex;
+    margin: 16px 0;
+    gap:16px;
+    flex-wrap: wrap;
+  }
 .form-row {
     display: flex;
     margin: 16px 0;
@@ -238,6 +257,34 @@ export default {
 }
 #close span:nth-child(2){
   transform:rotate(-45deg);
+}
+#checkbox {
+  top:4px;
+  -webkit-appearance: none;
+  background-color: #acacac;
+  border: none;
+  padding: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+}
+#checkbox:checked {
+   background-color: #078A6C;
+   color: #99a1a7;
+ }
+
+#checkbox:checked:after {
+  content: '\2714';
+  font-size: 13px;
+  position: absolute;
+  top: 0px;
+  left: 6px;
+  color: #fff;
+}
+#CDV  {
+  color:#666;
+  margin: 10px;
+  font-weight: 400;
 }
 
 .card {
