@@ -2,7 +2,7 @@
   <div id="produit">
     <div class="contain-img">
       <img :src="produit.img" :alt="produit.name" srcset="">
-      <span>{{produit.description}}</span>
+      <span id="description">{{produit.description}}</span>
     </div>
     <div class="product-info">
         <p class="product-name">{{produit.name}}</p>
@@ -16,7 +16,7 @@
         <p v-if="produit.qty<=0" class="disponibility" style="color: #F18F01; font-weight: normal ;">Disponible sur commande (délais 7 - 10 jours)</p>
 
         </div>
-        <p>{{produit.price}}€</p>
+        <p>{{produit.price}}€ <span id="ttc">TTC</span></p>
       </div>
       </div>
     </div>
@@ -42,18 +42,20 @@ export default {
   font-size: .8em;
 }
 .product-name{
-  font-size: 1.2em;
+  font-size: 1em;
+  font-weight: bold;
   padding-right: 17px;
 }
 .product-price{
-  position: absolute ;
   display: flex;
   justify-content: space-between;
   color: #007057;
   width: 260px;
-  bottom: 40px;
   font-weight : bold;
   padding-right: 17px;
+}
+#ttc  {
+  font-size: .8em;
 }
 p{
   padding: 5px 0;
@@ -76,7 +78,7 @@ img{
   width: 260px;
   height: 400px;
 }
-span{
+#description{
   display: block;
   position: absolute;
   z-index: 10;
@@ -96,7 +98,7 @@ span{
   transition: .5s ease ;
   filter: blur(1000px);
 }
-#produit:hover span{
+#produit:hover #description{
   transition: .5s ease ;
   opacity: 1;
 }
@@ -105,8 +107,6 @@ span{
   transition: .5s ease;
 }
 .disponibility{
-  position: absolute;
-  bottom: -15px;
   font-size: .7em;
 }
 </style>

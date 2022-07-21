@@ -5,6 +5,7 @@ const stuffCtrl = require("../controller/stuff");
 
 //router.get('/', utilsCtrl.getColissimoToken)
 router.get('/token', utilsCtrl.getColissimoToken);
+router.post('/mail', utilsCtrl.contactEmail);
 
 
 module.exports = router

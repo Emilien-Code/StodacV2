@@ -21,6 +21,7 @@
 
 <script>
 import {VueRecaptcha} from "vue-recaptcha";
+const axios = require("axios")
 
 let clickOutside = function(el, binding) {
   el.clickOutsideEvent = function (event) {
@@ -63,10 +64,14 @@ export default {
     },
     send: function (){
       if (this.captcha && this.msg != '' && this.email != '' && !this.alreadyClicked){
-        console.log("LETSGO");
-        this.alreadyClicked = true
-        this.error =  ""
-        this.result = "Votre message à bien été envoyé. Une réponse vous sera transmise a l'adresse indiquée."
+
+        axios.post("http://localhost:3000/api/utils/mail", {
+            mail: this.email,
+            message: this.msg
+        })
+          this.alreadyClicked = true
+          this.error =  ""
+          this.result = "Votre message à bien été envoyé. Une réponse vous sera transmise a l'adresse indiquée."
       } else{
         if(this.alreadyClicked){
           this.error =  ""

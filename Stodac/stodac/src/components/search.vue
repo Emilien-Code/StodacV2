@@ -222,6 +222,7 @@ img{
   position: absolute;
   top: 275px;
   left : 60px;
+  overflow: hidden;
 }
 input {
   padding: 10px;
@@ -253,6 +254,7 @@ ul{
   list-style: none;
 }
 li{
+  overflow: hidden;
   cursor:pointer;
   border-radius: 10px;
 }

@@ -13,17 +13,17 @@
   <ul>
     <li>Vérifier prise, fusible:
       <ul>
-        <li><button @click="clicked('Écran')">Écran</button></li>
-        <li><button @click="clicked('Carte éléctronique')">Carte éléctronique</button></li>
+        <li><button @click="clicked('Ecran | Afficheur | Display')">Écran</button></li>
+        <li><button @click="clicked('Carte électronique')">Carte électronique</button></li>
       </ul>
     </li>
   </ul>
 
   <h2>Mon poêle fait du bruit: </h2>
   <ul>
-    <li><button @click="clicked('Ventilateur centrifuge')">Ventilateur centrifuge </button></li>
-    <li><button @click="clicked('Ventilateur tangentiel')">Ventilateur tangentiel </button></li>
-    <li><button @click="clicked('Extracteur')">Extracteur</button></li>
+    <li><button @click="clicked('Ventilateur')">Ventilateur centrifuge </button></li>
+    <li><button @click="clicked('Ventilateur')">Ventilateur tangentiel </button></li>
+    <li><button @click="clicked('Extracteur fumées')">Extracteur</button></li>
     <li><button @click="clicked('Motoreducteur')"> Motoreducteur</button></li>
   </ul>
 
@@ -97,7 +97,7 @@ button{
   height: 2px;
 }
 #test {
-  height: 70vh;
+  height: calc(70vh + (250px - 10vw));
 }
 @media (max-width: 780px) {
   #assistance {
