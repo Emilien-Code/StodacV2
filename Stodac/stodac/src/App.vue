@@ -104,9 +104,12 @@
 
     <div id="top_footer">
       <div id="payements">
+        <p style="color: #2c3e50">Payement 100% sécurisé</p>
         <img class="img" src="./assets/footerImages/pay-pal-png.webp" alt="Paypal">
         <img class="img" src="./assets/footerImages/virement-bancaire-logo.png" alt="Virements">
         <img class="img" src="./assets/footerImages/images.jpg" alt="Chèques">
+        <a href="mailto:contact@stodac.fr" style="color: #078A6C">contact@stodac.fr</a>
+
       </div>
     </div>
     <div id="bottom_footer">
@@ -287,9 +290,10 @@ footer .img{
   background-color: #FFFFFF;
 }
 #payements{
-  width: 30%;
+  width: 40%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 #bottom_footer {
   background-color: #007057;
