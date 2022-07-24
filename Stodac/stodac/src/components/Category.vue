@@ -3,7 +3,7 @@
     <button @click="isCategoryClicked()">{{nameCategory}}
       <span :class="{selectedArrow: clicked, unselectedArrow:!clicked}"></span>
     </button>
-    <div v-if="clicked">
+    <div id="test" v-if="clicked">
       <ul>
         <li v-for="(cat,index) in category" :key="index" @click="isSelected(index)" :class="{'selected' : selection[index]}">{{cat}}</li>
       </ul>
@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
+    axios.get('http://192.168.1.51:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
   },
   directives:{
     clickOutside
@@ -141,5 +141,21 @@ button:hover, li:hover{
 }
 .selected{
   background-color: rgba(0, 0, 0, 0.24);
+}
+#test::-webkit-scrollbar {
+  width: 5px;               /* width of the entire scrollbar */
+}
+#category::-webkit-scrollbar {
+  width: 0px;               /* width of the entire scrollbar */
+}
+#test::-webkit-scrollbar-track {
+  background: none;        /* color of the tracking area */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+
+}
+
+#test::-webkit-scrollbar-thumb {
+  background-color: #2c3e50;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
 }
 </style>

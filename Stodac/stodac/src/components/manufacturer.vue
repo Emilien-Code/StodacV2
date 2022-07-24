@@ -3,7 +3,7 @@
     <button @click="isClicked()">{{nameMarque}}
       <span :class="{selectedArrow: clicked, unselectedArrow:!clicked}"></span>
     </button>
-    <div v-if="clicked">
+    <div id="test" v-if="clicked">
       <ul>
         <li v-for="(man, index) in manufacture" @click="isSelected(index)" :key="index" :class="{'selected' : selection[index]}">{{man}}</li>
       </ul>
@@ -140,5 +140,21 @@ button:hover, li:hover{
 }
 .selected{
   background-color: rgba(0, 0, 0, 0.24);
+}
+#test::-webkit-scrollbar {
+  width: 5px;               /* width of the entire scrollbar */
+}
+#manufacturer::-webkit-scrollbar {
+  width: 0px;
+}
+#test::-webkit-scrollbar-track {
+  background: none;        /* color of the tracking area */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+
+}
+
+#test::-webkit-scrollbar-thumb {
+  background-color: #2c3e50;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
 }
 </style>

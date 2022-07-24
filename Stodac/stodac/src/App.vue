@@ -25,11 +25,11 @@
         <span></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/add/">
-        Ajouter
+        Ajouter un article
         <span></span>
       </router-link>
       <router-link v-if="userInfos.admin" to="/gestionstocks/">
-        Gestion stocks
+        Gestion des stocks / Articles
         <span></span>
       </router-link>
     </div>
@@ -220,6 +220,10 @@ export default {
 </script>
 
 <style>
+html, body{
+  max-width: 100%;
+  overflow-x: hidden;
+}
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 #nbPannier{
   position: absolute;

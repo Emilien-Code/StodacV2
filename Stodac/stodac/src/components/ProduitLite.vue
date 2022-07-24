@@ -107,6 +107,8 @@ img{
   transition: .5s ease;
 }
 .disponibility{
+  position: relative;
+  bottom: 7px;
   font-size: .7em;
 }
 </style>
