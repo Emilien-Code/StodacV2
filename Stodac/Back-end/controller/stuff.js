@@ -86,7 +86,7 @@ exports.createNewStuff = (req, res)=>{
         state: req.body.state,
         description: req.body.description,
         compatibility: JSON.parse(req.body.compatibility),
-        img: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        img: `https://stodac.fr/api/images/${req.file.filename}`
     })
     thing.save()
         .then(() => res.status(201).json({ message: "Article enregistré" }))

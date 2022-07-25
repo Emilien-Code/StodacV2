@@ -8,8 +8,8 @@
       </div>
       <div id="stuff-container">
         <div id="stuff-wrapper">
-            <div v-for="item in $store.state.stuffs" :key="item._id" class="product" tabindex="0">
-              <ProduitLite class="Products" :produit="item" @click="pushToID(item)"/>
+            <div v-for="(item, index) in $store.state.stuffs" :key="item._id" class="product" tabindex="0">
+              <ProduitLite class="Products" :produit="item" :id="index" @click="pushToID(item)"/>
             </div>
           <p v-if="noItems">Aucun article dans cette catégorie</p>
         </div>
@@ -78,6 +78,9 @@ export default {
     loadMore : function(nb){
       this.nbLoadMore++;
       this.$store.dispatch('getStufs', nb)
+          setTimeout(()=>{
+            window.scroll(0,0);
+          }, 100)
       //.then(()=>{console.log('Stuffs chargés')})
       .catch(()=>{console.log('Impossible de charger les Stuffs')})
     }
