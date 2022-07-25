@@ -12,7 +12,7 @@ require('dotenv').config()
 
 
 mongoose.connect(
-    "mongodb://"+process.env.BDD_USER+":"+process.env.BDD_MDP+"@"+process.env.BDD_NAME+"/stodac",
+    "mongodb+srv://"+process.env.BDD_USER+":"+process.env.BDD_MDP+"@"+process.env.BDD_NAME+"/stodac?retryWrites=true&w=majority",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -35,7 +35,7 @@ app.use((req, res, next)=>{
 })
 app.use(cors())
 app.use(bodyParser.json());
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/facture', factureRoutes);

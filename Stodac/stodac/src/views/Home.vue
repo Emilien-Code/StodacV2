@@ -128,9 +128,7 @@ export default {
   border-radius: 10px;
   cursor: pointer;
   overflow:hidden;
-  width: 20%;
-  min-width: 250px;
-  max-width: 300px;
+  width: 300px;
 }
 @media (max-width: 1200px) {
   .product{

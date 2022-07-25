@@ -175,7 +175,7 @@ export default {
     },
     yes: function(){
       this.validationPopup = false
-      axios.put(`http://localhost:3000/api/stuff/${this.articleId}`,{
+      axios.put(`https://stodac.fr/api/stuff/${this.articleId}`,{
         image: this.item.img,
         name: this.item.name,
         manufacturer: this.item.manufacturer,

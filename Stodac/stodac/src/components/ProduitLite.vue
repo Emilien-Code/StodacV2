@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <style scoped>
-@import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+@import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
 .product-info{
   padding: 5px;
   margin-bottom: 20px;
@@ -64,7 +64,7 @@ export default {
   display: flex;
   justify-content: space-between;
   color: #007057;
-  width: 260px;
+  width: 300px;
   font-weight : bold;
   padding-right: 17px;
 }
@@ -81,8 +81,19 @@ p{
   overflow:hidden;
   margin-bottom: 20px;
 }
+#imgLoader::before{
+  position: absolute;
+  top: 0;
+  left:0;
+  content: " ";
+  width: 100%;
+  height: 250px;
+  background-color: #ffffff;
+  z-index: 1;
+}
 #imgLoader{
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100%;
@@ -93,15 +104,16 @@ p{
   animation: skeleton 0.8s ease-in-out infinite alternate;
 }
 img{
-  width: 100%;
+  z-index: 0;
+  width: 300px;
   height: 250px;
   object-fit: cover;
   display: inline;
   transition: .5s ease ;
 }
 #produit{
-  width: 260px;
-  height: 400px;
+  width: 300px;
+  height: 415px;
 }
 #description{
   display: block;

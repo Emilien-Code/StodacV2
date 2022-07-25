@@ -45,7 +45,7 @@
 
   <div id="responsabilites">
     <h2>LIMITATIONS DE RESPONSABLITES</h2>
-    <p>  AMC EST ne pourra être tenue responsable des dommages directs et indirects causés au matériel de l’utilisateur, lors de l’accès au site http://stodac.fr, et résultant soit de l’utilisation d’un matériel non adapté ou défectueux, soit de l’apparition d’un bug ou d’une incompatibilité.</p>
+    <p>  AMC EST ne pourra être tenue responsable des dommages directs et indirects causés au matériel de l’utilisateur, lors de l’accès au site https://stodac.fr, et résultant soit de l’utilisation d’un matériel non adapté ou défectueux, soit de l’apparition d’un bug ou d’une incompatibilité.</p>
     <p>  AMC EST ne pourra également être tenue responsable des dommages indirects (tels par exemple qu’une perte de marché ou perte d’une chance) consécutifs à l’utilisation du site stodac.fr.</p>
     <p>  Des espaces interactifs (possibilité de poser des questions dans l’espace contact) sont à la disposition des utilisateurs. AMC EST se réserve le droit de supprimer, sans mise en demeure préalable, tout contenu déposé dans cet espace qui contreviendrait à la législation applicable en France, en particulier aux dispositions relatives à la protection des données. Le cas échéant, AMC EST se réserve également la possibilité de mettre en cause la responsabilité civile et/ou pénale de l’utilisateur, notamment en cas de message à caractère raciste, injurieux, diffamant, ou pornographique, quel que soit le support utilisé (texte, photographie…).</p>
   </div>
@@ -98,9 +98,9 @@
   <ul>
     <li>  gratuité de la diffusion</li>
     <li>  respect de l'intégrité des documents reproduits (aucune modification, ni altération d'aucune sorte)</li>
-    <li>  mention obligatoire : "© AMC EST - http://stodac.fr - droits réservés". Cette mention pointera grâce à un lien hypertexte directement sur le contenu</li>
+    <li>  mention obligatoire : "© AMC EST - https://stodac.fr - droits réservés". Cette mention pointera grâce à un lien hypertexte directement sur le contenu</li>
     <li>  insertion d'une icône représentant le site internet</li>
-    <li>  Les organismes sous tutelle ainsi que les autres ministères sont dispensés de cette demande d'autorisation sous réserve d'insertion de la mention : "© AMC EST - http://stodac.fr - droits réservés". Cette mention pointera grâce à un lien hypertexte directement sur le contenu.</li>
+    <li>  Les organismes sous tutelle ainsi que les autres ministères sont dispensés de cette demande d'autorisation sous réserve d'insertion de la mention : "© AMC EST - https://stodac.fr - droits réservés". Cette mention pointera grâce à un lien hypertexte directement sur le contenu.</li>
   </ul>
 </div>
 

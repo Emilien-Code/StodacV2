@@ -65,7 +65,7 @@ export default {
     send: function (){
       if (this.captcha && this.msg != '' && this.email != '' && !this.alreadyClicked){
 
-        axios.post("http://localhost:3000/api/utils/mail", {
+        axios.post("https://stodac.fr/api/utils/mail", {
             mail: this.email,
             message: this.msg
         })

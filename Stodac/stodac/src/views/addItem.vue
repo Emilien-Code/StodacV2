@@ -134,11 +134,11 @@ export default {
       this.$router.push('/login/add');
     }
     this.$store.dispatch('getUserInfos');
-    axios.get('http://localhost:3000/api/stuff/manufacturer')
+    axios.get('https://stodac.fr/api/stuff/manufacturer')
         .then((response)=>{
           this.manufactureList = response.data;
         })
-    axios.get('http://localhost:3000/api/stuff/categories')
+    axios.get('https://stodac.fr/api/stuff/categories')
         .then((response)=>{
           this.categoryList = response.data;
         })
@@ -172,7 +172,7 @@ export default {
     yes: function (){
       this.validationPopup=false
 
-      axios.post('http://localhost:3000/api/stuff/',this.fd)
+      axios.post('https://stodac.fr/api/stuff/',this.fd)
           .then(()=>{
             this.isFileAded=true
           });

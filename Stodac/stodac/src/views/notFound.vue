@@ -15,14 +15,14 @@
           <div id="arrow-container">
             <div @click="previousImg()" :class="{'arrow': true}" id="left_arrow">
               <div :class="{'leftArrowClicked': leftArrow}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
+                <svg width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
                   <line id="Ligne_11" data-name="Ligne 11" x2="88" transform="translate(0 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_12" data-name="Ligne 12" x2="19" y2="19" transform="translate(69 0.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_13" data-name="Ligne 13" x1="19" y2="19" transform="translate(69 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                 </svg>
               </div>
               <div :class="{'leftArrowClicked': leftArrow}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="88.354" height="38.707" viewBox="0 0 88.354 38.707" >
+                <svg width="88.354" height="38.707" viewBox="0 0 88.354 38.707" >
                   <line id="Ligne_11" data-name="Ligne 11" x2="88" transform="translate(0 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_12" data-name="Ligne 12" x2="19" y2="19" transform="translate(69 0.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_13" data-name="Ligne 13" x1="19" y2="19" transform="translate(69 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
@@ -31,14 +31,14 @@
             </div>
             <div @click="nextImg()" :class="{'arrow': true}" id="right_arrow">
               <div :class="{'rightArrowClicked': rightArrow}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
+                <svg width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
                   <line id="Ligne_11" data-name="Ligne 11" x2="88" transform="translate(0 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_12" data-name="Ligne 12" x2="19" y2="19" transform="translate(69 0.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_13" data-name="Ligne 13" x1="19" y2="19" transform="translate(69 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                 </svg>
               </div>
               <div :class="{'rightArrowClicked': rightArrow}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
+                <svg width="88.354" height="38.707" viewBox="0 0 88.354 38.707">
                   <line id="Ligne_11" data-name="Ligne 11" x2="88" transform="translate(0 19.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_12" data-name="Ligne 12" x2="19" y2="19" transform="translate(69 0.354)" fill="none" stroke="#fff" stroke-width="1"/>
                   <line id="Ligne_13" data-name="Ligne 13" x1="19" y2="19" transform="translate(69 19.354)" fill="none" stroke="#fff" stroke-width="1"/>

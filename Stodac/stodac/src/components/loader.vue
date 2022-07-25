@@ -8,7 +8,7 @@
 
 
 
-<div class="loader-container">  <svg id="logo_stodac" xmlns="http://www.w3.org/2000/svg" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
+<div class="loader-container">  <svg id="logo_stodac" width="122.505" height="50px" viewBox="0 0 122.505 118.342">
   <rect id="Rectangle_66" data-name="Rectangle 66" width="96" height="84" rx="42" transform="translate(0 41.392) rotate(-25)" fill="#078a6c"/>
   <text id="S" transform="translate(36.253 82.171)" fill="#fff" font-size="63" font-family="Poppins" font-weight="700"><tspan x="0" y="0">S</tspan></text>
   <circle id="Ellipse_6" data-name="Ellipse 6" cx="6" cy="6" r="6" transform="translate(79.253 71.171)" fill="#fff"/>

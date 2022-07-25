@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
+    axios.get('https://stodac.fr/api/stuff/categories').then((response)=>{this.category = response.data;})
   },
   directives:{
     clickOutside
