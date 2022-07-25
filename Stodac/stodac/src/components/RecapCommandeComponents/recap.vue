@@ -47,7 +47,7 @@ export default {
     },
     supr: function (a) {
       this.$store.dispatch("suprPannier", a)
-      console.log(a)
+      //console.log(a)
     },
     majLS: function () {
       localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));

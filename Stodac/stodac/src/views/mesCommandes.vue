@@ -49,7 +49,7 @@ export default {
       this.$router.push({name:`facture`, params:{numfacture: nomFacture}});
     },
     test:function(){
-      console.log("capasse")
+      //console.log("capasse")
     }
   },
   computed: {

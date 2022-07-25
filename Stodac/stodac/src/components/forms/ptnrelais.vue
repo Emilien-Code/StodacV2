@@ -29,7 +29,7 @@ export default {
   methods:{
     callColissimo: function(){
       axios.get('http://localhost:3000/api/utils/token').then((response) => {
-        console.log(response.data.token)
+        //console.log(response.data.token)
         $('#widget-container').frameColissimoOpen({
           "ceLang" : "fr",
           "URLColissimo": " https://ws.colissimo.fr",

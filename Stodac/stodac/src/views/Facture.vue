@@ -75,7 +75,7 @@ export default {
     this.$store.dispatch('getUserInfos').then(()=>{
       this.$store.dispatch('getFacture', this.$route.params.numfacture).then((resul)=>{
         this.commande = resul.comande[0]
-        console.log(this.commande)
+        //console.log(this.commande)
       })
     })
   },

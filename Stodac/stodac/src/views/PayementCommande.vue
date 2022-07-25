@@ -123,7 +123,7 @@ export default {
         document.getElementById("complement").value = this.$store.state.userInfos.saveLivraison.adresse.complement
       }
       this.isLoading = false
-      console.log(this.userInfos)
+      //console.log(this.userInfos)
     })
 
     if(this.$store.state.pannier.length === 0){
@@ -137,7 +137,7 @@ export default {
     },
     changeMDP: function(e){
       this.MDP = e
-      console.log(this.MDP)
+      //console.log(this.MDP)
     },
     reco : function(){
       this.$store.commit('logOut');
@@ -170,7 +170,7 @@ export default {
       })
     },
     sc : function(){
-      console.log("OnEnvoies : print loader")
+      //console.log("OnEnvoies : print loader")
       this.isLoading = true
     },
     jaichoisi: function(lechoix){

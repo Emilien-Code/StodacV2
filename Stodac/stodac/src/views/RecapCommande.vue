@@ -103,7 +103,7 @@ export default {
       // this.$store.dispatch('saveMDL', this.modeDeLivraison)
       //     .then(()=>{console.log(this.$store.state.MDL)})
 
-      console.log(this.adresse)
+      //console.log(this.adresse)
       if(this.cdv && this.modeDeLivraison=="domicile" && this.$refs.livraison.isAdressComplete
           || this.cdv && this.modeDeLivraison=="pointRelais" &&  document.getElementById("pudoWidgetAddress1").value
           || this.cdv && this.modeDeLivraison=="surPlace"){
@@ -129,7 +129,7 @@ export default {
       window.open(routeData.href, '_blank');
     },
     saveFDP : function(prixFraisDePort){
-      this.$store.dispatch('saveFDP', prixFraisDePort).then(()=>console.log("Store : " + this.$store.state.FDP))
+      this.$store.dispatch('saveFDP', prixFraisDePort)
     }
   },
   computed: {

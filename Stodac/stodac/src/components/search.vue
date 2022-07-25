@@ -150,7 +150,7 @@ export default {
                 response.data.forEach(el=>{
                   this.resultArray[this.resultArray.length]=el
                 })
-                console.log(response.data)
+                //console.log(response.data)
               })
               .catch((error)=>{
                 console.log(error)

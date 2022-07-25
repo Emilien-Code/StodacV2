@@ -39,7 +39,7 @@ export default {
     const img = document.getElementById("img")
     img.style.display = "none"
     img.addEventListener("load",()=>{
-      this.isPictureLoaded = true
+      this.isPictureLoaded = true;
       img.style.display = "block"
     })
   }
@@ -82,6 +82,9 @@ p{
   margin-bottom: 20px;
 }
 #imgLoader{
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 250px;
   background-color: #4c4c4c;

@@ -48,7 +48,7 @@ export default {
     },
     getByCategory: function(category){
       if(category !== 'Catégories'){
-        console.log('catégory selected', category)
+        //console.log('catégory selected', category)
         this.$store.dispatch('getStufsCategory', category)
             .then(this.noItems = 1)
             .catch(this.noItems = 0)

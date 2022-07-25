@@ -125,7 +125,7 @@ export default {
       this.facture.adresse.streetNumber = this.$store.state.userInfos.streetNumber;
       this.facture.adresse.city = this.$store.state.userInfos.city;
       this.facture.adresse.postCode = this.$store.state.userInfos.postCode;
-      console.log(this.$store.state)
+      //console.log(this.$store.state)
     })
   },
   methods:{
@@ -149,9 +149,10 @@ export default {
             },
             onApprove: async (data, actions) => {
               const order = await actions.order.capture();
+              order
               this.data;
               this.paidFor = true;
-              console.log(order); // + Créer un nouvel élément dans la collection commande
+              //console.log(order); // + Créer un nouvel élément dans la collection commande
             },
             onError: err => {
               console.log(err);
@@ -160,10 +161,10 @@ export default {
           .render(this.$refs.paypal);
     },
     more : function(i, a){
-      console.log(i, a)
+      //console.log(i, a)
       if(this.$store.state.pannier[i].qty<this.$store.state.pannier[i].article.qty){
         this.$store.dispatch("addOne",a);
-        console.log(this.total);
+        //console.log(this.total);
       }
     },
     less : function(i, a){
@@ -173,7 +174,7 @@ export default {
     },
     supr : function(a){
       this.$store.dispatch("suprPannier", a)
-      console.log(a)
+      //console.log(a)
     },
     majLS : function(){
       localStorage.setItem('pannier', JSON.stringify(this.$store.state.pannier));
@@ -183,7 +184,7 @@ export default {
       //axios.post('http://localhost:3000/api/user/MA/' + this.userInfos.userID,this.facture.adresse, {headers:instance.defaults.headers.common['Authorization']}); //faire le lien ça race
     },
     reco : function(){
-      console.log('je suis la')
+      //console.log('je suis la')
       this.$store.commit('logOut');
       this.$router.push('/login/');
     },

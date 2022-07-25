@@ -152,7 +152,7 @@ export default {
           })
           this.item.description =  response.data[0].description
           this.item.img =  response.data[0].img
-          console.log(response.data[0].img)
+          //console.log(response.data[0].img)
           this.item.manufacturer =  response.data[0].manufacturer
           this.item.poids =  response.data[0].poids
           this.item.price =  response.data[0].price / 1.20

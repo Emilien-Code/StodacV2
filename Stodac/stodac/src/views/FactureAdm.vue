@@ -149,11 +149,11 @@ export default {
                 this.testcp = this.commande.facture.postCode
                 this.testemail = this.commande.facture.email
                 this.testtel = this.commande.facture.mobile
-                console.log("Facture :",this.commande)
+                //console.log("Facture :",this.commande)
             })
         }
     })
-    console.log(this.commande.prix)
+    //console.log(this.commande.prix)
   },
   methods:{
     afficheArticle:function(id){
@@ -194,7 +194,7 @@ export default {
             this.testemail = this.commande.facture.email
             this.testtel = this.commande.facture.mobile
         }
-        console.log(this.modifier)
+        //console.log(this.modifier)
     },
   },
   computed: {

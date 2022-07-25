@@ -65,10 +65,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getStufs', 1)
-      .then(()=>{ console.log("Stuffs loaded")})
+      //.then(()=>{ console.log("Stuffs loaded")})
       .catch(()=>{ console.log('Impossible de charger les Stuffs')})
     this.$store.dispatch('getStuffNb')
-      .then(()=>{console.log('nbStuff chargé')})
+      //.then(()=>{console.log('nbStuff chargé')})
       .catch(()=>{console.log('Impossible de charger le nombre Stuffs')})
   },
   methods:{
@@ -78,7 +78,7 @@ export default {
     loadMore : function(nb){
       this.nbLoadMore++;
       this.$store.dispatch('getStufs', nb)
-      .then(()=>{console.log('Stuffs chargés')})
+      //.then(()=>{console.log('Stuffs chargés')})
       .catch(()=>{console.log('Impossible de charger les Stuffs')})
     }
   },

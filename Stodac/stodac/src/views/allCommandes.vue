@@ -283,7 +283,7 @@ export default {
       })
     },
     rechercheAvancer:function(){
-      console.log(this.rechercheID)
+      //console.log(this.rechercheID)
       this.parametre.typerecherche = 2;
       this.parametre.recherche.Global="";
       this.rechercheGlobal=""
@@ -311,15 +311,15 @@ export default {
         this.ouvert = -1
       }
       else{
-        console.log(this.listCommandes[place])
+        //console.log(this.listCommandes[place])
         this.choixetat = this.listCommandes[place].comande.nometat[this.listCommandes[place].comande.etat]
         if(this.ouvert !== -1){
           document.getElementsByClassName("flechebasTableau")[0].className = 'flechecoteTableau'
         }
-        console.log(document.getElementsByClassName("flechecoteTableau")[place].className)
+        //console.log(document.getElementsByClassName("flechecoteTableau")[place].className)
         document.getElementsByClassName("flechecoteTableau")[place].className = 'flechebasTableau'
         this.ouvert = place
-        console.log(this.choixetat)
+        //console.log(this.choixetat)
       }
     },
     rechercheavancer:function(){
@@ -351,7 +351,7 @@ export default {
       })
     },
     actualize:function(){
-      console.log("ttte")
+      //console.log("ttte")
         const parametre = {
           parametre: this.parametre.type,
           limit:this.parametre.limit,

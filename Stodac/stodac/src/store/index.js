@@ -116,7 +116,7 @@ export default createStore({
         state.pannier.forEach(i => {
           if(i.article._id === a.article._id){
             i.qty += a.qty
-            console.log(' ' + i.qty)
+            //console.log(' ' + i.qty)
             hasBeenFound = true;
           }
         });
@@ -284,12 +284,12 @@ export default createStore({
       })
     },
     changeAddress : (state, address) =>{
-      console.log(state, address)
-      console.log(state.state.user)
+      //console.log(state, address)
+      //console.log(state.state.user)
       //instance.post('http://localhost:3000/api/user/MA/' + state.user.userID,address)
       instance.post(`/user/MA/${state.state.user.userID}`,address)
       .then(function(){
-        console.log('c passer')
+        //console.log('c passer')
       })
       .catch(function(error){
         console.log(error)
@@ -305,7 +305,7 @@ export default createStore({
         // console.log(adresseLivraison)
         // console.log(modeDeLivraison)
         const envoieca = {panier:state.state.parametrepayement[0],adresseLivraison:state.state.parametrepayement[1],modeDeLivraison:state.state.parametrepayement[2]}
-        console.log(envoieca)
+        //console.log(envoieca)
         instance.post(`/user/addpanier/${state.state.user.userID}`,envoieca)
         .then(function(){
           resolve()
@@ -317,11 +317,11 @@ export default createStore({
       })
     },
     resetpanier: ({commit, state}) => {
-      console.log("je suis passer !")
+      //console.log("je suis passer !")
       instance.get(`/user/resetpanier/${state.user.userID}`)
       .then(function(){
         commit('resetPanier')
-        console.log('c passer pour le reset')
+        //console.log('c passer pour le reset')
       })
       .catch(function(error){
         console.log(error)
@@ -332,7 +332,7 @@ export default createStore({
         instance.post(`/user/addCommande/${state.user.userID}`, option)
         .then(function(){
           commit('resetPanier') 
-          console.log('c passer pour le la facture')
+          //console.log('c passer pour le la facture')
           resolve()
         })
         .catch(function(error){
@@ -343,10 +343,10 @@ export default createStore({
     },
     getFacture:(state, numFacture) => {
       return new Promise((resolve, reject) => {
-        console.log(numFacture)
+        //console.log(numFacture)
         instance.get(`/user/facture/${state.state.user.userID}/${numFacture}`)
         .then(function(response){
-          console.log(response.data)
+          //console.log(response.data)
           resolve(response.data)
         })
         .catch(function(error){
@@ -357,10 +357,10 @@ export default createStore({
     },
     getFactureAdm:(state, numFacture) => {
       return new Promise((resolve, reject) => {
-        console.log(numFacture)
+        //console.log(numFacture)
         instance.get(`/user/factureAdm/${state.state.user.userID}/${numFacture}`)
         .then(function(response){
-          console.log(response.data)
+          //console.log(response.data)
           resolve(response.data)
         })
         .catch(function(error){
@@ -373,7 +373,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.post(`/user/allFacture/${state.state.user.userID}/`, parametre)
         .then(function(response){
-          console.log(response.data)
+          //console.log(response.data)
           resolve(response.data)
         })
         .catch(function(error){
@@ -427,7 +427,7 @@ export default createStore({
       commit('saveAdressM', ad)
     },
     timeout : ({commit, state}) =>{
-      console.log('au moins ça marche')
+      //console.log('au moins ça marche')
       commit('changeUserID', state)
     },
     addPannier : ({commit}, a) =>{

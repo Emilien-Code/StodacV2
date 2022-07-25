@@ -39,8 +39,8 @@ export default {
       this.$router.push('/login/');
     }
     this.$store.dispatch('getUserInfos').then(()=>{
-      console.log("la c le user info bg")
-      console.log(this.userInfos)
+      //console.log("la c le user info bg")
+      //console.log(this.userInfos)
     })
   },
   methods:{
@@ -49,7 +49,7 @@ export default {
       this.$router.push({name:`facture`, params:{numfacture: nomFacture}});
     },
     test:function(){
-      console.log("capasse")
+      //console.log("capasse")
     }
   },
   computed: {

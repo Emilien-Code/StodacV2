@@ -154,7 +154,7 @@ export default {
           email: this.email,
           password: this.password
         },retient_adresse]).then(function () {
-          console.log("user loggedIn")
+          //console.log("user loggedIn")
         })
             .catch(function (error) {
               console.log("cannot log", error)
