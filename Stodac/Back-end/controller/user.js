@@ -45,17 +45,127 @@ exports.signup = (req, res, next) => {
                         from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
                         to: req.body.email, // list of receivers
                         subject: "Création de compte", // Subject line
-                        text: "Bonjour, vous venez de créer un compte sur la boutique en ligne Stodac.fr, merci de votre confiance !", // plain text body
-                        html: "    <body style='width:100%; display: flex; justify-content: center;'>\n" +
-                            "       <div width='300px'>\n" +
-                            "           <div style='width: 300px; height: 100px; text-align: center; background-color: #078A6C; color: white; padding: 5%;'>\n" +
-                            "               <h1 >Stodac</h1>\n" +
-                            "           </div> \n" +
-                            "           <p>Bonjour,</p>\n" +
-                            "           <p>Vous venez de créer un compte sur la boutique en ligne <a href='https://www.stodac.fr' target=\"_blank\">Stodac.fr</a>.</p>\n" +
-                            "           <p>Merci de votre confiance !</p>\n" +
-                            "       </div>\n" +
-                            "   </body>"
+                        html: `<!DOCTYPE html>
+                    <html lang="en">
+                        <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Document</title>
+                    <style>
+                        *{
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                        border: 0;
+                    }
+                        body{
+                        font-family: sans-serif;
+                        height: 100%;
+                        padding: 3%;
+                        max-width: 800px;
+
+                    }
+                        .titre{
+                        padding: 14px;
+                        text-align: center;
+                        font-size: 4em;
+                    }
+                        .banner{
+                        color: white;
+                        background-color: #007057;
+                        height: 100px;
+                        width: 100%;
+                    }
+                        #wrapper{
+                        width: 100%;
+
+                    }
+                        #main{
+                        padding: 100px 15% 50px 15%;
+                        width: 100%;
+                    }
+                        header{
+                        width: 100%;
+                    }
+                        p{
+                        font-size: 1em;
+                        margin: 0 0 10px 20px;
+                    }
+
+                        footer ul{
+                        margin: 10px;
+                        text-decoration: none;
+                        list-style: none;
+                    }
+                        footer{
+                        width: 100%;
+                        position: relative;
+                        bottom: 0px;
+                        margin-top: 50px;
+                        height: 150px;
+                        color: white;
+                        z-index: 5;
+                    }
+                        footer .img{
+                        height: 40px;
+                    }
+                        #payements{
+                        width: 40%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                    }
+                        #bottom_footer {
+                        padding-top: 10px;
+                        background-color: #007057;
+                        height: 100px;
+                        text-align: center;
+                    }
+                        .footerLink{
+                        padding: 10px;
+                        text-decoration: none;
+                        color: white;
+                    }
+
+
+                    </style>
+                </head>
+                    <body>
+                    <div id="wrapper">
+                        <header>
+                            <div class="banner">
+                                <h1 class="titre">Stodac.</h1>
+                            </div>
+                        </header>
+                        <div id="main">
+                            <p>Bonjour,</p>
+                            <p>Vous venez de vous inscrire sur le site <a href="https://www.stodac.fr">Stodac.fr</a>.</p>
+                            <p>Merci de votre confiance.</p>
+                        </div>
+                        <footer>
+                            <div id="bottom_footer">
+                                <ul style="text-align: center">
+                                    <li>
+                                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                                            Mention légales
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                                            Conditions générales de vente
+                                        </a>
+                                    </li>
+                                    <li>
+                                        © Stodac tous droits réservés
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </footer>
+                    </div>
+                    </body>
+                </html>`
                     });
 
                     console.log("Message sent: %s", info.messageId);
@@ -650,27 +760,876 @@ function sendEmail(etat, options, adressemail){
         if(etat===0){ //options = {mdp}
             email.subject="Nouvelle commande"
             if (options.mdp === "paypal"){                
-            email.text =  "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !" // plain text body
-            email.html = `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+                email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande à bien étée prise en compte.</p>
+            <p>Cette dernière est accessible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>` // html body
             }else if (options.mdp === "cheque"){
-                email.text = `Bonjour, votre commande à bien étée prise en compte. Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360. \n Merci de votre confiance !`
-                email.html = `<b>Bonjour, votre commande à bien étée prise en compte.<br> Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360.<br> Votre commande estz disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>`
+                email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande à bien étée prise en compte.</p>
+            <p>Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360.</p>
+            <p> Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>`
             }else{
-                email.text = `Bonjour, votre commande à bien étée prise en compte. Pour passer a l'étape suivante vous devez effectuer un virement de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ). \n Merci de votre confiance !`
-                email.html = `<b>Bonjour, votre commande à bien étée prise en compte.<br> Pour passer a l'étape suivante vous devez effectuer un virement de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ).<br> Votre commande estz disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>`
+                email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande à bien étée prise en compte.</p>
+            <p>Pour passer a l'étape suivante vous devez effectuer un virement d'une valeure de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ).</p>
+            <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>`
             }
         }else if (etat===1){
-            email.subject = "Payement effectué" // Subject line
-            email.text =  "Bonjour, votre payement a bien été effectué. Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible. \n Merci de votre confiance !" // plain text body
-            email.html = `<b>Bonjour, votre payement a bien été effectué.<br> Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+            email.subject = "Payement pris en compte" // Subject line
+            email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre payement a bien été pris en compte.</p>
+            <p>Nous faisons de notre mieux afin de traiter votre commande les plus brefs délais.</p>
+            <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>` // html body
         }else if (etat === 2){ //options = {suiviColissimo}
             email.subject = "Votre commande est en preparation"
-            email.text = "Bonjour, votre commande est en preparation. Nous faisons de notre mieux afin de l'envoyé le plus rapidement possible. \n Merci de votre confiance !" // plain text body
-            email.html = `<b>Bonjour, votre payement a bien été effectué.<br> Nous faisons de notre mieux afin de traiter votre commande le plus rapidement possible.<br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.<br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a> <br> Merci de votre confiance !</b>` // html body
+            email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande est en préparation.</p>
+            <p>Nous faisons de notre mieux afin de traiter votre commande les plus brefs délais.</p>
+            <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>` // html body
         }else if (etat === 3){ //options = {suiviColissimo}
             email.subject = "Votre commande est envoyée"
-            email.text = "Bonjour votre commande est envoyée. Nous esperons qu'elle arrivera le plus rapidement possible. \n Merci de votre confiance !"
-            email.html = `<b>Bonjour votre commande est envoyée.<br> Nous esperons qu'elle arrivera le plus rapidement possible.<br>Nous vous rapelons que vous pouvez suivre ce coli avec le numero de suivi suivant : ${options.suiviColissimo}.<br>Merci de votre confiance !</b>`
+            email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande a été envoyée.</p>
+            <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
+            <p>Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>`
+        }else if (etat === 5){
+            email.subject = "Votre commande est anulée"
+            email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Votre commande a été anulée.</p>
+            <p>Merci de votre confiance !</p>
+        </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>`
         }
         let info = await transporter.sendMail(email);
         console.log("Message sent: %s", info.messageId);
