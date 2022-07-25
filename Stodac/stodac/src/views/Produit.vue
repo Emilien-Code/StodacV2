@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+@import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap');
 #Produit{
   margin-top: 80px;

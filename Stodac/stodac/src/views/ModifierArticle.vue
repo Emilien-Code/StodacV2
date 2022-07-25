@@ -134,15 +134,15 @@ export default {
       this.$router.push('/login/add');
     }
     this.$store.dispatch('getUserInfos');
-    axios.get('http://localhost:3000/api/stuff/manufacturer')
+    axios.get('https://stodac.fr/api/stuff/manufacturer')
         .then((response)=>{
           this.manufactureList = response.data;
         })
-    axios.get('http://localhost:3000/api/stuff/categories')
+    axios.get('https://stodac.fr/api/stuff/categories')
         .then((response)=>{
           this.categoryList = response.data;
         })
-    axios.get(`http://localhost:3000/api/stuff/product/${this.articleId}`)
+    axios.get(`https://stodac.fr/api/stuff/product/${this.articleId}`)
         .then((response)=>{
           let i = 0
           this.item.name =  response.data[0].name

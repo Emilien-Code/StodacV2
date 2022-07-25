@@ -98,7 +98,7 @@ export default {
   transform: rotateZ(45deg);
   transition: .5s ease;
 }
-@import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+@import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
 div{
   max-height: 500px;
   overflow-y: scroll;
