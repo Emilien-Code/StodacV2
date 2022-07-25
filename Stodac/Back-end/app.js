@@ -12,7 +12,7 @@ require('dotenv').config()
 
 
 mongoose.connect(
-    "mongodb+srv://"+process.env.BDD_USER+":"+process.env.BDD_MDP+"@"+process.env.BDD_NAME+"/stodac?retryWrites=true&w=majority",
+    "mongodb://"+process.env.BDD_USER+":"+process.env.BDD_MDP+"@"+process.env.BDD_NAME+"/stodac",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
