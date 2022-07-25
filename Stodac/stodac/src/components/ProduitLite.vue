@@ -1,7 +1,8 @@
 <template>
   <div id="produit">
     <div class="contain-img">
-      <img :src="produit.img" :alt="produit.name" srcset="">
+      <img :src="produit.img" :alt="produit.name" id="img" srcset="">
+      <div v-if="!isPictureLoaded" id="imgLoader"></div>
       <span id="description">{{produit.description}}</span>
     </div>
     <div class="product-info">
@@ -26,9 +27,22 @@
 
 export default {
   name: 'produit',
+  data : ()=>{
+    return{
+      isPictureLoaded: false
+    }
+  },
   props : {
     produit: Object
   },
+  mounted() {
+    const img = document.getElementById("img")
+    img.style.display = "none"
+    img.addEventListener("load",()=>{
+      this.isPictureLoaded = true
+      img.style.display = "block"
+    })
+  }
 
 }
 </script>
@@ -66,6 +80,14 @@ p{
 .contain-img{
   overflow:hidden;
   margin-bottom: 20px;
+}
+#imgLoader{
+  width: 100%;
+  height: 250px;
+  background-color: #4c4c4c;
+  -webkit-animation: skeleton 0.8s ease-in-out infinite alternate;
+  -o-animation: skeleton 0.8s ease-in-out infinite alternate;
+  animation: skeleton 0.8s ease-in-out infinite alternate;
 }
 img{
   width: 100%;
@@ -110,5 +132,10 @@ img{
   position: relative;
   bottom: 7px;
   font-size: .7em;
+}
+@keyframes skeleton {
+  to  {
+    opacity: 0.6;
+  }
 }
 </style>
