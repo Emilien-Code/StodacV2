@@ -28,6 +28,9 @@ router.get('/facture/:id/:numfacture', auth, usrCtrl.getFacture)
 
 router.get('/factureAdm/:id/:numfacture', auth, usrCtrl.getFactureAdmin)
 
+router.get('/verify/:mail/*', usrCtrl.verify)
+
+
 
 // PATCH 
 

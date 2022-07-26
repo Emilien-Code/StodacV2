@@ -6,46 +6,24 @@ const paypalCtrl = require('../controller/paypal');
 const nodemailer = require("nodemailer");
 //require('dotenv').config();
 const { rawListeners } = require('../models/User');
+async function supMail(adress,link) {
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: "ssl0.ovh.net",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: process.env.MAIL_USER, // generated ethereal user
+            pass: process.env.MAIL_MDP, // generated ethereal password
+        },
+    });
 
-exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
-        .then( hash => {
-            const user = new User({
-                email: req.body.email,
-                userName: req.body.email,
-                password: hash,
-                firstName : req.body.firstName,
-                lastName : req.body.lastName,
-                street:  "", 
-                city:  "",
-                streetNumber: -1,
-                postCode: -1, 
-                country: "",
-                admin: false,
-                mobile: req.body.mobile
-            });
-            user.save()
-            .then(()=>{
-
-// async..await is not allowed in global scope, must use a wrapper
-                async function main() {
-                    // create reusable transporter object using the default SMTP transport
-                    let transporter = nodemailer.createTransport({
-                        host: "ssl0.ovh.net",
-                        port: 465,
-                        secure: true, // true for 465, false for other ports
-                        auth: {
-                            user: process.env.MAIL_USER, // generated ethereal user
-                            pass: process.env.MAIL_MDP, // generated ethereal password
-                        },
-                    });
-
-                    // send mail with defined transport object
-                    let info = await transporter.sendMail({
-                        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                        to: req.body.email, // list of receivers
-                        subject: "Création de compte", // Subject line
-                        html: `<!DOCTYPE html>
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
+        to: adress, // list of receivers
+        subject: "Création de compte", // Subject line
+        html: `<!DOCTYPE html>
                     <html lang="en">
                         <head>
                         <meta charset="UTF-8">
@@ -140,6 +118,7 @@ exports.signup = (req, res, next) => {
                         <div id="main">
                             <p>Bonjour,</p>
                             <p>Vous venez de vous inscrire sur le site <a href="https://www.stodac.fr">Stodac.fr</a>.</p>
+                            <p>Afin de valider votre compte, veuillez cliquer <a href="${link}">ici</a>.</p>
                             <p>Merci de votre confiance.</p>
                         </div>
                         <footer>
@@ -166,18 +145,46 @@ exports.signup = (req, res, next) => {
                     </div>
                     </body>
                 </html>`
-                    });
+    });
 
-                    console.log("Message sent: %s", info.messageId);
-                    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-                    // Preview only available when sending through an Ethereal account
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-                }
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
 
-                main().catch(console.error);
-                console.log("test")
+exports.signup = (req, res, next) => {
+    bcrypt.hash(req.body.password, 10)
+        .then( hash => {
+            const user = new User({
+                email: req.body.email,
+                userName: req.body.email,
+                password: hash,
+                firstName : req.body.firstName,
+                lastName : req.body.lastName,
+                street:  "", 
+                city:  "",
+                streetNumber: -1,
+                postCode: -1, 
+                country: "",
+                admin: false,
+                mobile: req.body.mobile,
+                isActive: false
+            });
+            user.save()
+            .then(()=>{
+                User.find({email:req.body.email},(err,docs)=>{
+                    if(err) console.log(err)
+                    const email = docs[0].email
+                    bcrypt.hash(toString(docs[0]._id), 10).then(h=>{
+                        const hash = h
+                        const link = 'https://stodac.fr/verify/'+email+'/'+hash
+                        supMail(email, link).catch(console.error);
+                    })
+                })
+
              res.status(201).json({ message : 'Utilisateur Créé'})})
             .catch(error => res.status(400).json({ error }));
         })
@@ -333,6 +340,21 @@ exports.getFactureAdmin = (req, res)=>{
                 res.send(docs[0])
             })
         }
+    })
+}
+
+exports.verify = (req, res) =>{
+    User.find({email:req.params.mail}, (err,docs)=>{
+        if(err) return err
+        bcrypt.compare(toString(docs[0]._id), req.params[0]).then(valid=>{
+            if(!valid){
+                return res.status(401).json({ error : "Impossible de valider l'inscription" });
+            }
+            User.updateOne({_id :docs[0]._id}, {$set:{isActive:true}}, (err, docs)=>{
+                if(err) res.status(401).json({ error : "Impossible de valider l'inscription" });
+                return res.status(200).json({status:"OK"});
+            })
+        })
     })
 }
 

@@ -18,7 +18,8 @@ const userSchema = mongoose.Schema({
     admin : {type : Boolean, required : true },
     mobile : {type : Number, required : false },
     saveLivraison: {type : Object, required : false},
-    savePrix:{type:Object, required:false}
+    savePrix:{type:Object, required:false},
+    isActive:{type:Boolean, required:false}
 });
 
 

@@ -90,6 +90,11 @@ const routes = [
     component: () => import('../views/assistance')
   },
   {
+    path:"/verify/:mail/:hash(.*)",
+    name  : "vérification",
+    component: () => import('../views/verification.vue')
+  },
+  {
     path:"/:catchAll(.*)",
     component: () => import('../views/notFound.vue')
   },
