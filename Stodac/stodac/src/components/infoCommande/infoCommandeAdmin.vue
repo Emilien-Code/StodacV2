@@ -58,7 +58,7 @@
       <div id="state">
         <p id="edc" v-if="commande.comande.etat >= 0" :style="{backgroundColor: color[commande.comande.etat]}">{{commande.comande.nometat[commande.comande.etat]}}</p>
         <select name="etat" id="etat"  v-model="choixetat">
-          <option :value="e" v-for="e in commande.comande.nometat" :key="e">{{ e }}</option>
+          <option :value="e" v-for="e in filteredArray" :key="e">{{ e }}</option>
         </select>
       </div>
       <div class="title">
@@ -113,6 +113,18 @@ export default {
     setTimeout(()=>{
       this.isOpen = true
     },500)
+  },
+  computed: {
+    filteredArray: function(){
+      console.log(this.commande.comande.nometat)
+      const newArray = new Array();
+      let i = 0;
+      this.commande.comande.nometat.forEach(e=>{
+        if (i<6) newArray.push(e)
+        i++
+      })
+      return newArray
+    }
   },
   methods:{
     close: function (){

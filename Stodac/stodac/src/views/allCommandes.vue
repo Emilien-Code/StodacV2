@@ -374,6 +374,7 @@ export default {
 <style scoped>
 #AllCommandes{
   margin-top: 80px;
+  min-height: 100vh;
 }
 
 #advanced{

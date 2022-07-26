@@ -21,8 +21,9 @@
     <div class="form-row" v-if="mode === 'create'">
     <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
     </div>
-    <div class="form-row">
+    <div class="form-row" style="flex-direction: column">
       <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
+      <p v-if="mode === 'create'" style="font-size: .7em; padding: 0 5px ">Le mot de passe doit contenir au moins 8 charactères, une majuscule, une minuscule et un chiffre</p>
     </div>
     <div class="form-row" v-if="mode === 'create'">
       <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
@@ -364,6 +365,7 @@ textarea, select, input, button { outline: none; }
 @media (max-width: 650px) {
 .card{
   right:0;
+  top: 0px;
   width: 100vw;
 }
 }

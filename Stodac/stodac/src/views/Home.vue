@@ -77,10 +77,11 @@ export default {
     },
     loadMore : function(nb){
       this.nbLoadMore++;
-      this.$store.dispatch('getStufs', nb)
+      this.$store.dispatch('getStufs', nb).then(()=>{
           setTimeout(()=>{
             window.scroll(0,0);
           }, 100)
+      })
       //.then(()=>{console.log('Stuffs chargés')})
       .catch(()=>{console.log('Impossible de charger les Stuffs')})
     }

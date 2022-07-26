@@ -21,7 +21,7 @@
       <paypal :saveFacture="saveF" :sc="sendingCommand"></paypal>
     </div>
     <div id="Cheque " v-if="selected==1">
-      La commande vous sera aussi tôt le chèque reçu.
+      La commande vous sera envoyée aussi tôt le chèque reçu. <p>Ce dernier sera envoyé au 11 Bis Rue de Lorraine, 54360 Damelevières et sera à l'ordre d'AMC EST.</p>
       <div class="btn-ctnr">
         <button @click="saveF(-1); sendingCommand();"> Commander </button>
       </div>
@@ -134,5 +134,16 @@ span{
 }
 #descriptifs > div{
   padding: 15px 0;
+}
+@media (max-width: 685px) {
+  label{
+    font-size: 12px;
+  }
+  #menu{
+    width: 80vw;
+  }
+  #descriptifsLivraison{
+    left: 35vw;
+  }
 }
 </style>
