@@ -384,14 +384,19 @@ exports.loginByMail = (req, res, next) => {
                     if(!valid){
                         return res.status(401).json({ error : 'Mot de passe erroné' });
                     }
-                    return res.status(200).json({
-                        userID: user._id,
-                        token: jwt.sign(
-                            {userID : user._id},
-                            process.env.JWT,
-                            { expiresIn: '1h'}
-                        )
-                    });
+                    if (user.isActive){
+                        return res.status(200).json({
+                            userID: user._id,
+                            token: jwt.sign(
+                                {userID : user._id},
+                                process.env.JWT,
+                                { expiresIn: '1h'}
+                            )
+                        });
+                    }
+                    else    {
+                        return res.status(500).json({ message: "Votre compte n'a pas été vérifié"})
+                    }
                 })
                 .catch(error => res.status(500).json({ error }))
         })
