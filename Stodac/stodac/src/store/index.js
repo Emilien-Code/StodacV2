@@ -208,7 +208,7 @@ export default createStore({
         commit('setStatus', 'loading');
         instance.post('/user/signup', userInfos)
         .then(function (response) {
-          commit('setStatus', 'created')
+          commit('setStatus', 'waitForVerif')
           resolve(response);
         })
         .catch(function (error) {

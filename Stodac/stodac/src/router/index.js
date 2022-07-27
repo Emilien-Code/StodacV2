@@ -90,6 +90,16 @@ const routes = [
     component: () => import('../views/assistance')
   },
   {
+    path:"/resetpassword/",
+    name  : "resetpassword",
+    component: () => import('../views/resetpassword.vue')
+  },
+  {
+    path:"/resetpasswordform/:email/:id(.*)",
+    name  : "resetpasswordform",
+    component: () => import('../views/resetpasswordform.vue')
+  },
+  {
     path:"/verify/:mail/:hash(.*)",
     name  : "vérification",
     component: () => import('../views/verification.vue')

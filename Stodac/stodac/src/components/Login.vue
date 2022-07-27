@@ -4,58 +4,69 @@
       <span></span>
       <span></span>
     </button>
-    <h1 class="card__title" v-if="mode === 'login'">Connexion</h1>
-    <h1 class="card__title" v-else>Inscription</h1>
 
-    <p class="card__subtitle" v-if="mode === 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
-    <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
-
-    <div class="form-row">
-      <input v-model="email" :class="{'form-row__input': true, 'validFields': mailValidation, 'unvalidField': !mailValidation&&this.email!==''}" type="text" placeholder="Adresse mail"/>
+    <div id="created" v-if="accountCreated">
+      <p class="created-text">Un mail vous à été envoyé.</p>
+      <p class="created-text">Veuillez confirmer votre compte pour continuer.</p>
     </div>
 
-    <div class="form-row" v-if="mode === 'create'">
-      <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
-      <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
+    <div v-else>
+      <h1 class="card__title" v-if="mode === 'login'">Connexion</h1>
+      <h1 class="card__title" v-else>Inscription</h1>
+
+      <p class="card__subtitle" v-if="mode === 'login'">Tu n'as pas encore de compte ? <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
+      <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
+
+      <div class="form-row">
+        <input v-model="email" :class="{'form-row__input': true, 'validFields': mailValidation, 'unvalidField': !mailValidation&&this.email!==''}" type="text" placeholder="Adresse mail"/>
+      </div>
+
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="firstName" :class="{'form-row__input': true, 'validFields': firstName!==''}" type="text" placeholder="Prénom"/>
+        <input v-model="lastName" :class="{'form-row__input': true, 'validFields': lastName!==''}" type="text" placeholder="Nom"/>
+      </div>
+      <div class="form-row" v-if="mode === 'create'">
+      <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
+      </div>
+      <div class="form-row" style="flex-direction: column">
+        <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
+        <p v-if="mode === 'create'" style="font-size: .7em; padding: 0 5px ">Le mot de passe doit contenir au moins 8 charactères, une majuscule, une minuscule et un chiffre</p>
+        <a v-if="mode === 'login'" style="font-size: .7em; padding: 0 5px; color: #078A6C; cursor:pointer;" href="https://stodac.fr/resetpassword">Mot de passe oublié</a>
+
+      </div>
+      <div class="form-row" v-if="mode === 'create'">
+        <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
+      </div>
+
+      <div v-if="mode === 'login'">
+        <input id="checkbox" type="checkbox" v-model="check">
+        <span id="CDV">Se souvenir de moi</span>
+      </div>
+
+      <div class="form-row" id="cap" v-if="mode === 'create'">
+        <VueRecaptcha ref="recaptcha" sitekey="6LdK3p0fAAAAAEqnAuVYJqXnbaO8f8kRs9FqMXUG" @verify="verifyMethod" @expired="expiredMethod" :loadRecaptchaScript="true"></VueRecaptcha>
+      </div>
+
+      <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
+        <p style="font-size: .8em; padding: 0 5px; color: #F18F01">{{ errorMessage }}</p>
+      </div>
+      <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
+        <p style="font-size: .7em; padding: 0 5px; color: #F18F01">Adresse mail déjà utilisée</p>
+      </div>
+
+      <div class="form-row">
+        <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
+          <span v-if="status === 'loading'">Connexion en cours...</span>
+          <span v-else>Connexion</span>
+        </button>
+        <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
+          <span v-if="status === 'loading'">Création en cours...</span>
+          <span v-else>Créer mon compte</span>
+        </button>
+      </div>
     </div>
-    <div class="form-row" v-if="mode === 'create'">
-    <input v-model="mobile" :class="{'form-row__input': true, 'validFields': phoneValidation, 'unvalidField': !phoneValidation&&this.mobile!==''}" type="tel" placeholder="Numéro de téléphone"/>
-    </div>
-    <div class="form-row" style="flex-direction: column">
-      <input v-model="password" :class="{'form-row__input': true, 'validFields': passwordValidation, 'unvalidField': !passwordValidation&&this.password!==''} " type="password" placeholder="Mot de passe" @keyup.enter="login"/>
-      <p v-if="mode === 'create'" style="font-size: .7em; padding: 0 5px ">Le mot de passe doit contenir au moins 8 charactères, une majuscule, une minuscule et un chiffre</p>
-    </div>
-    <div class="form-row" v-if="mode === 'create'">
-      <input v-model="passwordVerif" :class="{'form-row__input': true, 'validFields': this.passwordVerif===this.password&&this.passwordVerif!=='', 'unvalidField':this.passwordVerif!==this.password}" type="password" placeholder="Vérification du mot de passe"/>
     </div>
 
-    <div v-if="mode === 'login'">
-      <input id="checkbox" type="checkbox" v-model="check">
-      <span id="CDV">Se souvenir de moi</span>
-    </div>
-
-    <div class="form-row" id="cap" v-if="mode === 'create'">
-      <VueRecaptcha ref="recaptcha" sitekey="6LdK3p0fAAAAAEqnAuVYJqXnbaO8f8kRs9FqMXUG" @verify="verifyMethod" @expired="expiredMethod" :loadRecaptchaScript="true"></VueRecaptcha>
-    </div>
-
-    <div class="form-row" v-if="mode === 'login' && status === 'error_login'">
-      Adresse mail et/ou mot de passe invalide
-    </div>
-    <div class="form-row" v-if="mode === 'create' && status === 'error_create'">
-      Adresse mail déjà utilisée
-    </div>
-
-    <div class="form-row">
-      <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode === 'login'">
-        <span v-if="status === 'loading'">Connexion en cours...</span>
-        <span v-else>Connexion</span>
-      </button>
-      <button @click="createAccount()" class="button" :class="{'button--disabled' : !validatedFields}" v-else>
-        <span v-if="status === 'loading'">Création en cours...</span>
-        <span v-else>Créer mon compte</span>
-      </button>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -84,7 +95,9 @@ export default {
       closeLogin: false,
       captcha:false,
       isOpen: false,
-      check:false
+      check:false,
+      errorMessage: '',
+      accountCreated : false
     }
   },
   mounted() {
@@ -146,6 +159,7 @@ export default {
       }
     },
     login: function(){
+      const a = this
       if(this.validatedFields) {
         let retient_adresse = ''
         if(this.check){
@@ -154,25 +168,29 @@ export default {
         this.$store.dispatch('login', [{
           email: this.email,
           password: this.password
-        },retient_adresse]).then(function () {
+        },retient_adresse])
+            .then(function () {
           //console.log("user loggedIn")
+        }).catch(function (error) {
+          if(error.response.status == 401){
+            a.errorMessage = "Adresse email ou mot de passe incorrecte."
+          }else{
+            a.errorMessage = "Votre compte n'a pas encore été vérifié."
+          }
         })
-            .catch(function (error) {
-              console.log("cannot log", error)
-            })
       }
     },
     createAccount: function(){
+      const a = this
       if(this.validatedFields) {
-        const a = this;
         this.$store.dispatch('createAccount', {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
           lastName: this.lastName,
           mobile: 33 + this.mobile,
-        }).then(function () {
-          a.login();
+        }).then(function (){
+          a.accountCreated = true
         }).catch(function (error) {
           console.log(error);
         });
@@ -363,11 +381,24 @@ export default {
 textarea, select, input, button { outline: none; }
 
 @media (max-width: 650px) {
-.card{
-  right:0;
-  top: 0px;
-  width: 100vw;
+  .card{
+    right:0;
+    top: 0px;
+    width: 100vw;
+  }
 }
+#created  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.created-text{
+  font-size: 1em;
+  width: 90%;
+  margin: 0 0 10px 20px;
 }
 
 .form-row{
