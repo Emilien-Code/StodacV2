@@ -5,6 +5,7 @@
     </button>
     <div id="test" v-if="clicked">
       <ul>
+        <li  v-if="nameCategory!=='Catégories'" @click="isSelected(-1)"> supprimer les filtres</li>
         <li v-for="(man, index) in manufacture" @click="isSelected(index)" :key="index" :class="{'selected' : selection[index]}">{{man}}</li>
       </ul>
     </div>
@@ -36,6 +37,10 @@ export default {
       for(let i = 0; i<22; i++){
         this.selection[i] = false
       }
+      if (index === -1){
+        this.getByCategory('Marques');
+        this.nameCategory = 'Marques'
+      }
       this.selection[index] = true;
       this.getByManufacture(this.manufacture[index]);
       this.nameMarque = this.manufacture[index]
@@ -48,17 +53,18 @@ export default {
       this.clicked = !this.clicked;
     },
     getByManufacture: function(manufacture){
+      console.log(this.$store.state.category)
       if(manufacture !== 'Marques'){
-        this.$store.dispatch('getStufsManufacture', manufacture)
+        this.$store.dispatch('getStufsManufacture', {category : this.$store.state.category, manufacturer : manufacture})
             .then(this.noItems = 1)
             .catch(this.noItems = 0)
       }else{
-        this.$store.dispatch('getStufs')
+        this.$store.dispatch('getStufs', 1)
       }
     }
   },
   mounted() {
-    axios.get('https://stodac.fr/api/stuff/manufacturer')
+    axios.get('http://localhost:3000/api/stuff/manufacturer')
         .then((response)=>{
           this.manufacture = response.data;
         })

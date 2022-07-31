@@ -1,5 +1,7 @@
 const Thing = require('../models/Thing')
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User')
 
 /** GET Controller */
 
@@ -56,10 +58,26 @@ exports.getById = (req, res) =>{
 };
 
 exports.getByReferenceAndManufacturer = (req, res) =>{
-    Thing.find({category:req.params.category, manufacturer:req.params.manufacturer}, (err, docs)=>{
-        if(err) console.log(err);
-        res.send(docs)
-    });
+    console.log(req.body)
+    if (req.body.category != '' && req.body.manufacturer != ''){
+        Thing.find({category:req.body.category, manufacturer:req.body.manufacturer}, (err, docs)=>{
+            if(err) console.log(err);
+            return res.send(docs)
+        });
+    }else{
+        if (req.body.category != ''){
+                Thing.find({category:req.body.category}, (err, docs)=>{
+                    if(err) console.log(err);
+                    return res.send(docs)
+                });
+        }
+        if (req.body.manufacturer != ''){
+            Thing.find({manufacturer:req.body.manufacturer}, (err, docs)=>{
+                if(err) console.log(err);
+                return res.send(docs)
+            });
+        }
+    }
 };
 
 exports.getByName = (req, res) => {
@@ -73,7 +91,9 @@ exports.getByName = (req, res) => {
 /**CREATE Controller */
 
 exports.createNewStuff = (req, res)=>{
-    console.log(req);
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT);
+    const userId = decodedToken.userID
 
     const thing = new Thing({
         name: req.body.name,
@@ -88,17 +108,25 @@ exports.createNewStuff = (req, res)=>{
         compatibility: JSON.parse(req.body.compatibility),
         img: `https://stodac.fr/api/images/${req.file.filename}`
     })
-    thing.save()
-        .then(() => res.status(201).json({ message: "Article enregistré" }))
-        .catch(() => res.status(400).json({ error }));
+
+    User.find({_id: userId}, (err, docs) => {
+        if (docs[0].admin === true){
+            thing.save()
+                .then(() => res.status(201).json({ message: "Article enregistré" }))
+                .catch(() => res.status(400).json({ error }));
+        }
+    })
 };
 
 
 /**PUT Controller */
 
 exports.updateStuff = (req, res) => {
-    console.log(req.body.image)
-   const thingObject = {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT);
+    const userId = decodedToken.userID
+
+    const thingObject = {
            name: req.body.name,
            manufacturer: req.body.manufacturer,
            qty: req.body.qty,
@@ -118,10 +146,13 @@ exports.updateStuff = (req, res) => {
         } : { ...req.body.parse }*/
 
 
-
-    Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id})
-        .then(() => res.status(200).json({ message: "l'artiche à bien été modifié"}))
-        .catch((error) => res.status(400).json(error));
+    User.find({_id: userId}, (err, docs) => {
+        if (docs[0].admin === true){
+            Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id})
+                .then(() => res.status(200).json({ message: "l'artiche à bien été modifié"}))
+                .catch((error) => res.status(400).json(error));
+        }
+    })
 };
 
 
@@ -139,14 +170,15 @@ exports.deleteStuff = (req, res) => {
     })
 };*/
 exports.deleteStuff = (req, res) => {
-    Thing.deleteOne({_id:req.params.id})
-        .then(() => res.status(200).json({ message : "l'article à bien été suprimé."}))
-        .catch(error => res.status(400).json({ error }));
-};
-exports.deleteStuff = (req, res) => {
-    Thing.deleteOne({_id:req.params.id})
-        .then(() => res.status(200).json({ message : "l'article à bien été suprimé."}))
-        .catch(error => res.status(400).json({ error }));
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT);
+    const userId = decodedToken.userID
+
+    User.find({_id: userId}, (err, docs) => {
+        Thing.deleteOne({_id: req.params.id})
+            .then(() => res.status(200).json({message: "l'article à bien été suprimé."}))
+            .catch(error => res.status(400).json({error}));
+    })
 };
 
 

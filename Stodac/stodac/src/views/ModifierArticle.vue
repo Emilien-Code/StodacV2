@@ -142,7 +142,7 @@ export default {
         .then((response)=>{
           this.categoryList = response.data;
         })
-    axios.get(`https://stodac.fr/api/stuff/product/${this.articleId}`)
+    axios.get(`http://localhost:3000/api/stuff/product/${this.articleId}`)
         .then((response)=>{
           let i = 0
           this.item.name =  response.data[0].name
@@ -175,18 +175,21 @@ export default {
     },
     yes: function(){
       this.validationPopup = false
-      axios.put(`https://stodac.fr/api/stuff/${this.articleId}`,{
-        image: this.item.img,
-        name: this.item.name,
-        manufacturer: this.item.manufacturer,
-        qty: this.item.qty,
-        price: Math.round(this.item.price * 120)/100,
-        poids: this.item.poids,
-        reference: this.item.reference,
-        category: this.item.category,
-        state: this.item.state,
-        description: this.item.description,
-        compatibility: JSON.stringify(this.item.compatibility),
+      this.$store.dispatch('changeArticle',{
+        article : {
+          image: this.item.img,
+          name: this.item.name,
+          manufacturer: this.item.manufacturer,
+          qty: this.item.qty,
+          price: Math.round(this.item.price * 120)/100,
+          poids: this.item.poids,
+          reference: this.item.reference,
+          category: this.item.category,
+          state: this.item.state,
+          description: this.item.description,
+          compatibility: JSON.stringify(this.item.compatibility)
+        },
+        id : this.articleId
       })
           .then(()=>{
             this.$router.push("/gestionstocks")

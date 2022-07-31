@@ -39,7 +39,7 @@ export default {
           "dyPreparationTime": 1,
           "token": response.data.token,
         })
-      }).catch((error)=>{console.log(error)})
+      }).catch(()=>{this.callColissimo})
     }
   }
 }
@@ -58,16 +58,14 @@ button{
   margin-bottom: 200px;
 }
 #ptnrelais{
-    width: 80vw;
-  transform: translateX(-10vw);
+  width: 800px;
 }
 @media (max-width: 772px) {
   #widget-container{
-     margin-bottom: 600px;
+     margin-bottom: 250px;
   }
   #ptnrelais{
     width: 80vw;
-    transform: translateX(2vw);
   }
 }
 

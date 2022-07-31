@@ -1,21 +1,22 @@
 <template>
+  <div id="container">
+
   <div id="menu">
     <input type="radio" id="domicile" value="domicile" v-model="selectedRadio" @change="test('Domicile')" name="livraison" checked>
-    <label for="domicile" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
-      Livraison à domicile
+    <label for="domicile" @click="setSelected(0)" :class="{selected: selectedL  === 0}">
+      <img src="../../assets/Livraison/house.svg" alt="house"> Livraison à domicile
     </label>
 
     <input type="radio" id="pntRelais" value="pnrRelais" v-model="selectedRadio" @change="test('Point Relais')" name="livraison">
-    <label for="pntRelais" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
-      Point relais
+    <label for="pntRelais" @click="setSelected(1 )" :class="{selected: selectedL === 1}">
+      <img src="../../assets/Livraison/pnt-relais.svg" style="width: 20px;height: 24px" alt="pnt"> Point relais
     </label>
 
     <input type="radio" id="retrait" value="retrait" v-model="selectedRadio" @change="test('Sur Place')" name="livraison">
-    <label for="retrait" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
-      Retirer sur place
+    <label for="retrait" @click="setSelected(2)" :class="{selected: selectedL===2}">
+      <img src="../../assets/Livraison/sur-place.svg" alt="house"> Retirer sur place
     </label>
   </div>
-    <span :style="{transform:`translate(${spanPositionL}px,-5px)`, width:`${spanWidthL}px`}"></span>
   <div id="descriptifsLivraison">
     <div id="ld " v-if="selectedL==0">
       <adress ref="adresse"/>
@@ -23,11 +24,12 @@
     <div id="lpr " v-if="selectedL==1">
       <ptnrelais/>
     </div>
-    <div id="sp " v-if="selectedL==2">
+    <div id="sp" v-if="selectedL==2">
       Vous pouvez retirer votre commande dans nos locaux à Damelevières, 54360.
     </div>
   </div>
 
+  </div>
 
 
 
@@ -39,9 +41,7 @@ export default {
   name: "payementSelect",
   data: function(){
     return {
-      spanPositionL : 0,
       selectedL : 0,
-      spanWidthL: 182,
       selectedRadio:''
     }
   },
@@ -50,24 +50,12 @@ export default {
     ptnrelais
   },
   mounted() {
-    const labels = document.querySelectorAll("label");
-    this.spanPositionL = document.querySelectorAll("label")[0].getBoundingClientRect().left
-    this.spanWidthL = labels[0].getBoundingClientRect().right - labels[0].getBoundingClientRect().left
+
     },
   methods: {
-    enter: function (i){
-        const labels = document.querySelectorAll("label");
-        this.spanWidthL = labels[i].getBoundingClientRect().right - labels[i].getBoundingClientRect().left
-        this.spanPositionL = labels[i].getBoundingClientRect().left;
-    },
     setSelected: function(i){
         this.selectedL = i;
     },
-    leave: function(){
-        const labels = document.querySelectorAll("label");
-        this.spanWidthL = labels[this.selectedL].getBoundingClientRect().right - labels[this.selectedL].getBoundingClientRect().left
-        this.spanPositionL = labels[this.selectedL].getBoundingClientRect().left;
-    }
   },
   computed:{
     isAdressComplete:function(){
@@ -84,47 +72,69 @@ export default {
 input[type="radio"]{
   display: none;
 }
+#container{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  width: 800px;
+}
 label{
   font-family: 'Poppins', sans-serif;
+  padding: 9px ;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 1.1em;
   font-weight: bolder;
+  transition: background-color .5s;
 }
-span{
-  display: block;
-  position: absolute;
-  height: 2px;
-  width: 60px;
-  background-color: #078A6C;
-  transition: .5s ease;
-  z-index: -1;
+.selected, label:hover {
+  background-color: #00705779;
+  transition: background-color .5s;
 }
 #menu {
-  position: relative;
-  left: 50%;
-  transform:translateX(-50%);
-  width: 50%;
+  width: 300px;
+  height: 150px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 #descriptifsLivraison{
-  width: 50%;
-  position: relative;
-  left: 50%;
-  transform:translateX(-50%);
+  width: 500px;
+  padding-left: 10px;
 }
-#descriptifsLivraison > div{
-  padding: 15px 0;
+img {
+  height: 24px;
+  width: 24px;
+  object-fit: cover;
 }
-@media (max-width: 685px) {
+
+@media (max-width: 850px) {
   label{
     font-size: 12px;
   }
   #menu{
     width: 80vw;
+    height: 24px;
+    flex-direction: row;
   }
   #descriptifsLivraison{
-  left: 35vw;
+    margin-top: 40px;
+
+  }
+  .selected, label:hover {
+    background-color: #00705700;
+    transition: background-color .5s;
+  }
+  #container{
+    flex-direction: column;
+    width: 90%;
+    padding-left: 5%;
+  }
+  #sp{
+    width: 290px;
   }
 }
+
+
 </style>

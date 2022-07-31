@@ -69,7 +69,9 @@ export default createStore({
     FDP:0,
     MDL:'',
     parametrepayement:[],
-    retient_adresse:adresseRetenu
+    retient_adresse:adresseRetenu,
+    manufacturer  : '',
+    category : ''
   },
   mutations: {
     setStatus: function(state, status){
@@ -100,8 +102,13 @@ export default createStore({
     stuffs: function(state, stuffs){
       state.stuffs = stuffs
     },
-    stuffsBy: function(state, stuffs){
-      state.stuffs = stuffs
+    stuffsBy: function(state, params){
+      if (params.isManufacture){
+        state.manufacturer = params.el
+      }else{
+        state.category = params.el
+      }
+      state.stuffs = params.stuffs
       state.nbStuff = 0
     },
     product: function(state, product){
@@ -240,19 +247,19 @@ export default createStore({
         console.log(error)
       })
     },
-    getStufsCategory: ({commit}, category)=>{
-      instance.get(`/stuff/category/${category}`)
+    getStufsCategory: ({commit}, params)=>{
+      instance.post(`/stuff/getBy/`,params)
       .then(function(response){
-        commit('stuffsBy', response.data)
+        commit('stuffsBy', {stuffs: response.data, el:params.category, isManufacture : false})
       })
       .catch(function(error){
         console.log(error)
       })
     },
-    getStufsManufacture: ({commit}, manufacturer)=>{
-      instance.get(`/stuff/manufacturer/${manufacturer}`)
+    getStufsManufacture: ({commit}, params)=>{
+      instance.post(`/stuff/getBy/`,params)
       .then(function(response){
-        commit('stuffsBy', response.data)
+        commit('stuffsBy', {stuffs: response.data, el: params.manufacturer, isManufacture : true})
       })
       .catch(function(error){
         console.log(error)
@@ -444,6 +451,12 @@ export default createStore({
     },
     setAdresse : ({commit}, adresse) => {
       commit('setRetientAdresse',adresse)
+    },
+    createArticle : (s,article)=>{
+      instance.post("/stuff/", article)
+    },
+    changeArticle : (s, changes)=>{
+      instance.put(`/stuff/${changes.id}`,changes.article)
     }
   },
   modules: {

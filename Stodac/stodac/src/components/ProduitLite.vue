@@ -52,6 +52,7 @@ export default {
 <style scoped>
 @import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
 .product-info{
+  z-index: 999999;
   padding: 5px;
   margin-bottom: 20px;
 }

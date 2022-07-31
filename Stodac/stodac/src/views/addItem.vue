@@ -172,7 +172,7 @@ export default {
     yes: function (){
       this.validationPopup=false
 
-      axios.post('https://stodac.fr/api/stuff/',this.fd)
+      this.$store.dispatch('createArticle', this.fd)
           .then(()=>{
             this.isFileAded=true
           });

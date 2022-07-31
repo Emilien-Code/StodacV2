@@ -1,6 +1,6 @@
 <template>
     <div id="merci" v-if="userInfos.comande[0]">
-        <p class="title">Merci d'avoir commandé chez nous !</p>
+        <p class="title">Merci pour votre commande</p>
         <div>
 
           <div id="table-container">

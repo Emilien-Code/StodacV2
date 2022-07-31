@@ -1,17 +1,19 @@
 <template>
+  <div id="container">
+
   <div id="menu">
     <input type="radio" id="Paypal" @change="test('paypal')" name="payement" checked>
-    <label for="Paypal" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
+    <label for="Paypal" @click="setSelected(0)" :class="{selected: selected  === 0}">
       Paypal / Carte bancaire
     </label>
 
     <input type="radio" id="cheque" @change="test('cheque')" name="payement">
-    <label for="cheque" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
+    <label for="cheque" @click="setSelected(1 )" :class="{selected: selected  === 1}">
       Cheque
     </label>
 
     <input type="radio" id="virement" @change="test('virement')" name="payement">
-    <label for="virement" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
+    <label for="virement" @click="setSelected(2)" :class="{selected: selected  === 2}">
       Virement
     </label>
   </div>
@@ -34,9 +36,7 @@
       </div>
     </div>
   </div>
-
-
-
+  </div>
 
 </template>
 <script>
@@ -46,29 +46,16 @@ export default {
   name: "payementSelect",
   data: function(){
     return {
-      spanPosition : 0,
       selected : 0,
-      spanWidth: 196
     }
   },
   components:{ paypal },
   mounted() {
-    this.spanPosition = document.querySelectorAll("label")[0].getBoundingClientRect().left
     },
   methods: {
-    enter: function (i){
-      const labels = document.querySelectorAll("label");
-      this.spanWidth = labels[i].getBoundingClientRect().right - labels[i].getBoundingClientRect().left
-      this.spanPosition = labels[i].getBoundingClientRect().left;
-    },
     setSelected: function(i){
       this.selected = i;
     },
-    leave: function(){
-      const labels = document.querySelectorAll("label");
-      this.spanWidth = labels[this.selected].getBoundingClientRect().right - labels[this.selected].getBoundingClientRect().left
-      this.spanPosition = labels[this.selected].getBoundingClientRect().left;
-    }
   },
   props:{
     test:Function,
@@ -79,6 +66,14 @@ export default {
 </script>
 
 <style scoped>
+#container{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  width: 800px;
+}
+
 .btn-ctnr{
   padding-top: 25px;
   display: flex;
@@ -108,39 +103,44 @@ label{
   cursor: pointer;
   font-size: 1em;
   font-weight: bolder ;
+  transition: background-color .5s;
+  padding: 9px ;
+  border-radius: 10px;
 }
-span{
-  display: block;
-  position: absolute;
-  height: 2px;
-  width: 60px;
-  background-color: #078A6C;
-  transition: .5s ease;
-  z-index: -1;
+.selected, label:hover {
+  background-color: #00705779;
+  transition: background-color .5s;
 }
 #menu {
-  position: relative;
-  left: 50%;
-  transform:translateX(-50%);
-  width: 50%;
+  width: 300px;
+  height: 150px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 #descriptifs{
-  width: 50%;
-  position: relative;
-  left: 50%;
-  transform:translateX(-50%);
+  width: 500px;
+  padding-left: 10px;
 }
-#descriptifs > div{
-  padding: 15px 0;
-}
+
 @media (max-width: 685px) {
   label{
     font-size: 12px;
   }
   #menu{
     width: 80vw;
+    height: 24px;
+    flex-direction: row;
+    margin-bottom: 40px;
+  }
+  .selected, label:hover {
+    background-color: #00705700;
+    transition: background-color .5s;
+  }
+  #container{
+    flex-direction: column;
+    width: 90%;
+    padding-left: 5%;
   }
   #descriptifsLivraison{
     left: 35vw;

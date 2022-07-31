@@ -5,6 +5,7 @@
     </button>
     <div id="test" v-if="clicked">
       <ul>
+        <li  v-if="nameCategory!=='Catégories'" @click="isSelected(-1)"> supprimer les filtres</li>
         <li v-for="(cat,index) in category" :key="index" @click="isSelected(index)" :class="{'selected' : selection[index]}">{{cat}}</li>
       </ul>
     </div>
@@ -38,22 +39,27 @@ export default {
       for(let i = 0; i<13; i++){
         this.selection[i] = false
       }
-      this.selection[index] = true;
-      this.getByCategory(this.category[index]);
-      this.nameCategory = this.category[index]
+      if (index === -1){
+        this.getByCategory('Catégories');
+        this.nameCategory = 'Catégories'
+      }else{
+        this.selection[index] = true;
+        this.getByCategory(this.category[index]);
+        this.nameCategory = this.category[index]
+      }
       this.clicked = false;
     },
     isCategoryClicked: function(){
       this.clicked = !this.clicked;
     },
     getByCategory: function(category){
+      console.log(this.$store.state.manufacturer)
       if(category !== 'Catégories'){
-        //console.log('catégory selected', category)
-        this.$store.dispatch('getStufsCategory', category)
+        this.$store.dispatch('getStufsCategory', {category : category, manufacturer : this.$store.state.manufacturer})
             .then(this.noItems = 1)
             .catch(this.noItems = 0)
       }else{
-        this.$store.dispatch('getStufs')
+        this.$store.dispatch('getStufs', 1)
       }
     },
     close: function(){
@@ -61,7 +67,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('https://stodac.fr/api/stuff/categories').then((response)=>{this.category = response.data;})
+    axios.get('http://localhost:3000/api/stuff/categories').then((response)=>{this.category = response.data;})
   },
   directives:{
     clickOutside
