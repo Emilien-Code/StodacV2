@@ -104,7 +104,10 @@ async function supMail(adress,link) {
                         text-decoration: none;
                         color: white;
                     }
-
+                    .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
 
                     </style>
                 </head>
@@ -120,6 +123,8 @@ async function supMail(adress,link) {
                             <p>Vous venez de vous inscrire sur le site <a href="https://www.stodac.fr">Stodac.fr</a>.</p>
                             <p>Afin de valider votre compte, veuillez cliquer <a href="${link}">ici</a>.</p>
                             <p>Merci de votre confiance.</p>
+                            <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
                         </div>
                         <footer>
                             <div id="bottom_footer">
@@ -450,7 +455,7 @@ exports.changeAddress = (req, res) => {
 }
 
 exports.addpanier = (req, res) => {
-    console.log(req.body.panier.length)
+    //console.log(req.body.panier.length)
     var pasbon = []
     User.updateOne({_id:req.params.id}, {$set: {pannier: [], prix_ttl_panier: 0}}, (err, docs) =>{
         if(err) console.log(err);
@@ -460,26 +465,27 @@ exports.addpanier = (req, res) => {
     jensuis = 0
     let poids_ttl = 0
     req.body.panier.forEach(function(obj){
-        console.log(obj)
-        console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
+        //console.log(obj)
+        //console.log("bfzefzegfeziuifhuzhufhzfhzefzefzjhfizhfuze")
         Thing.find({_id:obj.article._id}, (err, docs) => {
-            console.log(docs[0])
+            /*console.log(docs[0])
             console.log(docs[0].qty)
             console.log(obj)
-            console.log(obj.qty)
+            console.log(obj.qty)*/
+            console.log(docs[0])
             if(err){
                 console.log(err)
                 // pasbon.push(obj.article.name)
             } else {
                 console.log(req.params.id)
-                if (req.body.modeDeLivraison != "surPlace"){
+                if (req.body.modeDeLivraison != "Sur Place"){
                     poids_ttl += obj.article.poids * obj.qty
                 }
                 prix_obj_ttl = parseFloat(obj.article.price) * parseFloat(obj.qty)
                 prix_obj_ttl = Math.round(prix_obj_ttl * 100)/100
                 prix_ttl = prix_ttl + prix_obj_ttl
                 console.log(prix_ttl)
-                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price,articlePriceHT:Math.round((obj.article.price/1.2)*100)/100, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, poids: obj.article.poids}}}, (err, docs) =>{
+                User.updateOne({_id:req.params.id}, {$push: {pannier: {articleID: obj.article._id, articlePrice: obj.article.price,articlePriceHT:Math.round((obj.article.price/1.2)*100)/100, articleName: obj.article.name, articleDescription: obj.article.description, articleImg: obj.article.img, qty: obj.qty, prix_ttl: prix_obj_ttl, articleRef: docs[0].reference, poids: obj.article.poids}}}, (err, docs) =>{
                     if(err) console.log(err);
                 });
             }
@@ -494,15 +500,15 @@ exports.addpanier = (req, res) => {
             //     console.log("opp")
             //     // dire que tout est ok !
             // }
-            console.log("ici par contre...")
-            console.log(prix_ttl)
+            //console.log("ici par contre...")
+            //console.log(prix_ttl)
             // User.updateOne({_id:req.params.id}, {$set: {prix_ttl_panier: prix_ttl}}, (err, docs) =>{
             //     if(err) console.log(err);
             // }).then(()=>{
             jensuis += 1
             if (jensuis == ttl_a_faire){
                 let prix_fdp = 0
-                if (req.body.modeDeLivraison != "surPlace"){
+                if (req.body.modeDeLivraison != "Sur Place"){
                     let poids_ttl = obj.article.poids * obj.qty
                     if (poids_ttl < 100 ) prix_fdp = 8
                     if (poids_ttl >= 100 && poids_ttl < 500) prix_fdp = 10
@@ -526,7 +532,7 @@ exports.addpanier = (req, res) => {
                     prix_ttl_HT:prix_panier_HT+prix_fdp,
                     prix_ttl:prix_ttl
                 }
-                console.log("ditmoiqueçasortmtnlatoutalafin")
+                //console.log("ditmoiqueçasortmtnlatoutalafin")
                 const saveLivraison = {adresse:req.body.adresseLivraison, modeDeLivraison:req.body.modeDeLivraison}
                 User.updateOne({_id:req.params.id},{$set: {saveLivraison:saveLivraison, savePrix:prix}}, (err, docs)=>{if(err) console.log(err);}).then(()=>{
                     res.send()
@@ -605,8 +611,9 @@ exports.newCommand = (req, res) => {
                         })
                         //console.log("jaifini")
                         const facture_crea = {
-                            lastname: req.body.lastname,
-                            firstname: req.body.firstname,
+                            lastname: req.body.nom,
+                            firstname: req.body.prenom,
+                            entreprise: req.body.entreprise,
                             mobile: req.body.mobile,
                             email: req.body.email,
                             street: req.body.street,
@@ -626,7 +633,7 @@ exports.newCommand = (req, res) => {
                         let livraison
                         //console.log("c la que ca pose pb enfaite ca casse les couilles la !")
                         //console.log(docsancien)
-                        if(docsancien.saveLivraison.modeDeLivraison === "domicile"){
+                        if(docsancien.saveLivraison.modeDeLivraison === "Domicile"){
                             livraison = {
                                 adresse:{
                                     adresse:docsancien.saveLivraison.adresse.streetNumber + " " + docsancien.saveLivraison.adresse.street,
@@ -646,7 +653,7 @@ exports.newCommand = (req, res) => {
                             prix: docsancien.savePrix,
                             date: ajd,
                             etat: etat,
-                            nometat: ["En attente de paiement","Traitement en cours", "En préparation", "Envoyée", "Recue", "Annulée", "erreur payement (100)", "erreur payement (101)"],
+                            nometat: ["En attente de paiement","Payée", "Envoyée", "erreur payement (100)", "erreur payement (101)"],
                             fini: false,
                             pdf: '',
                             suiviColissimo: ''
@@ -698,36 +705,12 @@ exports.newCommand = (req, res) => {
                             lacommande.suiviColissimo = infos.tracking_number
                             User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
                                 if(err) console.log(err);
-                                //console.log(docs)
-                                //VerifID
 
                                 res.send()
 
-                                //console.log(poids)
-                                
-                                sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl}, req.body.email)
+                                sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl, lacommande}, req.body.email)
+                                sendEmail(6, {mdp:mdp, prix:lacommande.prix.prix_ttl, lacommande}, /*'contact@stodac.fr'*/ 'emilien.ginko@gmail.com')
 
-                                // async function main() {
-                                //     let transporter = nodemailer.createTransport({
-                                //         host: "ssl0.ovh.net",
-                                //         port: 465,
-                                //         secure: true,
-                                //         auth: {
-                                //             user: "boutique@stodac.fr",
-                                //             pass: "C3ci3stUnMotD3P@ss3Long",
-                                //         },
-                                //     });
-                                //     if
-                                //     let info = await transporter.sendMail({
-                                //         from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                                //         to: req.body.email, // list of receivers
-                                //         subject: "Nouvelle commande", // Subject line
-                                //         text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                                //         html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
-                                //     });
-                                //     console.log("Message sent: %s", info.messageId);
-                                // }
-                                // main().catch(console.error);
                             })
                         }).catch (error => {
                             console.error ("error : ", error)
@@ -739,26 +722,6 @@ exports.newCommand = (req, res) => {
                             User.updateOne({_id:req_id}, {$push:{comande:lacommande}}, (err, docs) =>{
                                 if(err) console.log(err);
                                 res.send()
-                                // async function main() {
-                                //     let transporter = nodemailer.createTransport({
-                                //         host: "ssl0.ovh.net",
-                                //         port: 465,
-                                //         secure: true,
-                                //         auth: {
-                                //             user: "boutique@stodac.fr",
-                                //             pass: "C3ci3stUnMotD3P@ss3Long",
-                                //         },
-                                //     });
-                                //     let info = await transporter.sendMail({
-                                //         from: '"Stodac.fr" <boutique@stodac.fr>', // sender address
-                                //         to: req.body.email, // list of receivers
-                                //         subject: "Nouvelle commande", // Subject line
-                                //         text: "Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. \n Merci de votre confiance !", // plain text body
-                                //         html: `<b>Bonjour, votre commande à bien étée prise en compte. Nous faisons de notre mieux afin de vous livrer dans les plus brefs délais. <br> Votre commande est disponible <a href='http://localhost:8080/mesCommandes/'>ici</a><br> Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${lacommande.suiviColissimo} <br> Merci de votre confiance !</b>`, // html body
-                                //     });
-                                //     console.log("Message sent: %s", info.messageId);
-                                // }
-                                // main().catch(console.error);
                                 sendEmail(0, {mdp:mdp, prix:lacommande.prix.prix_ttl},req.body.email)
                             })
                         })
@@ -868,7 +831,31 @@ function sendEmail(etat, options, adressemail){
             text-decoration: none;
             color: white;
         }
-        
+                    .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
+        table{
+            width: 100%;
+        }
+        table,
+        td,th {
+            padding: 4px;
+            border-collapse: collapse;
+            border: 1px solid #333;
+        }
+        thead,
+        tfoot {
+            background-color: #D9D9D9;
+        }
+        .left{
+            width: 50%;
+        }
+
+        .right{
+            width: 50%;
+        }
+
 
     </style>
 </head>
@@ -884,7 +871,77 @@ function sendEmail(etat, options, adressemail){
             <p>Votre commande à bien étée prise en compte.</p>
             <p>Cette dernière est accessible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Merci de votre confiance !</p>
+                   <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p>
         </div>
+        
+                       <table>
+            <thead>
+                <tr>
+                    <th>Informations de facturation</th>
+                    <th>Adresse de livraison</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.email}</td>
+                        <td class="right">${options.lacommande.livraison.modeDeLivraison}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.lastname} ${options.lacommande.facture.firstname} - ${options.lacommande.facture.entreprise}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.adresse}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.postCode} ${options.lacommande.facture.streetNumber} ${options.lacommande.facture.street} ${options.lacommande.facture.city}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.postCode} ${options.lacommande.livraison.adresse.city}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.livraison.adresse.complement}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.complement}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">FRANCE</td>
+                        <td class="right">FRANCE</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.mobile}</td>
+                        <td class="right">${options.lacommande.facture.mobile}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ref.</th>
+                    <th>Nom de produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Qté</th>
+                    <th>TVA 20%</th>
+                    <th>Remise</th>
+                    <th>Total TTC</th>
+                </tr>
+            </thead>
+            <tbody>
+            ` + createFacture(options.lacommande.materiels) +`
+            <tr>
+                <td></td>
+                <td>Frais de ports</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp_HT} €</td>
+                <td></td>
+                <td>${Math.round(options.lacommande.prix.prix_ttl_fdp_HT * 0.2 * 100) / 100} €</td>
+                <td>0 €</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp} €</td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td> Payé via <bold>${options.lacommande.facture.moyendepayement}</bold></td>
+                <td> Total TTC</td>
+                <td>  <bold> ${options.lacommande.prix.prix_ttl_panier}  € </bold>  </td>
+            </tr>
+        </table>
+        
         <footer>
                 <div id="bottom_footer">
                     <ul style="text-align: center">
@@ -991,8 +1048,30 @@ function sendEmail(etat, options, adressemail){
             text-decoration: none;
             color: white;
         }
-        
+            .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
+       table{
+            width: 100%;
+        }
+        table,
+        td,th {
+            padding: 4px;
+            border-collapse: collapse;
+            border: 1px solid #333;
+        }
+        thead,
+        tfoot {
+            background-color: #D9D9D9;
+        }
+        .left{
+            width: 50%;
+        }
 
+        .right{
+            width: 50%;
+        }
     </style>
 </head>
 <body>
@@ -1008,7 +1087,77 @@ function sendEmail(etat, options, adressemail){
             <p>Pour passer a l'étape suivante vous devez envoyer un cheque (ordre : AMC EST) d'une valeur de ${options.prix}€ ou le deposer directement à l'adresse suivante : 11 Bis Rue de Lorraine à Damelevières, 54360.</p>
             <p> Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Merci de votre confiance !</p>
+                              <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p>
         </div>
+        
+                       <table>
+            <thead>
+                <tr>
+                    <th>Informations de facturation</th>
+                    <th>Adresse de livraison</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.email}</td>
+                        <td class="right">${options.lacommande.livraison.modeDeLivraison}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.lastname} ${options.lacommande.facture.firstname} - ${options.lacommande.facture.entreprise}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.adresse}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.postCode} ${options.lacommande.facture.streetNumber} ${options.lacommande.facture.street} ${options.lacommande.facture.city}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.postCode} ${options.lacommande.livraison.adresse.city}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.livraison.adresse.complement}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.complement}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">FRANCE</td>
+                        <td class="right">FRANCE</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.mobile}</td>
+                        <td class="right">${options.lacommande.facture.mobile}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ref.</th>
+                    <th>Nom de produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Qté</th>
+                    <th>TVA 20%</th>
+                    <th>Remise</th>
+                    <th>Total TTC</th>
+                </tr>
+            </thead>
+            <tbody>
+            ` + createFacture(options.lacommande.materiels) +`
+            <tr>
+                <td></td>
+                <td>Frais de ports</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp_HT} €</td>
+                <td></td>
+                <td>${Math.round(options.lacommande.prix.prix_ttl_fdp_HT * 0.2 * 100) / 100} €</td>
+                <td>0 €</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp} €</td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td> Payé via <bold>${options.lacommande.facture.moyendepayement}</bold></td>
+                <td> Total TTC</td>
+                <td>  <bold> ${options.lacommande.prix.prix_ttl_panier}  € </bold>  </td>
+            </tr>
+        </table>
+         
         <footer>
                 <div id="bottom_footer">
                     <ul style="text-align: center">
@@ -1115,7 +1264,31 @@ function sendEmail(etat, options, adressemail){
             text-decoration: none;
             color: white;
         }
-        
+                  .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
+                            table{
+            width: 100%;
+        }
+        table,
+        td,th {
+            padding: 4px;
+            border-collapse: collapse;
+            border: 1px solid #333;
+        }
+        thead,
+        tfoot {
+            background-color: #D9D9D9;
+        }
+        .left{
+            width: 50%;
+        }
+
+        .right{
+            width: 50%;
+        }
+
 
     </style>
 </head>
@@ -1132,7 +1305,79 @@ function sendEmail(etat, options, adressemail){
             <p>Pour passer a l'étape suivante vous devez effectuer un virement d'une valeure de ${options.prix}€ (IBAN : FR7614707090263112192565018 BIC : CCBPFRPPMTZ).</p>
             <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Merci de votre confiance !</p>
+            
+                              <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p>
         </div>
+                
+                <table>
+            <thead>
+                <tr>
+                    <th>Informations de facturation</th>
+                    <th>Adresse de livraison</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.email}</td>
+                        <td class="right">${options.lacommande.livraison.modeDeLivraison}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.lastname} ${options.lacommande.facture.firstname} - ${options.lacommande.facture.entreprise}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.adresse}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.postCode} ${options.lacommande.facture.streetNumber} ${options.lacommande.facture.street} ${options.lacommande.facture.city}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.postCode} ${options.lacommande.livraison.adresse.city}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.livraison.adresse.complement}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.complement}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">FRANCE</td>
+                        <td class="right">FRANCE</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.mobile}</td>
+                        <td class="right">${options.lacommande.facture.mobile}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ref.</th>
+                    <th>Nom de produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Qté</th>
+                    <th>TVA 20%</th>
+                    <th>Remise</th>
+                    <th>Total TTC</th>
+                </tr>
+            </thead>
+            <tbody>
+            ` + createFacture(options.lacommande.materiels) +`
+            <tr>
+                <td></td>
+                <td>Frais de ports</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp_HT} €</td>
+                <td></td>
+                <td>${Math.round(options.lacommande.prix.prix_ttl_fdp_HT * 0.2 *100)/100} €</td>
+                <td>0 €</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp} €</td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td> Payé via <bold>${options.lacommande.facture.moyendepayement}</bold></td>
+                <td> Total TTC</td>
+                <td>  <bold> ${options.lacommande.prix.prix_ttl_panier}  € </bold>  </td>
+            </tr>
+        </table>
+        
+        
         <footer>
                 <div id="bottom_footer">
                     <ul style="text-align: center">
@@ -1242,7 +1487,10 @@ function sendEmail(etat, options, adressemail){
             color: white;
         }
         
-
+          .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
     </style>
 </head>
 <body>
@@ -1258,7 +1506,12 @@ function sendEmail(etat, options, adressemail){
             <p>Nous faisons de notre mieux afin de traiter votre commande les plus brefs délais.</p>
             <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Merci de votre confiance !</p>
+            
+                             <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
         </div>
+
+        
         <footer>
                 <div id="bottom_footer">
                     <ul style="text-align: center">
@@ -1366,7 +1619,10 @@ function sendEmail(etat, options, adressemail){
             text-decoration: none;
             color: white;
         }
-        
+        .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }        
 
     </style>
 </head>
@@ -1384,6 +1640,9 @@ function sendEmail(etat, options, adressemail){
             <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.</p>
             <p>Merci de votre confiance !</p>
+            
+                                        <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p>
         </div>
         <footer>
                 <div id="bottom_footer">
@@ -1492,7 +1751,10 @@ function sendEmail(etat, options, adressemail){
             text-decoration: none;
             color: white;
         }
-        
+                      .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
 
     </style>
 </head>
@@ -1509,6 +1771,9 @@ function sendEmail(etat, options, adressemail){
             <p>Votre commande est disponible <a href="https://stodac.fr/login/mesCommandes">ici</a>.</p>
             <p>Vous pouvez dès maintenant suivre votre commande avec le numéro de suivi ${options.suiviColissimo}.</p>
             <p>Merci de votre confiance !</p>
+                                        <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
+            
         </div>
         <footer>
                 <div id="bottom_footer">
@@ -1618,7 +1883,10 @@ function sendEmail(etat, options, adressemail){
             color: white;
         }
         
-
+        .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
     </style>
 </head>
 <body>
@@ -1632,7 +1900,227 @@ function sendEmail(etat, options, adressemail){
             <p>Bonjour,</p>
             <p>Votre commande a été anulée.</p>
             <p>Merci de votre confiance !</p>
+                          <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
+                      
+            
         </div>
+        <footer>
+                <div id="bottom_footer">
+                    <ul style="text-align: center">
+                      <li>
+                        <a href="https://www.stodac.fr/MentionsLegales/" class="footerLink">
+                          Mention légales
+                      </a>
+                      </li>
+                      <li>
+                        <a href="https://www.stodac.fr/conditionsGeneralesDeVente/" class="footerLink">
+                          Conditions générales de vente
+                        </a>
+                      </li>
+                      <li>
+                        © Stodac tous droits réservés
+                      </li>
+                    </ul>
+            
+                </div>
+            
+        </footer>
+    </div>
+</body>
+</html>`
+        }else if(etat ===6){
+            email.subject = "Nouvelle sur commande Stodac"
+            email.html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+        body{
+            font-family: sans-serif;
+            height: 100%;
+            padding: 3%;
+            max-width: 800px;
+
+        }
+        .titre{
+            padding: 14px;
+            text-align: center;
+            font-size: 4em;
+        }
+        .banner{
+            color: white;
+            background-color: #007057;
+            height: 100px;
+            width: 100%;
+        }
+        #wrapper{
+            width: 100%;
+
+        }
+        #main{
+            padding: 100px 15% 50px 15%;
+            width: 100%;
+        }
+        header{
+            width: 100%;
+        }
+        p{
+            font-size: 1em;
+            margin: 0 0 10px 20px;
+        }
+
+        footer ul{
+            margin: 10px;
+            text-decoration: none;
+            list-style: none;
+        }
+        footer{
+            width: 100%;
+            position: relative;
+            bottom: 0px;
+            margin-top: 50px;
+            height: 150px;
+            color: white;
+            z-index: 5;
+        }
+        footer .img{
+            height: 40px;
+        }
+        #payements{
+            width: 40%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #bottom_footer {
+            padding-top: 10px;
+            background-color: #007057;
+            height: 100px;
+            text-align: center;
+        }
+        .footerLink{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        .asterisque{
+            font-size: 12px;
+           font-style: italic;
+        }
+                           table{
+            width: 100%;
+        }
+        table,
+        td,th {
+            padding: 4px;
+            border-collapse: collapse;
+            border: 1px solid #333;
+        }
+        thead,
+        tfoot {
+            background-color: #D9D9D9;
+        }
+        .left{
+            width: 50%;
+        }
+
+        .right{
+            width: 50%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <div class="banner">
+                <h1 class="titre">Stodac.</h1>
+            </div>
+        </header>
+        <div id="main">
+            <p>Bonjour,</p>
+            <p>Une nouvelle commande à étée passée</p>
+            <p>Merci de votre confiance !</p>
+            <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
+        </div>
+        
+                      <table>
+            <thead>
+                <tr>
+                    <th>Informations de facturation</th>
+                    <th>Adresse de livraison</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.email}</td>
+                        <td class="right">${options.lacommande.livraison.modeDeLivraison}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.lastname} ${options.lacommande.facture.firstname} - ${options.lacommande.facture.entreprise}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.adresse}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.postCode} ${options.lacommande.facture.streetNumber} ${options.lacommande.facture.street} ${options.lacommande.facture.city}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.postCode} ${options.lacommande.livraison.adresse.city}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.livraison.adresse.complement}</td>
+                        <td class="right">${options.lacommande.livraison.adresse.complement}</td>
+                    </tr>
+                    <tr>
+                        <td class="left">FRANCE</td>
+                        <td class="right">FRANCE</td>
+                    </tr>
+                    <tr>
+                        <td class="left">${options.lacommande.facture.mobile}</td>
+                        <td class="right">${options.lacommande.facture.mobile}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ref.</th>
+                    <th>Nom de produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Qté</th>
+                    <th>TVA 20%</th>
+                    <th>Remise</th>
+                    <th>Total TTC</th>
+                </tr>
+            </thead>
+            <tbody>
+            ` + createFacture(options.lacommande.materiels) +`
+            <tr>
+                <td></td>
+                <td>Frais de ports</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp_HT} €</td>
+                <td></td>
+                <td>${Math.round(options.lacommande.prix.prix_ttl_fdp_HT * 0.2 * 100) / 100} €</td>
+                <td>0 €</td>
+                <td>${options.lacommande.prix.prix_ttl_fdp} €</td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td> Payé via <bold>${options.lacommande.facture.moyendepayement}</bold></td>
+                <td> Total TTC</td>
+                <td>  <bold> ${options.lacommande.prix.prix_ttl_panier}  € </bold>  </td>
+            </tr>
+        </table>
+        
         <footer>
                 <div id="bottom_footer">
                     <ul style="text-align: center">
@@ -1729,6 +2217,35 @@ exports.ChangeTout = (req, res) => {
             res.send()
         }
     })
+}
+
+
+
+function createFacture(tab){
+    let string = "";
+    tab.forEach(el =>{
+        string +=    `
+                    <tr>
+                        <td>
+                            ${el.obj.reference}
+                        </td>
+                        <td>
+                            ${el.obj.name}
+                        </td>
+                        <td>
+                            ${Math.round( el.obj.price / 1.2 * 100) / 100} €
+                        </td>
+                        <td>
+                            ${el.qty}
+                        </td>    
+                        <td>
+                            ${(Math.round( el.obj.price / 1.2 * .2 * 100) / 100 ) } €
+                        </td>  
+                        <td>0 €</td>                       
+                        <td>${el.obj.price * el.qty} €</td>                       
+                    </tr>`
+    })
+    return string
 }
 
 /**DELETE Controller */

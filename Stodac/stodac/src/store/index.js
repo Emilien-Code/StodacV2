@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 const axios = require('axios');
 
 const instance = axios.create({
-  baseURL : 'https://stodac.fr/api/'
+  baseURL : 'http://localhost:3000/api/'
 })
 
 let user = localStorage.getItem('user');

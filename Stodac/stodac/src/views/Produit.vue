@@ -84,7 +84,7 @@ export default {
   },
   mounted(){
     window.top.scrollY = 0;
-    axios.get(`https://stodac.fr/api/stuff/product/${this.articleId}`)
+    axios.get(`http://192.168.1.51:3000/api/stuff/product/${this.articleId}`)
       .then((response)=>{
         this.article =  response.data[0]
       })

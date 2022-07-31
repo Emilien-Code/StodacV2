@@ -1,16 +1,16 @@
 <template>
   <div id="menu">
-    <input type="radio" id="domicile" value="domicile" v-model="selectedRadio" @change="test('domicile')" name="livraison" checked>
+    <input type="radio" id="domicile" value="domicile" v-model="selectedRadio" @change="test('Domicile')" name="livraison" checked>
     <label for="domicile" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
       Livraison à domicile
     </label>
 
-    <input type="radio" id="pntRelais" value="pnrRelais" v-model="selectedRadio" @change="test('pointRelais')" name="livraison">
+    <input type="radio" id="pntRelais" value="pnrRelais" v-model="selectedRadio" @change="test('Point Relais')" name="livraison">
     <label for="pntRelais" @click="setSelected(1 )" @mouseenter="enter(1)" @mouseleave="leave()">
       Point relais
     </label>
 
-    <input type="radio" id="retrait" value="retrait" v-model="selectedRadio" @change="test('surPlace')" name="livraison">
+    <input type="radio" id="retrait" value="retrait" v-model="selectedRadio" @change="test('Sur Place')" name="livraison">
     <label for="retrait" @click="setSelected(2)" @mouseenter="enter(2)" @mouseleave="leave()">
       Retirer sur place
     </label>

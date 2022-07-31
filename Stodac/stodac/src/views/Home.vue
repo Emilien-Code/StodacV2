@@ -184,6 +184,10 @@ button:hover{
     top: 245px;
     left : 80vw;
   }
+  button{
+    width: 35px;
+    height: 35px;
+  }
   #category, #manufacturer{
     width: 30vw;
   }

@@ -2,7 +2,7 @@
   <div id="menu">
     <input type="radio" id="Paypal" @change="test('paypal')" name="payement" checked>
     <label for="Paypal" @click="setSelected(0)" @mouseenter="enter(0)" @mouseleave="leave()">
-      Paypal
+      Paypal / Carte bancaire
     </label>
 
     <input type="radio" id="cheque" @change="test('cheque')" name="payement">
@@ -48,7 +48,7 @@ export default {
     return {
       spanPosition : 0,
       selected : 0,
-      spanWidth: 58
+      spanWidth: 196
     }
   },
   components:{ paypal },

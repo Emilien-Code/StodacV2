@@ -7,14 +7,16 @@
       <p>{{commande.comande.id.slice(0, 24)}}</p>
     </div>
       <p>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</p>
-      <p>{{commande.comande.facture.email}}</p>
+      <p>Mail : {{commande.comande.facture.email}}</p>
+      <p>Tel : {{commande.comande.facture.mobile}}</p>
 
 
     <div class="title">
       <h4>Livraison <a :href="commande.comande.pdf" target="_blank"> <img style="width:16px; height: 16px" src="../../../public/80942.png" alt=""> </a></h4>
       <p>{{commande.comande.id}}</p>
     </div>
-    <p>Adresse: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}} {{commande.comande.facture.city}} ({{commande.comande.livraison.modeDeLivraison}})</p>
+    <p>Mode de livraison : <b>{{commande.comande.livraison.modeDeLivraison}}</b></p>
+    <p v-if="commande.comande.livraison.modeDeLivraison != 'surPlace'">Adresse: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}} {{commande.comande.facture.city}} </p>
     <p>Frais de ports HT: {{ commande.comande.prix.prix_ttl_fdp_HT }} €</p>
     <p>Frais de ports TTC: {{ commande.comande.prix.prix_ttl_fdp }} €</p>
 
@@ -25,7 +27,7 @@
         </div>
         <p>Total HT : {{commande.comande.prix.prix_ttl_panier_HT}} €</p>
         <p>Total TTC : {{commande.comande.prix.prix_ttl_panier}} €</p>
-
+        <p>Payé par : <b>{{commande.comande.facture.moyendepayement}}</b></p>
       </div>
       <div id="right">
         <div class="title">
@@ -56,7 +58,7 @@ export default {
   name: 'commandeMin',
   data: function () {
     return {
-      color: ["yellow","yellow","yellow","Aquamarine","LightGreen","lightCoral","lightCoral","lightCoral"],
+      color: ["yellow","Aquamarine","LightGreen","lightCoral","lightCoral","lightCoral"],
       isClicked:false
     }
   },

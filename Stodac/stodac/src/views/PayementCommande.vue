@@ -42,10 +42,9 @@
             </table>
           </div>
         </div>
-      <p class="title" >Adresse de facturation</p>
+      <p class="title" >Informations de facturation</p>
     <div id="box">
-
-        <adress ref="test"/>
+        <adress :isFacture="true" ref="test"/>
     </div>
       <p class="title" style="margin-bottom:50px">Finaliser la commande</p>
 <PayementSelect :test="changeMDP" :saveF="saveFacture" :sendingCommand="sc"/>
@@ -155,6 +154,9 @@ export default {
         city:document.getElementById("ville").value,
         streetNumber:document.getElementById("num").value,
         postCode:document.getElementById("cp").value,
+        nom:document.getElementById("nom").value,
+        prenom:document.getElementById("prenom").value,
+        entreprise: document.getElementById("entreprise").value,
         idp:Factureid
       }
       //console.log(option)

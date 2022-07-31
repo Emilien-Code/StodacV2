@@ -146,7 +146,10 @@ exports.changePasswordReques = (req,res)=>{
                         text-decoration: none;
                         color: white;
                     }
-
+                    .asterisque{
+                      font-size: 12px;
+                      font-style: italic;
+                    }
 
                     </style>
                 </head>
@@ -163,6 +166,8 @@ exports.changePasswordReques = (req,res)=>{
                             <p>Si vous êtes à l'origine de cette demande, cliquez <a href="${link}">ici</a>.</p>
                             <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce message.</p>
                             <p>Merci de votre confiance.</p>
+                            <p class="asterisque">Ce courriel a été envoyé automatiquement, merci de ne pas y répondre.</p>
+                            <p class="asterisque">Si vous souhaitez contacter notre support technique vous pouvez envoyer un email a l'adresse suivante <a href="mailto:contact@stodac.fr">contact@stodac.fr</a>.</p> 
                         </div>
                         <footer>
                             <div id="bottom_footer">

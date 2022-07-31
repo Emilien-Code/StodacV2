@@ -1,15 +1,23 @@
 <template>
   <div class="container">
+    <div class="inputsContainer" v-if="isFacture">
+      <input :class="{'big':true, 'unvalid':!name}" id="nom" type="text" v-model="name" placeholder="Nom">
+      <input :class="{'small':true, 'unvalid':!prenom}" id="prenom" type="text" placeholder="Prénom">
+    </div>
+    <div class="inputsContainer" v-if="isFacture">
+      <input class="complement" v-model="entreprise" id="entreprise" type="text" placeholder="Entreprise (Optionnel)">
+    </div>
+
     <div class="inputsContainer">
       <input :class="{'small':true, 'unvalid':!verifNum}" id="num" type="number" placeholder="Numéro" v-model="streetNumber">
       <input :class="{'big':true, 'unvalid': !verifRue}" id="rue" type="text" placeholder="Rue" v-model="street">
     </div>
     <div class="inputsContainer">
       <input :class="{'big':true, 'unvalid':!verifVille}" id="ville" type="text" placeholder="Ville" v-model="city">
-      <input :class="{'small':true, 'unvalid': !verifPostCode}" id="cp" type="number" placeholder="Code postale" v-model="postCode">
+      <input :class="{'small':true, 'unvalid': !verifPostCode}" id="cp" type="number" placeholder="Code postal" v-model="postCode">
     </div>
     <div class="inputsContainer">
-      <input type="text" id="complement" placeholder="Complement (Optionnel)">
+      <input type="text" id="complement" class="complement" placeholder="Complement (Optionnel)">
     </div>
   </div>
 </template>
@@ -23,8 +31,14 @@ export default {
           streetNumber: '',
           city: '',
           postCode: '',
+          name:'',
+          prenom:'',
+          entreprise:'',
           isLoading: true
     }
+  },
+  props:{
+    isFacture: Boolean
   },
   computed : {
     verifNum: function(){
@@ -66,12 +80,13 @@ export default {
   margin: 12.5px;
   width : 450px;
 }
-#complement  {
+.complement  {
   margin: 12.5px;
   width: calc(100% - 25px);
   max-width: 824px;
 }
-#complement,.small,.big{
+
+.complement,.small,.big{
   border-radius: 10px;
   padding:8px;
   border: solid #007057 2px;

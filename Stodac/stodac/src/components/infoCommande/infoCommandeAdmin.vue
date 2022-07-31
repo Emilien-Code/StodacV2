@@ -12,8 +12,8 @@
         <p>{{commande.comande.id.slice(0, 24)}}</p>
       </div>
       <p>{{commande.comande.facture.lastname + " " + commande.comande.facture.firstname}}</p>
-      <p>{{commande.comande.facture.email}}</p>
-      <p>+{{commande.comande.facture.mobile}}</p>
+      <p>Mail : {{commande.comande.facture.email}}</p>
+      <p>Tel : +{{commande.comande.facture.mobile}}</p>
     </div>
 
   <div class="right">
@@ -21,7 +21,8 @@
         <h4>Livraison <a :href="commande.comande.pdf" target="_blank"> <img style="width:16px; height: 16px" src="../../../public/80942.png" alt=""> </a></h4>
 
       </div>
-      <p>Adresse: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}} {{commande.comande.facture.city}} ({{commande.comande.livraison.modeDeLivraison}})</p>
+      <p>Mode de livraison : <b>{{commande.comande.livraison.modeDeLivraison}}</b></p>
+      <p v-if="commande.comande.livraison.modeDeLivraison != 'surPlace'">Adresse: {{commande.comande.facture.streetNumber}} {{commande.comande.facture.street}} {{commande.comande.facture.city}} </p>
       <p>Frais de ports HT: {{ commande.comande.prix.prix_ttl_fdp_HT }} €</p>
       <p>Frais de ports TTC: {{ commande.comande.prix.prix_ttl_fdp }} €</p>
       <p></p>
@@ -37,10 +38,19 @@
       <div id="table_container">
 
         <table>
+          <thead>
+            <tr>
+              <td>Image</td>
+              <td>Nom et ref</td>
+              <td>qté</td>
+              <td>Prix TTC</td>
+            </tr>
+          </thead>
           <tbody>
           <tr v-for="el in commande.comande.materiels" :key="el">
             <td><img :src="el.obj.img" :alt="el.obj.name"/></td>
-            <td>{{el.obj.name}}</td>
+            <td>nom : {{el.obj.name}} <br>
+              ref : {{el.obj.reference}}</td>
             <td>{{el.qty}}</td>
             <td>{{el.obj.price}} €</td>
           </tr>
@@ -65,9 +75,12 @@
         <h4>Date</h4>
       </div>
       <p>{{commande.comande.date.substring(0,10)}}</p>
+      <div class="title">
+        <h4>Payé par <b style="color: #078A6C;">{{commande.comande.facture.moyendepayement}}</b></h4>
+      </div>
     </div>
   </div>
-  <div class="wrapper2">
+  <div class="wrapper2" id="bottom">
     <div class="left">
       <div class="title">
         <h4>Total</h4>
@@ -157,6 +170,11 @@ export default {
 </script>
 
 <style scoped>
+#bottom{
+  position: absolute;
+  width: 90vw;
+  top : 63vh;
+}
 #bg{
   position: absolute;
   width: 100vw;
@@ -208,10 +226,10 @@ table{
   overflow-y: scroll;
   height: 400px;
 }
-td:nth-child(1){
+tbody td:nth-child(1){
   padding: 0;
 }
-td {
+tbody td {
   padding: 30px;
   border: 2px solid #333;
 }

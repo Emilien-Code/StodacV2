@@ -65,7 +65,7 @@ export default {
         postCode : '',
         complement: ''
       },
-        modeDeLivraison : 'domicile'
+        modeDeLivraison : 'Domicile'
     }
   },
   components:{
@@ -79,12 +79,12 @@ export default {
   },
   methods:{
     command: function(){
-      if (this.modeDeLivraison==="pointRelais"){
+      if (this.modeDeLivraison==="Point Relais"){
         this.adresse.adresse = document.getElementById("pudoWidgetAddress1").value
         this.adresse.city = document.getElementById("pudoWidgetTown").value
         this.adresse.postCode = document.getElementById("pudoWidgetZipCode").value
       }
-      if(this.modeDeLivraison==="domicile"){
+      if(this.modeDeLivraison==="Domicile"){
         // this.adresse.adresse = document.getElementById("num").value + " " + document.getElementById("rue").value
         this.adresse.streetNumber = document.getElementById("num").value
         this.adresse.street = document.getElementById("rue").value
@@ -92,7 +92,7 @@ export default {
         this.adresse.postCode = document.getElementById("cp").value
         this.adresse.complement = document.getElementById("complement").value
       }
-      if(this.modeDeLivraison=="surPlace"){
+      if(this.modeDeLivraison=="Sur Place"){
         this.adresse.adresse = "11 Bis Rue de Lorraine"
         this.adresse.city = "Damelevières"
         this.adresse.postCode = "54360"
@@ -104,9 +104,9 @@ export default {
       //     .then(()=>{console.log(this.$store.state.MDL)})
 
       //console.log(this.adresse)
-      if(this.cdv && this.modeDeLivraison=="domicile" && this.$refs.livraison.isAdressComplete
-          || this.cdv && this.modeDeLivraison=="pointRelais" &&  document.getElementById("pudoWidgetAddress1").value
-          || this.cdv && this.modeDeLivraison=="surPlace"){
+      if(this.cdv && this.modeDeLivraison=="Domicile" && this.$refs.livraison.isAdressComplete
+          || this.cdv && this.modeDeLivraison=="Point Relais" &&  document.getElementById("pudoWidgetAddress1").value
+          || this.cdv && this.modeDeLivraison=="Sur Place"){
         const parametre = [this.$store.state.pannier, this.adresse, this.modeDeLivraison]
         this.$store.dispatch('saveparametre', parametre)
         if(this.$store.state.user.userID === -1){

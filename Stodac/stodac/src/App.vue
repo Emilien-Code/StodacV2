@@ -104,7 +104,8 @@
 
     <div id="top_footer">
       <div id="payements">
-        <p style="color: #2c3e50">Payement 100% sécurisé</p>
+        <p style="color: #2c3e50">Paiement 100% sécurisé</p>
+        <img class="img" src="./assets/footerImages/carte_bancaire.png" alt="Carte Bancaire">
         <img class="img" src="./assets/footerImages/pay-pal-png.webp" alt="Paypal">
         <img class="img" src="./assets/footerImages/virement-bancaire-logo.png" alt="Virements">
         <img class="img" src="./assets/footerImages/images.jpg" alt="Chèques">
